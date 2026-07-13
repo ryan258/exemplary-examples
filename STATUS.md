@@ -52,7 +52,8 @@ Working materials: [`operations/P0.1-GOVERNANCE.md`](operations/P0.1-GOVERNANCE.
 - [x] Present only the Executive Retainer pilot as a real offer.
 - [x] Keep the application closed and collect no data before Checkpoint P.
 - [x] Complete real-browser responsive, keyboard, visual, and axe accessibility verification; see [`operations/WEBSITE-VERIFICATION-2026-07-13.md`](operations/WEBSITE-VERIFICATION-2026-07-13.md).
-- [ ] Add identity assets, verify performance, choose hosting, and perform release review.
+- [x] Add restrained social-preview image and Open Graph/Twitter metadata (`assets/og-image.png`, 1200×630).
+- [ ] Verify performance on a release candidate, choose hosting, set the production-absolute `og:image` and canonical URL, and perform the outsider release review.
 
 ## Current blockers
 
