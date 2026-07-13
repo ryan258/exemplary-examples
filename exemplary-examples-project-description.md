@@ -10,7 +10,7 @@
 
 A real consulting and creative practice whose satirical premise is building the perfect illustrative example for a business case. The brand takes the corporate appetite for perfectly fitted evidence literally; the professional service helps clients build sourced examples, disclosed composites, and transparent modeled scenarios without presenting constructed material as verified fact.
 
-The initial public experience is a straight-faced, five-section consulting site: Home, About/Manifesto, Offering, Proof/Method, and Contact. The initial commercial offer is an application-only Executive Retainer pilot delivered by named human strategists with AI-supported systems and accountable review.
+The initial public experience is a straight-faced, five-section consulting site: Home, About/Manifesto, Offering, Proof/Method, and Contact. The initial commercial offer is an application-only Executive Retainer pilot delivered by disclosed AI staff agents with an accountable principal, explicit permissions, and independent review.
 
 ---
 

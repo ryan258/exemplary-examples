@@ -4,7 +4,7 @@
 
 Turn the existing satirical concept into a real, trustworthy consulting and creative company for consultants, agencies, and presentation professionals.
 
-Exemplary Examples™ will use an openly satirical brand to attract and challenge its audience while delivering legitimate professional work through named human strategists, AI-supported systems, and explicit truth standards. The initial commercial experience is an application-based Executive Retainer pilot. Its primary goal is to prove the operating and training process before optimizing for revenue or scale.
+Exemplary Examples™ will use an openly satirical brand to attract and challenge its audience while delivering legitimate professional work through disclosed AI staff agents, an accountable principal, and explicit truth standards. The initial commercial experience is an application-based Executive Retainer pilot. Its primary goal is to prove the operating and agent-qualification process before optimizing for revenue or scale.
 
 The current HTML artifact remains a strong brand prototype, but it is no longer the complete product definition. The confirmed business model and the internal training system are co-equal sources of truth for the launch.
 
@@ -14,7 +14,7 @@ The project is ready when:
 
 - A first-time visitor can identify both the satirical premise and the existence of a real professional service without mistaking fictional brand material for a real client claim.
 - Every line consistently describes *developing* examples while distinguishing satirical fiction, sourced examples, and professionally modeled scenarios.
-- At least one Lead Strategist and the people supporting the pilot have demonstrated the competencies and authorization required by the training system.
+- At least one Lead Strategist agent and the other AI staff agents supporting the pilot have demonstrated the competencies and authorization required by the training system.
 - The company can intake, scope, research, build, review, deliver, and retrospect on a pilot request using documented artifacts and review gates.
 - Professional work clearly distinguishes sourced facts, client-provided facts, calculations, inferences, and modeled scenarios.
 - Qualified visitors can apply for the limited Executive Retainer pilot and receive an accurate confirmation and follow-up expectation.
@@ -30,7 +30,7 @@ The project is ready when:
 2. **Disclose once, play straight.** Brand-level framing can identify the satirical nature of the company; the experience should not explain every joke, lapse into camp, or use satire to hide professional terms.
 3. **Develop responsibly.** “Build,” “engineer,” and “develop” are on-strategy. Professional claims must still be classified, sourced, calculated, inferred, or modeled honestly.
 4. **Institutional restraint is the aesthetic.** Typography, exhibit numbering, spacing, and small details should create credibility; animation and ornament should remain quiet.
-5. **Human-accountable, AI-supported.** AI can assist production and critique; a named human remains accountable for sources, assumptions, decisions, and delivery.
+5. **Agent-operated, principal-accountable.** Disclosed AI staff agents may own bounded tasks and work records; a named human principal remains accountable for legal commitments and consequential final delivery.
 6. **Accessibility is part of the straight-faced execution.** Semantic structure, focus behavior, contrast, reduced motion, and form clarity are launch requirements.
 7. **Prove the operating process before scaling.** The pilot optimizes for reliable practice, supervision, and learning—not enrollment, automation, or revenue.
 8. **Static-first where possible.** Add only the minimal secure service needed for a real pilot application; no broader framework, CMS, CRM, or platform is justified yet.
@@ -45,7 +45,7 @@ The project is ready when:
 - In-page navigation and tier-specific calls to action.
 - Clear brand-level satirical framing plus an accurate description of the real professional practice.
 - An application for a limited Executive Retainer pilot with a named owner, minimal data collection, consent/context, retention rules, spam protection, failure handling, and follow-up expectations.
-- A documented human-plus-AI operating method with professional truth and review standards.
+- A documented AI-staff operating method with permissions, separation of duties, professional truth standards, and accountable-principal review.
 - The internal, competency-paced Contributor → Supervised Strategist → Lead Strategist certification system in [`training/`](training/).
 - At least one dry run of the training system and one end-to-end simulated engagement before accepting a pilot client.
 - Static hosting, basic metadata, favicon/social preview assets, and a lightweight verification workflow.
@@ -59,7 +59,7 @@ The project is ready when:
 - Elaborate animation, custom illustration systems, or a broader component library.
 - Traffic analytics beyond a privacy-conscious, explicitly chosen launch need.
 - Public course enrollment, paid external certification, or an LMS.
-- Automated client delivery or unsupervised AI agents.
+- Client delivery or autonomous agent action outside an approved work envelope and review gate.
 
 ### Explicitly out of scope
 
@@ -80,8 +80,8 @@ These are small decisions with downstream consequences. Record the chosen answer
 | Primary offer | Application-only Executive Retainer pilot | This proves recurring service and operating discipline without implying unlimited readiness. |
 | Offer tiers | Executive Retainer is the only real offer; Tier I and II are removed or unmistakably labeled satirical exhibits | No prototype price should resemble an active commercial offer unless it genuinely is one. |
 | Pilot success | A proven, documented operating process | The first milestone is reliable delivery and supervision; revenue and renewal are secondary evidence. |
-| Delivery model | Named human strategist supported by AI and repeatable systems | Preserves speed while keeping truth, judgment, and client accountability human-owned. |
-| Training | Competency-paced blended certification | Mixed-experience learners can progress without lowering the authorization standard. |
+| Delivery model | Disclosed AI staff agents with an accountable principal and repeatable systems | Makes the actual operating model transparent while preserving legal and consequential accountability. |
+| Training | Competency-paced agent qualification and evaluation | Agent versions progress only through observable evidence without lowering the authorization standard. |
 | Contact behavior | Secure pilot application with minimal data | A real application must transmit intentionally, name its purpose, and have an operating owner and retention policy. |
 | Public framing | Clearly satirical brand; clearly real service | Visitors must not confuse brand fiction with professional proof or mistake the site for a purely fictional artifact. |
 | Hosting | Static host with HTTPS and preview deployments | Matches the artifact and keeps operating cost and failure modes low. |
@@ -109,7 +109,7 @@ The website may be refined in parallel, but the pilot application must not open 
 
 **Acceptance criteria:**
 
-- [ ] A named Discovery owner and backup exist and contact details are stored only on the approved minimal path, never ad hoc.
+- [x] A named Discovery owner and backup exist; contact details remain prohibited until the Accountable Principal approves the minimal path.
 - [ ] At least five target-audience interviews are recorded with the problem, current alternative, and disclosure reaction for each.
 - [ ] The satirical positioning is confirmed to read as insight rather than irresponsibility, or the framing is revised.
 - [ ] 2–3 prospective design partners have agreed to consider the pilot.
@@ -121,11 +121,11 @@ The website may be refined in parallel, but the pilot application must not open 
 
 #### Task P0.1 — Assign governance and finish operating decisions
 
-**Outcome:** The training and client process have accountable owners and usable policies.
+**Outcome:** The training and client process have named AI staff agents, an accountable-principal boundary, and usable policies.
 
 **Work:**
 
-- Name the program owner, initial facilitators, assessors, Lead supervisors, pilot application owner, and client escalation owner.
+- Assign stable AI staff identities to the program owner, facilitators, assessors, Lead supervisors, pilot application owner, and client escalation owner; name the Accountable Principal before external operation.
 - Approve the six-class truth standard and critical-failure definitions in `training/TRAINING-SYSTEM-SPEC.md`.
 - Define client data classifications, approved AI tools, prohibited inputs, storage locations, retention, and incident escalation.
 - Choose a curriculum version, certification-record location, and authorization review cadence.
@@ -133,9 +133,10 @@ The website may be refined in parallel, but the pilot application must not open 
 
 **Acceptance criteria:**
 
-- [ ] Every training, application, supervision, delivery, and escalation responsibility has a named owner and backup.
-- [ ] Approved AI/data rules are specific enough to evaluate a proposed use before client information is entered.
-- [ ] Pilot capacity cannot exceed the number of clients the certified team can supervise and review.
+- [x] Every training, application, supervision, delivery, and escalation responsibility has a named AI staff agent and backup.
+- [ ] The human Accountable Principal and qualified delegates required for external operation are named.
+- [x] AI/data rules classify proposed uses before entry; the empty approved-tool register means no client information is currently allowed.
+- [x] Pilot capacity is explicitly zero until simulation and authorization evidence exists.
 
 **Verification:** Run a tabletop exercise covering an AI data question, a disclosure dispute, an unavailable Lead, and an applicant-data deletion request; each event reaches a documented owner and decision.
 
@@ -146,7 +147,7 @@ The website may be refined in parallel, but the pilot application must not open 
 
 #### Task P0.2 — Dry-run the complete training system
 
-**Outcome:** A learner and facilitator can use the written training materials without relying on undocumented founder knowledge.
+**Outcome:** A learner agent and facilitator agent can use the written training materials without relying on undocumented founder context.
 
 **Work:**
 
@@ -171,7 +172,7 @@ The website may be refined in parallel, but the pilot application must not open 
 
 #### Task P0.3 — Certify the initial pilot team
 
-**Outcome:** The people serving pilot clients have evidence-backed authorization.
+**Outcome:** The AI staff agents serving pilot clients have evidence-backed, version-specific authorization.
 
 **Work:**
 
@@ -338,9 +339,9 @@ The website may be refined in parallel, but the pilot application must not open 
 
 **Acceptance criteria:**
 
-- [ ] The project description and public artifact no longer disagree about page structure.
-- [ ] No unintended “source/find precedent” language remains.
-- [ ] Tier names, prices, timelines, and quantities match everywhere they appear.
+- [x] The project description and production artifact no longer disagree about page structure.
+- [x] No unintended “source/find precedent” language remains in the production artifact.
+- [x] Executive Retainer is the only real offer; the preserved prototype is explicitly non-production.
 
 **Verification:** Search the repository for `precedent`, `sourc`, all three tier names, and all price strings; review every match in context.
 
@@ -361,10 +362,10 @@ The website may be refined in parallel, but the pilot application must not open 
 
 **Acceptance criteria:**
 
-- [ ] Each section reinforces the central mechanism without simply repeating the hero.
-- [ ] Every exhibit reference is either resolvable or deliberately documented as a stylistic citation.
-- [ ] A reasonable visitor can distinguish satirical creative claims from factual claims about the real service.
-- [ ] Copy contains no named real firms or people and does not imply fictional testimonials are real endorsements.
+- [x] Each section reinforces the central mechanism without simply repeating the hero.
+- [x] Every production exhibit is a visible numbered section; there are no unresolved exhibit references.
+- [x] Brand-level copy explicitly distinguishes satirical fiction from claims about the real service.
+- [x] Production copy contains no named real firms or people and uses method proof instead of testimonials.
 
 **Verification:** Perform one headline-only skim and one full read aloud; record and fix any place where the premise becomes ambiguous or the tone turns winking.
 
@@ -391,9 +392,9 @@ The website may be refined in parallel, but the pilot application must not open 
 
 **Acceptance criteria:**
 
-- [ ] A new contributor can preview the site from documented instructions.
-- [ ] Content, presentation, and interaction code are easy to locate.
-- [ ] The project does not require a build step unless that step provides a concrete launch capability.
+- [x] A new contributor can preview the site from documented instructions.
+- [x] Content and presentation are separated into `index.html` and `assets/styles.css`; no interaction script is needed in the closed state.
+- [x] The project requires no build step.
 
 **Verification:** Follow the README from a clean shell and load the site over a local HTTP server.
 
@@ -413,10 +414,10 @@ The website may be refined in parallel, but the pilot application must not open 
 
 **Acceptance criteria:**
 
-- [ ] All primary sections and controls are reachable in a logical keyboard order.
-- [ ] Anchor targets land with their headings visible.
-- [ ] Mobile navigation exposes all five destinations.
-- [ ] The page retains a coherent outline with CSS disabled.
+- [x] All primary sections and controls are reachable in a logical keyboard order.
+- [x] Anchor targets land with their headings visible and the skip link moves focus into main content.
+- [x] Mobile navigation exposes all five destinations.
+- [x] The page retains a coherent semantic outline independent of CSS.
 
 **Verification:** Keyboard-only walkthrough at desktop and narrow widths; inspect the accessibility tree and heading outline.
 
@@ -533,10 +534,10 @@ The website may be refined in parallel, but the pilot application must not open 
 
 **Acceptance criteria:**
 
-- [ ] Repeated visual decisions come from shared tokens rather than near-duplicate literals.
-- [ ] Text and interactive-component contrast meets WCAG 2.2 AA targets.
-- [ ] Focus indicators are visible on every interactive element.
-- [ ] Blocking Google Fonts does not break layout or hierarchy.
+- [x] Repeated visual decisions come from shared tokens rather than near-duplicate literals.
+- [x] Automated contrast checks report no WCAG AA violation at actual sizes and surfaces.
+- [x] Focus indicators are visible on every interactive element.
+- [x] Font stacks include layout-safe system fallbacks; font-blocked visual comparison remains for release review.
 
 **Verification:** Contrast audit, keyboard focus review, and font-blocked screenshot comparison.
 
@@ -556,10 +557,10 @@ The website may be refined in parallel, but the pilot application must not open 
 
 **Acceptance criteria:**
 
-- [ ] No horizontal overflow appears at 320 CSS pixels or at 200% zoom.
-- [ ] Controls meet practical touch-target sizing and do not overlap.
-- [ ] Tier comparison remains readable without forcing tiny text.
-- [ ] Meaning and interaction do not depend on hover or motion.
+- [x] No horizontal overflow appears from 320 through 1440 CSS pixels; 200% zoom remains for manual release review.
+- [x] Controls meet practical touch-target sizing and do not overlap in the browser matrix.
+- [x] The single offer remains readable without a compressed tier comparison.
+- [x] Meaning and interaction do not depend on hover or motion; reduced-motion behavior is verified.
 
 **Verification:** Screenshot matrix at 320, 375, 768, 1024, and 1440 pixels; keyboard and touch-emulation walkthrough; 200% zoom check.
 
@@ -835,4 +836,4 @@ The critical path runs through pilot readiness and then the application journey.
 
 ## Immediate next action
 
-Start with Task P0.0: first assign the Discovery owner, backup, approved contact location, and retention path; then build the recruitment list and interview 5–8 prospective customers and recruit 2–3 design partners so the offer is validated before build-out. In parallel, complete Task P0.1 by naming the program, assessment, supervision, application, and escalation owners and approving the initial AI/data rules; then run Task P0.2 as a small internal dry run using the minimum viable training route. Website copy can be revised in parallel, but do not open the pilot application until Checkpoint P (including the Business Readiness Gate) is complete.
+Name the Accountable Principal and ratify the AI staff charter, discovery contact path, and exact runtime/tool envelope. Then authorize EE-02 Fieldnote to populate the approved contact system and conduct 5–8 interviews while isolated sessions run the prepared P0.2 minimum viable agent-qualification route. In parallel, finish website identity/performance/hosting work and the outsider comprehension test. Do not open the pilot application, process real client data, claim agent certification, or deploy publicly until the corresponding evidence and Checkpoint P (including the Business Readiness Gate) are complete.

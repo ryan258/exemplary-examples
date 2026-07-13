@@ -10,7 +10,7 @@ The satire exposes the desire to manufacture evidence after a decision has alrea
 
 Build the clearest useful example for the decision in front of the client—and make its relationship to reality unmistakable.
 
-We are succeeding when our work improves a real decision, every material claim is traceable, constructed material is understood as constructed, and an accountable human can defend the result.
+We are succeeding when our work improves a real decision, every material claim is traceable, constructed material is understood as constructed, the responsible AI staff agents can produce a complete work record, and an accountable principal can defend the result.
 
 We are failing when polish hides uncertainty, satire creates false professional proof, AI output substitutes for verification, or the audience could reasonably mistake something invented or modeled for a verified real-world event.
 
@@ -24,8 +24,8 @@ The initial customer is a consultant, agency, or presentation professional who r
 
 The only real launch offer is a limited, application-only **Executive Retainer pilot**:
 
-- A named human strategist owns the relationship and final judgment.
-- AI may support research leads, ideation, structure, critique, and production.
+- Disclosed, qualified AI staff agents operate the relationship and production workflow within explicit permissions.
+- An accountable principal authorizes company commitments and consequential final delivery.
 - Facts, calculations, assumptions, inferences, and modeled outputs remain distinguishable.
 - Review depth follows the consequence and risk of the work.
 - Urgency narrows scope; it does not remove truth, data, or approval controls.
@@ -79,7 +79,7 @@ The governing test is simple:
 
 1. **Decision before deliverable.** Clarify the owner, choice, alternatives, audience, consequence, and evidence that could change the answer.
 2. **Classification before persuasion.** Establish what each material claim is before improving how it sounds.
-3. **Human-accountable, AI-supported.** AI is not a source, verifier, approver, or delivery owner.
+3. **Agent-operated, principal-accountable.** Disclosed AI staff agents may own bounded operating tasks; they are not legal persons, sources, or their own final authority.
 4. **Traceability over plausibility.** Confidence, repetition, and polish do not establish truth.
 5. **Progressive authorization.** Contributors, Supervised Strategists, and Lead Strategists work only within demonstrated authority.
 6. **Accessibility without lowered standards.** Remove irrelevant participation barriers while measuring the same competency.
@@ -96,7 +96,7 @@ Current objectives:
 - Interview 5–8 target professionals without pitching before understanding their existing behavior.
 - Recruit 2–3 prospective design partners for concrete follow-up.
 - Test whether the satire signals insight or irresponsibility and whether the professional boundary earns trust.
-- Name the people accountable for training, assessment, supervision, applications, data/tools, escalation, and release.
+- Qualify the named AI staff agents assigned to training, assessment, supervision, applications, data/tools, escalation, and release.
 - Approve the truth standard, critical failures, AI/data policy, record locations, and initial capacity method.
 
 The pilot application remains closed. No real client work or client-data use is authorized.
@@ -107,7 +107,7 @@ See [`STATUS.md`](STATUS.md) for the live execution state and [`ROADMAP.md`](ROA
 
 - Open self-service subscriptions or guaranteed acceptance.
 - Tier I or Tier II as real offers.
-- Unsupervised AI delivery or autonomous client communication.
+- AI delivery or autonomous client communication outside an explicitly authorized work envelope.
 - Public course sales or attendance-based certification.
 - A CMS, CRM, client portal, account system, payment platform, or broad analytics stack without an evidence-backed need.
 - Publishing fictional testimonials as real proof.
@@ -137,14 +137,18 @@ More restrictive truth, confidentiality, authorization, accessibility, or data c
 | [`STATUS.md`](STATUS.md) | Current work, blockers, and next actions |
 | [`ROADMAP.md`](ROADMAP.md) | Ordered company, training, website, pilot, and launch plan |
 | [`exemplary-examples-project-description.md`](exemplary-examples-project-description.md) | Brand and product description |
+| [`index.html`](index.html) | Current production website candidate; application remains closed |
 | [`exemplary-examples.html`](exemplary-examples.html) | Original single-file brand prototype; not current production truth |
 | [`discovery/`](discovery/) | P0.0 interview, record, and synthesis materials |
 | [`operations/`](operations/) | P0.1 governance, AI, and data policy materials |
-| [`training/`](training/) | Curriculum, handbook, workshops, simulations, assessment, supervision, and templates |
+| [`operations/AI-STAFF-CHARTER.md`](operations/AI-STAFF-CHARTER.md) | AI staff roster, permissions, separation of duties, and transparency rules |
+| [`training/`](training/) | Agent qualification curriculum, handbook, workshops, simulations, assessment, supervision, and templates |
+| [`training/dry-runs/`](training/dry-runs/) | P0.2 isolated-session run plan and manifest |
+| [`tests/`](tests/) | Documentation, site-contract, and real-browser verification |
 
 ## Training and authorization
 
-The internal training system is competency-paced and blended. Time served, job title, confidence, and quiz completion do not authorize client work.
+The internal training system is a competency-paced agent qualification and evaluation harness. A role name, persuasive output, or quiz completion does not authorize client work.
 
 ```text
 Contributor
@@ -162,7 +166,7 @@ Start with [`training/README.md`](training/README.md).
 
 ## AI and data posture
 
-The initial approved-tool register is empty. Until a named owner approves a specific tool and configuration, AI use is limited to public information or purpose-built synthetic training material in already authorized environments.
+The initial approved-tool register is empty. The staff roster therefore operates only on repository material, public information, and purpose-built synthetic exercises in the current authorized workspace. Real applicant or client data requires approval of the exact runtime, model, account, tools, connectors, memory, retention, and purpose.
 
 Data classes:
 
@@ -185,7 +189,7 @@ See [`operations/AI-DATA-POLICY.md`](operations/AI-DATA-POLICY.md). When uncerta
 6. Verify it using the task's named evidence.
 7. Update status and governing documentation when a decision changes.
 
-### Preview the prototype
+### Preview the production candidate
 
 No dependency installation or build step currently exists.
 
@@ -196,14 +200,20 @@ python3 -m http.server 8000
 Then open:
 
 ```text
-http://localhost:8000/exemplary-examples.html
+http://localhost:8000/
 ```
 
-The prototype contains obsolete offer, testimonial, and form behavior that the roadmap intentionally requires us to replace. Do not treat its copy as approved production truth.
+The production candidate is `index.html`. The preserved `exemplary-examples.html` prototype contains obsolete offer, testimonial, and form behavior; do not treat its copy as approved production truth.
 
 ### Verification today
 
-There is not yet a single automated verification command. Until Task 3.1 creates one:
+Run the current website contract:
+
+```bash
+node --test tests/*.test.js
+```
+
+It verifies documentation links and agent-governance consistency plus the production entry point, semantic structure, dual proposition, single real offer, closed application state, and baseline metadata. The repeatable real-browser audit is `tests/browser-audit.cjs`; see [`operations/WEBSITE-VERIFICATION-2026-07-13.md`](operations/WEBSITE-VERIFICATION-2026-07-13.md) for the verified viewport and axe results. Performance and supported-engine release checks remain required before release.
 
 - Confirm local Markdown links resolve.
 - Search for stale offer and “precedent sourcing” language after editorial changes.
@@ -256,9 +266,8 @@ Until then, the work is preparation—not a public promise.
 
 Run P0.0 and P0.1 in parallel, but assign discovery-data readiness before recording any interview contacts:
 
-1. In [`operations/P0.1-GOVERNANCE.md`](operations/P0.1-GOVERNANCE.md), name the Discovery owner, backup, approved contact location, and retention (plus the other interim owners and backups).
-2. Build a 10–15-person prospective-interview list capable of yielding 5–8 conversations.
-3. Conduct interviews.
+1. Ratify the AI staff charter and name the Accountable Principal; approve the discovery contact location and runtime/tool envelope.
+2. Have EE-02 Fieldnote build a 10–15-person prospective-interview recruitment plan capable of yielding 5–8 conversations.
+3. Approve external outreach, then conduct and synthesize interviews.
 
 Do not open the pilot application or process real client data yet.
-
