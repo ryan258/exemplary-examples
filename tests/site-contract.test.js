@@ -1,0 +1,71 @@
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
+
+const root = path.resolve(__dirname, "..");
+const entrypoint = path.join(root, "index.html");
+
+function page() {
+  return fs.readFileSync(entrypoint, "utf8");
+}
+
+test("the production entrypoint exists", () => {
+  assert.equal(fs.existsSync(entrypoint), true, "index.html must be the production entrypoint");
+});
+
+test("the page exposes a semantic, keyboard-oriented document structure", () => {
+  const html = page();
+
+  assert.match(html, /<html\s+lang="en"/i);
+  assert.match(html, /href="#main-content"[^>]*>\s*Skip to (?:main )?content/i);
+  assert.match(html, /<main\s+id="main-content"\s+tabindex="-1"/i);
+  assert.equal((html.match(/<h1\b/gi) || []).length, 1, "exactly one h1 is required");
+  for (const landmark of ["header", "nav", "main", "footer"]) {
+    assert.match(html, new RegExp(`<${landmark}\\b`, "i"), `${landmark} landmark is required`);
+  }
+  for (const id of ["home", "about", "offering", "proof", "contact"]) {
+    assert.match(html, new RegExp(`id="${id}"`, "i"), `#${id} section is required`);
+  }
+});
+
+test("the satire and the real practice are both explicit", () => {
+  const html = page();
+
+  assert.match(html, /openly satirical/i);
+  assert.match(html, /real professional (?:practice|service)/i);
+  assert.match(html, /satirical fiction/i);
+  assert.match(html, /modeled scenario/i);
+  assert.match(html, /AI staff agents?/i);
+  assert.match(html, /accountable principal/i);
+});
+
+test("only the Executive Retainer pilot is presented as a real offer", () => {
+  const html = page();
+
+  assert.match(html, /Executive Retainer pilot/i);
+  assert.doesNotMatch(html, /Tier I|Tier II|\$8,500|\$22,000/i);
+  assert.doesNotMatch(html, /fictional testimonials?/i);
+});
+
+test("the application remains closed and collects no data", () => {
+  const html = page();
+
+  assert.match(html, /applications? (?:are |is )?closed/i);
+  assert.match(html, /Checkpoint P/i);
+  assert.doesNotMatch(html, /<form\b/i);
+  assert.doesNotMatch(html, /<(?:input|select|textarea)\b/i);
+  assert.doesNotMatch(html, /\son[a-z]+\s*=/i);
+});
+
+test("the page includes baseline sharing and rendering metadata", () => {
+  const html = page();
+
+  assert.match(html, /<meta\s+name="description"/i);
+  assert.match(html, /<meta\s+property="og:title"/i);
+  assert.match(html, /<meta\s+property="og:description"/i);
+  assert.match(html, /<meta\s+name="theme-color"/i);
+  assert.match(html, /<meta\s+name="viewport"/i);
+  assert.match(html, /<link\s+rel="icon"[^>]+href="assets\/favicon\.svg"/i);
+  assert.match(html, /href="assets\/styles\.css"/i);
+});
