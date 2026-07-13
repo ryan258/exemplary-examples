@@ -22,7 +22,7 @@ Update after interviews 3, 5, and 8.
 | Recurring retainer access fits better than one-off work |  |  | Unknown |  |
 | The truth standard preserves or increases trust |  |  | Unknown |  |
 | Satirical positioning signals insight rather than irresponsibility |  |  | Unknown |  |
-| A named human plus AI-supported process is credible |  |  | Unknown |  |
+| Disclosed AI staff agents plus an accountable principal are credible |  |  | Unknown |  |
 | Buyers can identify a budget and approval path |  |  | Unknown |  |
 | At least two plausible design partners will take a concrete next step |  |  | Unknown |  |
 
@@ -97,4 +97,3 @@ Do not place personal contact information here.
 | Change | Evidence | Owner | Status |
 | --- | --- | --- | --- |
 |  |  |  |  |
-

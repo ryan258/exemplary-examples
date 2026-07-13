@@ -91,7 +91,7 @@ Do not explain away a misunderstanding. Record it as evidence that the framing f
 
 Describe the concept without promising unproven service levels:
 
-> The initial concept is a limited, application-only Executive Retainer pilot: a named strategist, supported by AI and documented review systems, helps with recurring example and exhibit requests. The pilot is designed to prove the operating process before broader launch.
+> The initial concept is a limited, application-only Executive Retainer pilot: disclosed AI staff agents, governed by an accountable principal and documented review systems, help with recurring example and exhibit requests. The pilot is designed to prove the operating process before broader launch.
 
 25. Which parts of that offer are useful or unnecessary?
 26. Would recurring access solve the problem better than a one-time project?
@@ -121,4 +121,3 @@ General interest does not count toward the two-to-three design-partner target.
 32. Who else sees this problem differently and would be useful to interview?
 
 > Thank you. I will use the findings to decide whether and how this service should proceed. I will not attribute your comments publicly without separate permission.
-

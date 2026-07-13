@@ -17,6 +17,7 @@ P0.0 is complete only when:
 - [`INTERVIEW-GUIDE.md`](INTERVIEW-GUIDE.md) — moderator script and question sequence.
 - [`INTERVIEW-RECORD.md`](INTERVIEW-RECORD.md) — duplicate once per conversation.
 - [`SYNTHESIS.md`](SYNTHESIS.md) — cross-interview evidence and decision record.
+- [`RECRUITMENT-PLAN.md`](RECRUITMENT-PLAN.md) — balanced segment plan, screening rule, neutral invitation, and outreach gate.
 
 Store completed interview records in `discovery/interviews/` using non-identifying filenames such as `interview-01.md`. Do not record confidential client names, projects, or data. Obtain permission before recording audio or video; written notes are the default.
 
@@ -51,4 +52,3 @@ Proceed to offer design when:
 - At least two plausible design partners agree to a concrete follow-up.
 
 Revise or narrow the offer if the problem exists but the retainer, buyer, positioning, or delivery model does not fit. Stop if the only positive signal is politeness toward the idea.
-
