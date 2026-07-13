@@ -78,6 +78,7 @@ These are small decisions with downstream consequences. Record the chosen answer
 | --- | --- | --- |
 | Site shape | Keep one page for the pilot launch | The existing scroll journey is coherent, faster to validate, and does not yet justify five routes. |
 | Primary offer | Application-only Executive Retainer pilot | This proves recurring service and operating discipline without implying unlimited readiness. |
+| Offer tiers | Executive Retainer is the only real offer; Tier I and II are removed or unmistakably labeled satirical exhibits | No prototype price should resemble an active commercial offer unless it genuinely is one. |
 | Pilot success | A proven, documented operating process | The first milestone is reliable delivery and supervision; revenue and renewal are secondary evidence. |
 | Delivery model | Named human strategist supported by AI and repeatable systems | Preserves speed while keeping truth, judgment, and client accountability human-owned. |
 | Training | Competency-paced blended certification | Mixed-experience learners can progress without lowering the authorization standard. |
@@ -94,6 +95,29 @@ Each task is sized to fit one focused implementation session. Complete tasks in 
 ### Company Track — Prove the practice before accepting clients
 
 The website may be refined in parallel, but the pilot application must not open until Checkpoint P is complete.
+
+#### Task P0.0 — Validate the offer with prospective customers
+
+**Outcome:** Evidence that the intended audience understands, trusts, and wants the service before internal build-out proceeds.
+
+**Work:**
+
+- Before recording any interview contact details, confirm the Discovery owner, backup, and approved minimal contact/retention path are assigned in `operations/P0.1-GOVERNANCE.md`.
+- Interview 5–8 consultants, agency staff, and presentation professionals.
+- Test the recurring problem, current alternatives, acceptable disclosure language, turnaround expectations, buying authority, reaction to the satirical positioning, and willingness to join a pilot.
+- Recruit 2–3 prospective design partners before the pilot application infrastructure is completed.
+
+**Acceptance criteria:**
+
+- [ ] A named Discovery owner and backup exist and contact details are stored only on the approved minimal path, never ad hoc.
+- [ ] At least five target-audience interviews are recorded with the problem, current alternative, and disclosure reaction for each.
+- [ ] The satirical positioning is confirmed to read as insight rather than irresponsibility, or the framing is revised.
+- [ ] 2–3 prospective design partners have agreed to consider the pilot.
+
+**Verification:** Summarize findings in a short discovery note; confirm the pilot offer and disclosure language reflect what customers said, not internal assumptions.
+
+**Dependencies:** Discovery-owner and minimal contact/retention path assigned (a small readiness subset of Task P0.1)  
+**Estimated scope:** Medium
 
 #### Task P0.1 — Assign governance and finish operating decisions
 
@@ -115,8 +139,10 @@ The website may be refined in parallel, but the pilot application must not open 
 
 **Verification:** Run a tabletop exercise covering an AI data question, a disclosure dispute, an unavailable Lead, and an applicant-data deletion request; each event reaches a documented owner and decision.
 
-**Dependencies:** None  
-**Estimated scope:** Medium
+**Suggested split** (track inline against a separate operating checklist): (a) name owners and backups; (b) approve the truth standard and critical-failure definitions; (c) define AI/data classification, approved tools, and prohibited inputs; (d) set curriculum version, record location, and review cadence; (e) set pilot capacity from named supervision. Size each as its own decision/policy/verification item so partial progress is visible.
+
+**Dependencies:** None (may run in parallel with Task P0.0)  
+**Estimated scope:** Large (split as above)
 
 #### Task P0.2 — Dry-run the complete training system
 
@@ -124,7 +150,8 @@ The website may be refined in parallel, but the pilot application must not open 
 
 **Work:**
 
-- Run orientation, truth classification, decision framing, evidence review, scenario construction, exhibit critique, AI red-team, and one client simulation.
+- Run orientation, truth classification, decision framing, evidence review, scenario construction, exhibit critique, AI red-team, and two client simulations (Simulations 2 and 3).
+- For the first dry run, use the minimum viable route (Modules 1–5 and 7, Workshops 1–4, Simulations 2 and 3, contributor plus a Founding Lead candidate, one complete synthetic engagement); expand and calibrate the remaining materials from pilot evidence rather than requiring the whole system to run perfectly before any market learning.
 - Test at least one accessibility accommodation in a workshop and simulation.
 - Have two assessors independently score the same artifact and reconcile differences.
 - Record confusing instructions, missing artifacts, hidden facilitator knowledge, timing observations, and rubric disagreement.
@@ -132,12 +159,12 @@ The website may be refined in parallel, but the pilot application must not open 
 
 **Acceptance criteria:**
 
-- [ ] Every competency has usable instruction, practice, and assessment evidence.
+- [ ] Every competency on the minimum viable route has usable instruction, practice, and assessment evidence.
 - [ ] Facilitators can run the selected sessions from the written guides.
 - [ ] Assessors reach the agreed calibration tolerance after discussion.
-- [ ] No unresolved critical truth, confidentiality, authorization, or accessibility defect remains.
+- [ ] No unresolved critical truth, confidentiality, authorization, or accessibility defect remains on the selected route.
 
-**Verification:** Complete the training-system quality checks in `training/TRAINING-SYSTEM-SPEC.md` and publish a dry-run report linked to the curriculum version.
+**Verification:** Complete the training-system quality checks for the selected route in `training/TRAINING-SYSTEM-SPEC.md` and publish a dry-run report linked to the curriculum version. Reserve full-system validation (all ten competencies) for a later calibration pass informed by pilot evidence.
 
 **Dependencies:** Task P0.1  
 **Estimated scope:** Medium
@@ -149,19 +176,20 @@ The website may be refined in parallel, but the pilot application must not open 
 **Work:**
 
 - Route each candidate through the diagnostic without waiving required brand-specific assessments.
-- Assess Contributors, Supervised Strategists, and at least one Lead Strategist using the published rubrics.
+- Assess Contributors, Supervised Strategists, and the Founding Lead candidate using the published rubrics; ordinary Lead conversion is deferred to Checkpoint P2 after two successful pilot cycles.
 - Record scope conditions, remediation, assessor conflicts, and review dates.
 - Confirm supervision capacity and backup coverage for every proposed pilot assignment.
+- Because ordinary Lead certification requires two supervised engagement cycles that themselves need an accountable Lead, grant one temporary **Founding Lead authorization** to the strongest candidate based on equivalent prior evidence, two independent reviewers, and the end-to-end simulation (Task P0.4). It is provisional and converts to ordinary Lead certification only after two successful pilot cycles.
 
 **Acceptance criteria:**
 
-- [ ] At least one active Lead Strategist is certified by two assessors, including one independent of direct supervision.
+- [ ] At least one active Lead Strategist — or a temporary Founding Lead authorized by two independent reviewers plus the Task P0.4 simulation — can accountably own a pilot engagement.
 - [ ] Every pilot team member has a current certification record and works within its authorization.
 - [ ] No unresolved critical failure or missing client-facing review gate remains.
 
 **Verification:** Audit every team member against `training/templates/CERTIFICATION-RECORD.md` and rehearse assignment of an urgent request without exceeding authorization.
 
-**Dependencies:** Task P0.2  
+**Dependencies:** Task P0.4 (its simulation is the authorization evidence, so it runs before this certification)  
 **Estimated scope:** Medium
 
 #### Task P0.4 — Simulate the Executive Retainer end to end
@@ -184,35 +212,111 @@ The website may be refined in parallel, but the pilot application must not open 
 
 **Verification:** Conduct an independent quality review using `training/templates/QUALITY-REVIEW.md` and trace every final claim to the Evidence Register.
 
-**Dependencies:** Task P0.3  
+**Dependencies:** Task P0.2 (this simulation evaluates the Founding Lead candidate, so it precedes certification in P0.3)  
 **Estimated scope:** Medium
 
-#### Task P0.5 — Define the limited pilot offer and application operation
+#### Task P0.5a — Design the limited pilot offer
 
-**Outcome:** The public invitation accurately matches what the certified team can deliver and safely operate.
+**Outcome:** The offer matches what the certified team can deliver.
 
 **Work:**
 
 - Define ideal pilot applicant, exclusions, capacity, service classes, expected client participation, pilot duration, and what discounted/unpaid participation does and does not include.
-- Create selection criteria that do not imply the pilot is mature or unlimited.
-- Define application fields, purpose, consent/context, access, retention, deletion, spam handling, response time, acceptance/decline communication, and owner.
-- Prepare professional terms covering confidentiality, intellectual property, AI use, truth/disclosure, reliance, and termination for qualified review before real engagements.
 
 **Acceptance criteria:**
 
 - [ ] Public claims match certified capacity and the simulated operating process.
+
+**Verification:** Reconcile the offer against certified capacity (P0.3) and the P0.4 simulation outcome.
+
+**Owner:** Program owner  
+**Dependencies:** Tasks P0.0 and P0.3  
+**Estimated scope:** Small
+
+#### Task P0.5b — Set selection criteria
+
+**Outcome:** Applicants are chosen without implying the pilot is mature or unlimited.
+
+**Work:**
+
+- Create selection criteria that do not imply the pilot is mature or unlimited.
+
+**Acceptance criteria:**
+
+- [ ] Criteria are decision-useful and do not overstate readiness.
+
+**Verification:** Dry-score 3–4 synthetic applicants and confirm consistent, defensible decisions.
+
+**Owner:** Program owner  
+**Dependencies:** Task P0.5a  
+**Estimated scope:** Small
+
+#### Task P0.5c — Operate the application data path
+
+**Outcome:** Every submission is collected, stored, answered, and deletable under a named owner.
+
+**Work:**
+
+- Define application fields, purpose, consent/context, access, retention, deletion, spam handling, response time, acceptance/decline communication, and owner.
+
+**Acceptance criteria:**
+
 - [ ] The application collects only information required to qualify and contact a pilot applicant.
 - [ ] Every submission has a secure destination, owner, response expectation, and deletion path.
-- [ ] Professional terms and privacy language receive appropriate qualified review before the first client begins.
 
 **Verification:** Process synthetic applications through acceptance, decline, no-response, deletion, and abuse scenarios; confirm each follows the documented operation.
 
-**Dependencies:** Tasks P0.1 and P0.4  
+**Owner:** Pilot application owner  
+**Dependencies:** Task P0.5b (which fields are required — and which would be unnecessary personal-data collection — depends on the selection criteria)  
 **Estimated scope:** Medium
+
+#### Task P0.5d — Prepare professional terms for qualified review
+
+**Outcome:** Confidentiality, IP, AI use, truth/disclosure, reliance, and termination terms are reviewed before real engagements.
+
+**Work:**
+
+- Prepare professional terms covering confidentiality, intellectual property, AI use, truth/disclosure, reliance, and termination for qualified review before real engagements.
+
+**Acceptance criteria:**
+
+- [ ] Professional terms and privacy language receive appropriate qualified review before the first client begins.
+
+**Verification:** A qualified reviewer signs off on the terms and privacy language.
+
+**Owner:** Client escalation owner (with qualified legal review)  
+**Dependencies:** Task P0.5a  
+**Estimated scope:** Medium
+
+#### Task P0.6 — Business readiness gate
+
+**Outcome:** The company is legally and operationally able to take on real client work, verified by appropriately qualified professionals.
+
+**Work:**
+
+- Confirm company ownership/entity and signing authority.
+- Clear brand name, domain, and trademark conflicts.
+- Stand up billing, tax, and payment operation.
+- Obtain professional liability and any applicable insurance.
+- Prepare client contracting and intellectual-property ownership terms.
+- Review vendors and data processors that will handle client information.
+- Document incident response and business continuity.
+
+**Acceptance criteria:**
+
+- [ ] Entity, signing authority, and insurance are in place before the first real engagement.
+- [ ] Brand, domain, and trademark clearance has no unresolved conflict.
+- [ ] Billing, contracting, IP, and vendor/data-processor terms have completed qualified review.
+
+**Verification:** A qualified professional (legal/financial/insurance as appropriate) signs off on each item before real client work begins.
+
+**Dependencies:** Task P0.0  
+**Estimated scope:** Large (split by professional domain)
 
 ### Checkpoint P — Pilot readiness
 
 - [ ] Initial team authorization and supervision capacity are current.
+- [ ] The Business Readiness Gate (Task P0.6) has qualified sign-off on entity, insurance, contracting, IP, billing, and vendor/data-processor review.
 - [ ] End-to-end simulation and training dry run have no unresolved critical issue.
 - [ ] Pilot offer, application operation, professional terms, and client escalation are owned.
 - [ ] The team can explain what the service is, what it is not, and how constructed professional material is disclosed.
@@ -230,6 +334,7 @@ The website may be refined in parallel, but the pilot application must not open 
 - Change “Tier II — The Precedent Package” in the contact form to “The Example Development Package.”
 - Change the post-submit “Sourcing Your Precedent” message to example-development language.
 - Audit every CTA, metric, tier, testimonial, and exhibit reference against the project description.
+- Present Executive Retainer as the only real offer; remove Tier I and II or label them unmistakably as satirical exhibits, and ensure no prototype price resembles an active commercial offer.
 
 **Acceptance criteria:**
 
@@ -318,16 +423,14 @@ The website may be refined in parallel, but the pilot application must not open 
 **Dependencies:** Task 1.1  
 **Estimated scope:** Medium
 
-#### Task 1.3 — Make the consultation interaction honest and complete
+#### Task 1.3a — Build the accessible application form
 
-**Outcome:** Qualified visitors can apply for the limited pilot through an accessible interaction whose data behavior and follow-up are accurate.
+**Outcome:** Qualified visitors can complete the pilot application by keyboard and screen reader.
 
 **Work:**
 
-- Replace general tier selection with the approved Executive Retainer pilot application fields from Task P0.5.
+- Replace general tier selection with the approved Executive Retainer pilot application fields from Task P0.5c.
 - Associate every label with its control; add names, autocomplete guidance, and an explicit required/optional model.
-- Explain the application purpose, what happens next, expected response time, and relevant privacy/retention information before submission.
-- Implement secure transmission to the approved destination, server-side validation, spam/abuse controls, failure handling, duplicate handling, and delivery monitoring.
 - Replace button-text mutation with accessible submitting, success, and failure states plus a safe retry path.
 - Do not ask for sensitive client material during initial qualification.
 
@@ -335,14 +438,79 @@ The website may be refined in parallel, but the pilot application must not open 
 
 - [ ] The application collects only the approved minimum qualification and contact fields.
 - [ ] Validation, submitting, success, failure, and retry states are understandable visually and to a screen reader.
+
+**Verification:** Keyboard and screen-reader walkthrough of empty, valid, and failed states.
+
+**Dependencies:** Tasks 1.1, 1.2, and P0.5c  
+**Estimated scope:** Medium
+
+#### Task 1.3b — Write pre-submission disclosure copy
+
+**Outcome:** Applicants know the purpose, next steps, response time, and data handling before submitting.
+
+**Work:**
+
+- Explain the application purpose, what happens next, expected response time, and relevant privacy/retention information before submission.
+
+**Acceptance criteria:**
+
+- [ ] Purpose, next step, response time, and privacy/retention are stated before submission.
+
+**Verification:** Read the pre-submit copy against the P0.5c data operation; confirm no gaps or overpromises.
+
+**Dependencies:** Task P0.5c  
+**Estimated scope:** Small
+
+#### Task 1.3c — Transmit and validate securely
+
+**Outcome:** Submissions reach only the approved destination, validated server-side.
+
+**Work:**
+
+- Implement secure transmission to the approved destination and server-side validation.
+
+**Acceptance criteria:**
+
 - [ ] Data reaches only the approved destination and does not appear in logs, analytics, URLs, or other unintended locations.
+
+**Verification:** Submit valid attempts; inspect the network and approved destination; confirm no sensitive data appears in unintended telemetry.
+
+**Dependencies:** Tasks P0.5c and Checkpoint P  
+**Estimated scope:** Medium
+
+#### Task 1.3d — Handle spam, abuse, and duplicates
+
+**Outcome:** Malicious or repeated submissions cannot create misleading confirmations or an unmanaged queue.
+
+**Work:**
+
+- Implement spam/abuse controls, failure handling, and duplicate handling.
+
+**Acceptance criteria:**
+
 - [ ] Repeated, duplicate, malicious, and failed submissions do not create misleading confirmations or an unmanaged queue.
+
+**Verification:** Submit repeated, failed, and abusive synthetic attempts; confirm safe handling.
+
+**Dependencies:** Task 1.3c  
+**Estimated scope:** Medium
+
+#### Task 1.3e — Monitor delivery and operate the owner's queue
+
+**Outcome:** The named owner can retrieve, respond to, and delete submissions.
+
+**Work:**
+
+- Add delivery monitoring and the owner's retrieve/respond/delete path.
+
+**Acceptance criteria:**
+
 - [ ] The named application owner can retrieve, respond to, and delete a synthetic submission using the documented process.
 
-**Verification:** Submit empty, valid, repeated, failed, and abusive synthetic attempts with keyboard and screen reader; inspect the network and approved destination; exercise response and deletion; confirm no sensitive data appears in unintended telemetry.
+**Verification:** Exercise response and deletion on a synthetic submission end to end.
 
-**Dependencies:** Tasks 1.1, 1.2, P0.5, and Checkpoint P  
-**Estimated scope:** Medium
+**Dependencies:** Tasks 1.3c and P0.5c  
+**Estimated scope:** Small
 
 ### Checkpoint B — Complete vertical journey
 
@@ -435,7 +603,7 @@ The website may be refined in parallel, but the pilot application must not open 
 **Work:**
 
 - Add automated checks for valid markup, internal anchors, missing local assets, and serious accessibility violations.
-- Add a browser smoke test for navigation, tier preselection, required-field handling, and confirmation behavior.
+- Add a browser smoke test for navigation, pilot-application field handling, required-field handling, and confirmation behavior.
 - Keep the suite proportional to a static site; avoid broad unit-test infrastructure for declarative content.
 
 **Acceptance criteria:**
@@ -502,6 +670,7 @@ The website may be refined in parallel, but the pilot application must not open 
 
 - Conduct an outsider five-second test focused on premise recognition.
 - Test whether outsiders understand both halves of the proposition: openly satirical brand and real professional service.
+- Test trust, not just comprehension: would readers trust the company with a client-sensitive assignment, would they introduce it to a managing partner or client, does the satire signal insight or irresponsibility, which sentence creates or loses trust, and can they accurately explain the disclosure boundary.
 - Perform a final line edit for tone, internal consistency, brand-level satire disclosure, and accurate separation of fictional versus professional claims.
 - Re-run browser, device, accessibility, metadata, and performance checks on production.
 - Process and delete a final synthetic pilot application through the production operation.
@@ -544,6 +713,21 @@ Post-launch work should respond to observed confusion or a new publishing need, 
 - Decide whether any measurement need is important enough to justify privacy-conscious analytics.
 - Revise the training and operating system from observed pilot evidence before expanding the offer.
 
+### Checkpoint P2 — Pilot validation (has the process been proven?)
+
+Complete before deciding to launch fully, repeat, narrow, or stop.
+
+A **complete request cycle** runs intake → scope → research/model → build → review → delivery → retrospective with every final claim traceable. A **successful cycle** is a complete cycle with no client-visible critical failure and client-confirmed decision usefulness.
+
+- [ ] 2–3 design partners are active, and the pilot ran at least three complete request cycles in total (not necessarily three per partner).
+- [ ] No client-visible critical truth, privacy, or authorization failure occurred.
+- [ ] Every final claim is traceable to the Evidence Register.
+- [ ] Supervisor rescue work was measured and is declining.
+- [ ] Clients confirm the work was decision-useful.
+- [ ] Training and operating revisions from the pilot are recorded.
+- [ ] Founding Lead authorization is converted to ordinary Lead certification if two successful cycles were completed.
+- [ ] An explicit decision is made: repeat the pilot, launch fully, narrow the service, or stop.
+
 ### Expansion triggers
 
 Consider a deferred capability only when its trigger occurs:
@@ -578,15 +762,19 @@ Consider a deferred capability only when its trigger occurs:
 ## Recommended implementation order
 
 ```text
+Customer discovery and design-partner recruitment
+        ↓
 Training/data governance
         ↓
 Training dry run and calibration
         ↓
-Initial team certification
+End-to-end retainer simulation (evaluates the Founding Lead candidate)
         ↓
-End-to-end retainer simulation
+Initial team certification (incl. temporary Founding Lead)
         ↓
 Pilot offer and application operation
+        ↓
+Business readiness gate (entity, insurance, contracting, IP)
         ↓
 Narrative and dual-proposition lock
         ↓
@@ -647,4 +835,4 @@ The critical path runs through pilot readiness and then the application journey.
 
 ## Immediate next action
 
-Complete Task P0.1 by naming the program, assessment, supervision, application, and escalation owners and approving the initial AI/data rules. Then run Task P0.2 as a small internal dry run of the training system. Website copy can be revised in parallel, but do not open the pilot application until Checkpoint P is complete.
+Start with Task P0.0: first assign the Discovery owner, backup, approved contact location, and retention path; then build the recruitment list and interview 5–8 prospective customers and recruit 2–3 design partners so the offer is validated before build-out. In parallel, complete Task P0.1 by naming the program, assessment, supervision, application, and escalation owners and approving the initial AI/data rules; then run Task P0.2 as a small internal dry run using the minimum viable training route. Website copy can be revised in parallel, but do not open the pilot application until Checkpoint P (including the Business Readiness Gate) is complete.

@@ -142,6 +142,8 @@ Never:
 - Pass a retainer planning and quality review.
 - Receive approval from two assessors, at least one of whom did not directly supervise the candidate.
 
+**Founding Lead bootstrap:** Because the two supervised engagement cycles above cannot exist until an accountable Lead exists, the program may grant one temporary Founding Lead authorization in their place — based on equivalent prior evidence, approval by two independent reviewers, and the end-to-end retainer simulation. It is provisional and converts to ordinary Lead certification only after two successful pilot cycles.
+
 ## Assessment rules
 
 - Certification is criterion-referenced, not graded on a curve.
