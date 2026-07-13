@@ -221,6 +221,17 @@ It verifies documentation links and agent-governance consistency plus the produc
 - Use the acceptance and verification steps attached to the active roadmap task.
 - Never test with real personal or client information.
 
+### Deployment (GitHub Pages)
+
+The public site is only `index.html`, `assets/`, and `404.html`. Internal docs (roadmap, governance, discovery, training) stay in the repo but are **not published**.
+
+Deployment is automated by [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml): every push to `main` that touches the site runs the contract tests, assembles a public-only `_site/`, and deploys to GitHub Pages.
+
+- One-time setup: repo **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+- Production URL: <https://ryan258.github.io/exemplary-examples/>
+- Rollback: re-run the workflow on the last good commit (Actions → Deploy → Re-run all jobs), or revert the offending commit and push.
+- If a custom domain is added later, update the canonical URL, `og:url`, absolute `og:image`, and the `404.html` home link from `/exemplary-examples/` to `/`.
+
 ## Contribution rules
 
 Always:
