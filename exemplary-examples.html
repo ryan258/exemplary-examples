@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exemplary Examples™ | Precedent-Driven Strategy Consulting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #14213D;
+    --navy-deep: #0B1526;
+    --cream: #F7F4EC;
+    --brass: #A6824A;
+    --brass-light: #C9A96E;
+    --ink: #1A1A1A;
+    --line: rgba(20,33,61,0.14);
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'Inter', -apple-system, sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.55;
+  }
+
+  a { color: inherit; }
+
+  .exhibit-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brass);
+    border: 1px solid var(--brass);
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 2px;
+  }
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--navy-deep);
+    border-bottom: 1px solid rgba(201,169,110,0.25);
+  }
+  .nav-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .brand {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--cream);
+    letter-spacing: 0.01em;
+  }
+  .brand sup { color: var(--brass-light); font-size: 10px; }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+  }
+  .nav-links a {
+    color: rgba(247,244,236,0.75);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: color 0.15s ease;
+  }
+  .nav-links a:hover { color: var(--brass-light); }
+
+  section { scroll-margin-top: 70px; }
+
+  /* HOME */
+  .hero {
+    background: var(--navy-deep);
+    color: var(--cream);
+    padding: 100px 24px 90px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    right: -120px;
+    top: -80px;
+    width: 420px;
+    height: 420px;
+    border: 1px solid rgba(201,169,110,0.15);
+    border-radius: 50%;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    right: -40px;
+    top: 40px;
+    width: 300px;
+    height: 300px;
+    border: 1px solid rgba(201,169,110,0.15);
+    border-radius: 50%;
+  }
+  .hero-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brass-light);
+    margin-bottom: 22px;
+  }
+  h1.hero-headline {
+    font-family: var(--serif);
+    font-size: clamp(36px, 6vw, 58px);
+    font-weight: 500;
+    line-height: 1.12;
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+  .hero-headline em {
+    font-style: italic;
+    color: var(--brass-light);
+  }
+  .hero-sub {
+    font-size: 17px;
+    color: rgba(247,244,236,0.78);
+    max-width: 560px;
+    margin: 0 auto 40px;
+  }
+  .cta-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 13px 28px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    border-radius: 3px;
+    transition: all 0.15s ease;
+  }
+  .btn-primary { background: var(--brass); color: var(--navy-deep); }
+  .btn-primary:hover { background: var(--brass-light); }
+  .btn-ghost {
+    border: 1px solid rgba(247,244,236,0.4);
+    color: var(--cream);
+  }
+  .btn-ghost:hover { border-color: var(--brass-light); color: var(--brass-light); }
+
+  .stat-strip {
+    background: var(--navy);
+    border-top: 1px solid rgba(201,169,110,0.2);
+    border-bottom: 1px solid rgba(201,169,110,0.2);
+    padding: 34px 24px;
+  }
+  .stat-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 28px;
+    color: var(--brass-light);
+  }
+  .stat-label {
+    font-size: 12px;
+    color: rgba(247,244,236,0.65);
+    letter-spacing: 0.02em;
+    margin-top: 4px;
+  }
+
+  .section-wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 90px 24px;
+  }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+  h2.section-title {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .section-intro {
+    font-size: 16px;
+    color: #4a4a4a;
+    max-width: 640px;
+    margin-bottom: 48px;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .about-quote {
+    border-left: 3px solid var(--brass);
+    padding-left: 22px;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--navy);
+  }
+  .about-text p { margin-bottom: 16px; font-size: 15px; color: #333; }
+  .signature {
+    font-family: var(--serif);
+    font-style: italic;
+    margin-top: 20px;
+    color: var(--navy);
+    font-size: 14px;
+  }
+
+  /* OFFERING */
+  .tiers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .tier {
+    border: 1px solid var(--line);
+    background: #fff;
+    border-radius: 4px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+  }
+  .tier.featured {
+    border-color: var(--brass);
+    box-shadow: 0 8px 24px rgba(20,33,61,0.08);
+  }
+  .tier-tag {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--brass);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .tier-name {
+    font-family: var(--serif);
+    font-size: 21px;
+    margin-bottom: 6px;
+  }
+  .tier-price {
+    font-family: var(--serif);
+    font-size: 26px;
+    color: var(--navy);
+    margin-bottom: 16px;
+  }
+  .tier-price span { font-size: 13px; color: #888; font-family: var(--sans); }
+  .tier ul { list-style: none; margin-bottom: 24px; flex-grow: 1; }
+  .tier li {
+    font-size: 13.5px;
+    color: #444;
+    padding: 7px 0;
+    border-top: 1px solid var(--line);
+  }
+  .tier li:first-child { border-top: none; }
+  .tier-cta {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid var(--navy);
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--navy);
+  }
+  .tier.featured .tier-cta { background: var(--navy); color: var(--cream); border-color: var(--navy); }
+
+  /* PROOF */
+  .testimonials {
+    display: grid;
+    gap: 20px;
+  }
+  .testimonial {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 26px 28px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    align-items: start;
+  }
+  .testimonial p.quote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 16.5px;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+  .testimonial .meta {
+    font-size: 12.5px;
+    color: #777;
+  }
+  .testimonial .meta strong { color: var(--ink); font-weight: 600; }
+  .testimonial .exhibit-ref {
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* CONTACT */
+  .contact-band {
+    background: var(--navy-deep);
+    color: var(--cream);
+    padding: 90px 24px;
+  }
+  .contact-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .contact-inner h2 {
+    font-family: var(--serif);
+    font-size: 34px;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+  .contact-inner p {
+    color: rgba(247,244,236,0.75);
+    margin-bottom: 36px;
+    font-size: 15.5px;
+  }
+  .contact-form {
+    display: grid;
+    gap: 12px;
+    text-align: left;
+    background: rgba(247,244,236,0.05);
+    border: 1px solid rgba(201,169,110,0.25);
+    padding: 28px;
+    border-radius: 4px;
+  }
+  .contact-form label {
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--brass-light);
+    margin-bottom: -4px;
+  }
+  .contact-form input, .contact-form select {
+    padding: 11px 12px;
+    border-radius: 3px;
+    border: 1px solid rgba(247,244,236,0.2);
+    background: rgba(247,244,236,0.06);
+    color: var(--cream);
+    font-family: var(--sans);
+    font-size: 14px;
+  }
+  .contact-form input::placeholder { color: rgba(247,244,236,0.35); }
+  .contact-form button {
+    margin-top: 8px;
+    padding: 13px;
+    background: var(--brass);
+    color: var(--navy-deep);
+    border: none;
+    border-radius: 3px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .contact-form button:hover { background: var(--brass-light); }
+
+  footer {
+    background: var(--navy-deep);
+    border-top: 1px solid rgba(201,169,110,0.15);
+    padding: 26px 24px;
+    text-align: center;
+  }
+  footer p {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(247,244,236,0.4);
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 720px) {
+    .about-grid, .tiers { grid-template-columns: 1fr; }
+    .stat-inner { grid-template-columns: 1fr; gap: 20px; }
+    .testimonial { grid-template-columns: 1fr; }
+    .testimonial .exhibit-ref { text-align: left; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="brand">Exemplary Examples<sup>™</sup></div>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#offering">Offering</a>
+      <a href="#proof">Proof</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<section id="home" class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Exhibit 1.0 — Home</div>
+    <h1 class="hero-headline">Every business case needs<br>one perfect example. <em>We build yours.</em></h1>
+    <p class="hero-sub">Exemplary Examples™ is the world's only example-development consultancy. We don't search existing case studies — we engineer a bespoke one, built to spec, optimized to make your specific business case land in the room.</p>
+    <div class="cta-row">
+      <a href="#contact" class="btn btn-primary">Request Your Exhibit</a>
+      <a href="#offering" class="btn btn-ghost">View Engagement Tiers</a>
+    </div>
+  </div>
+</section>
+
+<div class="stat-strip">
+  <div class="stat-inner">
+    <div>
+      <div class="stat-num">0</div>
+      <div class="stat-label">Original Ideas Required</div>
+    </div>
+    <div>
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Fit Rate, By Design</div>
+    </div>
+    <div>
+      <div class="stat-num">6 Days</div>
+      <div class="stat-label">Average Time to First Draft Example</div>
+    </div>
+  </div>
+</div>
+
+<section id="about" class="section-wrap">
+  <div class="section-head">
+    <span class="exhibit-tag">Exhibit 2.0</span>
+  </div>
+  <h2 class="section-title">About / Manifesto</h2>
+  <p class="section-intro">Why we exist, in the words of our Founding Partner.</p>
+  <div class="about-grid">
+    <div class="about-quote">
+      "Real case studies never fit exactly. There's always one detail off — the wrong industry, the wrong headcount, the margin that doesn't quite match. So we stopped looking for the example and started building it."
+    </div>
+    <div class="about-text">
+      <p>Exemplary Examples™ was founded on a simple observation: in twelve years of strategy consulting, no existing case study ever fit a business case perfectly. Something was always slightly wrong — and "slightly wrong" is exactly where a good argument falls apart in the room.</p>
+      <p>So we stopped searching. We built a development practice instead: our team interviews you about the case you're making, then engineers the ideal supporting example from scratch — a customer story, a competitor comparison, a hypothetical scenario — fitted to your numbers, your industry, your exact argument.</p>
+      <p>Whether it happened is a separate question from whether it's true to the point you're making. We only handle the second one.</p>
+      <div class="signature">— Founding Partner, Exemplary Examples™</div>
+    </div>
+  </div>
+</section>
+
+<section id="offering" class="section-wrap">
+  <div class="section-head">
+    <span class="exhibit-tag">Exhibit 3.0</span>
+  </div>
+  <h2 class="section-title">Offering</h2>
+  <p class="section-intro">Every engagement concludes in a single deliverable: an example, built to your exact specifications. The tiers below determine how many, and how thoroughly they're developed.</p>
+  <div class="tiers">
+    <div class="tier">
+      <div class="tier-tag">Tier I</div>
+      <div class="tier-name">The Single Exhibit</div>
+      <div class="tier-price">$8,500 <span>/ engagement</span></div>
+      <ul>
+        <li>One (1) bespoke example, developed to spec</li>
+        <li>Intake interview to match your numbers and industry</li>
+        <li>Delivered as a single presentation-ready slide</li>
+        <li>5 business day development window</li>
+      </ul>
+      <a href="#contact" class="tier-cta">Request This Tier</a>
+    </div>
+    <div class="tier featured">
+      <div class="tier-tag">Tier II — Most Requested</div>
+      <div class="tier-name">The Example Development Package</div>
+      <div class="tier-price">$22,000 <span>/ engagement</span></div>
+      <ul>
+        <li>Three (3) custom-built examples, ranked by fit</li>
+        <li>Comparison matrix, formatted to resemble independent research</li>
+        <li>One (1) executive-ready synthesis slide</li>
+        <li>Optional: aged and detailed to feel long-standing</li>
+      </ul>
+      <a href="#contact" class="tier-cta">Request This Tier</a>
+    </div>
+    <div class="tier">
+      <div class="tier-tag">Tier III</div>
+      <div class="tier-name">Executive Retainer</div>
+      <div class="tier-price">Custom <span>/ annual</span></div>
+      <ul>
+        <li>Standing access to on-demand example development</li>
+        <li>Same-day builds for board meetings</li>
+        <li>Quarterly "State of the Example" briefing</li>
+        <li>Dedicated Development Partner</li>
+      </ul>
+      <a href="#contact" class="tier-cta">Request This Tier</a>
+    </div>
+  </div>
+</section>
+
+<section id="proof" class="section-wrap">
+  <div class="section-head">
+    <span class="exhibit-tag">Exhibit 4.0</span>
+  </div>
+  <h2 class="section-title">Proof</h2>
+  <p class="section-intro">Client outcomes, presented the way our clients present them.</p>
+  <div class="testimonials">
+    <div class="testimonial">
+      <div>
+        <p class="quote">"They built us a competitor comparison so precisely tailored to our numbers that the board asked to see the competitor's original deck. There isn't one. That's the whole business model, honestly."</p>
+        <div class="meta"><strong>VP, Strategic Alignment</strong> — Mid-Market Logistics Firm</div>
+      </div>
+      <div class="exhibit-ref exhibit-tag">See Exhibit 3.2</div>
+    </div>
+    <div class="testimonial">
+      <div>
+        <p class="quote">"The customer story fit our exact margin structure so well that our own sales team started referencing it as a real account. We've stopped correcting them."</p>
+        <div class="meta"><strong>Director, Corporate Transformation</strong> — Regional Retail Chain</div>
+      </div>
+      <div class="exhibit-ref exhibit-tag">See Exhibit 2.1</div>
+    </div>
+    <div class="testimonial">
+      <div>
+        <p class="quote">"Our retainer paid for itself the first time someone asked 'has anyone else tried this' and I had a fully-developed example ready before they finished the sentence."</p>
+        <div class="meta"><strong>Chief of Staff</strong> — Series C Software Company</div>
+      </div>
+      <div class="exhibit-ref exhibit-tag">See Exhibit 4.0</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact-band">
+  <div class="contact-inner">
+    <div class="eyebrow" style="text-align:center;">Exhibit 5.0 — Contact</div>
+    <h2>Request an example development consultation.</h2>
+    <p>Tell us the case you're trying to make. We'll build the example that makes it undeniable.</p>
+    <form class="contact-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Request Received — Sourcing Your Precedent';">
+      <label>Full Name</label>
+      <input type="text" placeholder="Jordan Whitfield" required>
+      <label>What decision are you trying to justify?</label>
+      <input type="text" placeholder="e.g. Restructuring the design team" required>
+      <label>Engagement Tier</label>
+      <select>
+        <option>Tier I — The Single Exhibit</option>
+        <option>Tier II — The Precedent Package</option>
+        <option>Tier III — Executive Retainer</option>
+        <option>Not sure — recommend one for me</option>
+      </select>
+      <button type="submit">Request Your Exhibit</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <p>EXEMPLARY EXAMPLES™ — AN EXAMPLE DEVELOPMENT PRACTICE — BUILT TO FIT, EVERY TIME</p>
+</footer>
+
+</body>
+</html>
