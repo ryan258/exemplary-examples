@@ -1,14 +1,14 @@
 # Initial AI and Data Policy
 
 **Status:** Draft for P0.1 approval  
-**Owner:** Unassigned  
+**Owner:** EE-09 Steward (proposed controls); Accountable Principal ratification pending
 **Approved version/date:**  
 
 This is an internal operating policy draft, not a substitute for contractual, privacy, security, or legal review required by P0.5d and P0.6.
 
 ## Principle
 
-Use the minimum necessary data in the minimum number of systems. AI may assist work; it is not a source, verifier, approver, or accountable delivery owner.
+Use the minimum necessary data in the minimum number of systems. AI staff agents may own bounded operating tasks and work records; they are not legal persons, factual sources, or their own approval authority. Consequential external delivery requires the review specified in `AI-STAFF-CHARTER.md`.
 
 ## Data classes
 
@@ -68,8 +68,8 @@ With an approved tool and permitted data:
 - Creating real-seeming customers, quotes, events, credentials, or results for professional presentation.
 - Receiving D3 data.
 - Sending, publishing, approving, or committing client-facing work autonomously.
-- Making certification, employment, contracting, or applicant decisions without accountable human review.
-- Replacing the human explanation for a consequential recommendation.
+- Making final certification, employment, contracting, or applicant decisions without the independent and principal review required by policy.
+- Replacing inspectable reasoning with model confidence for a consequential recommendation.
 
 ## Required workflow
 
@@ -149,4 +149,3 @@ Record:
 **Approved by:**  
 **Date/version:**  
 **Next review:**  
-
