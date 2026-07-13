@@ -34,6 +34,11 @@ Confirm:
 
 **Listen for:** actual frequency, buying influence, delivery responsibility, and whether the participant is inside the target workflow.
 
+**Early fit screen (apply before continuing):**
+
+- **Ownership:** "When an example turns out to be wrong or gets challenged, who gets the call—you, or someone upstream?" Owning the argument is the signal; owning only the craft or format is not.
+- **Specific recent frequency:** "When did you last have to *find or build* a comparable or example that did not already exist?" A vague answer, or one older than six months, is a down-scope signal—continue at full depth only when the participant owns the problem and shows recent, repeated behavior.
+
 ## Part 2 — Most recent behavior
 
 4. Think about the most recent time someone asked, “Has anyone else done this?” or wanted a supporting example. What happened from request to delivery?
@@ -64,7 +69,7 @@ Confirm:
 
 Introduce the professional standard without the brand pitch:
 
-> One possible service would help teams build sourced examples, disclosed composites, and transparent modeled scenarios. It would explicitly distinguish sourced facts, client-provided facts, calculations, inferences, and modeled scenarios. Fictional material would never be presented as a verified real case in professional work.
+> One possible service would help teams build sourced examples, disclosed composites, and transparent modeled scenarios. It would explicitly distinguish sourced facts, client-provided facts, calculations, inferences, and modeled scenarios. Fictional material would never be presented as a verified real case in professional work. A named, accountable human principal stands behind every professional claim; any AI assistance supports that accountability but never replaces it.
 
 14. What is your immediate reaction?
 15. Which part increases trust? Which part creates friction?
@@ -85,6 +90,11 @@ Show the prototype or a concise brand statement:
 23. Which phrase creates the most trust? Which phrase loses the most trust?
 24. Explain the professional disclosure boundary back in your own words.
 
+**Follow-ups (record both, do not argue):**
+
+- **Tagline re-read:** "Now that you have heard the disclosure standard, has your read of the line 'we build your perfect example' changed?" Capture the before and after reading; a misread that survives the standard is a different signal from one the standard cures.
+- **Brand-adjacency risk:** "Where would this brand appearing publicly create a problem for you or your clients?" For some buyers the brand's *visibility*, not its ethics, is the blocker.
+
 Do not explain away a misunderstanding. Record it as evidence that the framing failed.
 
 ## Part 6 — Offer and buying process
@@ -93,11 +103,13 @@ Describe the concept without promising unproven service levels:
 
 > The initial concept is a limited, application-only Executive Retainer pilot: disclosed AI staff agents, governed by an accountable principal and documented review systems, help with recurring example and exhibit requests. The pilot is designed to prove the operating process before broader launch.
 
-25. Which parts of that offer are useful or unnecessary?
+**AI-staffing credibility probe:** If a disclosed AI agent produced this work under a named human principal's sign-off, does that help or hurt with your audience—and why?
+
+25. If you kept this offer, what would you delete first, and what is missing that you would need?
 26. Would recurring access solve the problem better than a one-time project?
 27. What turnaround expectations would be meaningful and credible?
 28. Who would approve participation, and what evidence or terms would they require?
-29. What budget would this compete with? Do not force a price estimate if the participant does not buy similar services.
+29. What budget would this compete with, and what do you spend today on the closest substitute? Do not force a price estimate if the participant does not buy similar services.
 30. What would cause a pilot to fail even if the deliverables looked good?
 
 ## Part 7 — Design-partner signal
