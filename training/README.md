@@ -6,14 +6,14 @@ The program is competency-paced. Learners advance by producing evidence, not by 
 
 ## Start here
 
-1. Read the [training system specification](TRAINING-SYSTEM-SPEC.md).
-2. Review the [curriculum and pathway](CURRICULUM.md).
-3. Use the [consultant handbook](CONSULTANT-HANDBOOK.md) as the operating reference.
-4. Complete the instruction and activities in [course modules](COURSE-MODULES.md).
-5. Use the [workshop deck outlines](WORKSHOP-DECKS.md) and [simulation packs](SIMULATION-PACKS.md) for live practice.
-6. Use the [assessment and certification guide](ASSESSMENT-AND-CERTIFICATION.md) to prepare evidence.
-7. Begin client exposure only through the [supervised-practice guide](SUPERVISED-PRACTICE.md).
-8. Facilitators should also use the [facilitator guide](FACILITATOR-GUIDE.md).
+1. Read the [training system specification](01_foundations/TRAINING-SYSTEM-SPEC.md).
+2. Review the [curriculum and pathway](01_foundations/CURRICULUM.md).
+3. Use the [consultant handbook](01_foundations/CONSULTANT-HANDBOOK.md) as the operating reference.
+4. Complete the instruction and activities in [course modules](02_instruction/COURSE-MODULES.md).
+5. Use the [workshop deck outlines](03_live-practice/WORKSHOP-DECKS.md) and [simulation packs](03_live-practice/SIMULATION-PACKS.md) for live practice.
+6. Use the [assessment and certification guide](04_assessment/ASSESSMENT-AND-CERTIFICATION.md) to prepare evidence.
+7. Begin client exposure only through the [supervised-practice guide](05_supervised/SUPERVISED-PRACTICE.md).
+8. Facilitators should also use the [facilitator guide](06_facilitation/FACILITATOR-GUIDE.md).
 
 ## Certification levels
 

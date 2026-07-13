@@ -160,15 +160,24 @@ The source materials live in Markdown and printable templates so the method is u
 ```text
 training/
 ├── README.md
-├── TRAINING-SYSTEM-SPEC.md
-├── CURRICULUM.md
-├── CONSULTANT-HANDBOOK.md
-├── COURSE-MODULES.md
-├── WORKSHOP-DECKS.md
-├── SIMULATION-PACKS.md
-├── FACILITATOR-GUIDE.md
-├── ASSESSMENT-AND-CERTIFICATION.md
-├── SUPERVISED-PRACTICE.md
+├── 01_foundations/
+│   ├── TRAINING-SYSTEM-SPEC.md
+│   ├── CURRICULUM.md
+│   └── CONSULTANT-HANDBOOK.md
+├── 02_instruction/
+│   └── COURSE-MODULES.md
+├── 03_live-practice/
+│   ├── WORKSHOP-DECKS.md
+│   └── SIMULATION-PACKS.md
+├── 04_assessment/
+│   └── ASSESSMENT-AND-CERTIFICATION.md
+├── 05_supervised/
+│   └── SUPERVISED-PRACTICE.md
+├── 06_facilitation/
+│   └── FACILITATOR-GUIDE.md
+├── dry-runs/
+│   ├── P0.2-RUN-PLAN.md
+│   └── RUN-MANIFEST-TEMPLATE.md
 └── templates/
     ├── EXAMPLE-BRIEF.md
     ├── EVIDENCE-REGISTER.md

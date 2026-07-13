@@ -31,7 +31,7 @@ Certification grants bounded authority. It is a promise to clients and colleague
 
 ### Activity 0.1 — Diagnostic packet
 
-Complete the five diagnostic activities listed in `CURRICULUM.md`. Do not prepare. The purpose is routing, not selection.
+Complete the five diagnostic activities listed in `../01_foundations/CURRICULUM.md`. Do not prepare. The purpose is routing, not selection.
 
 **Evidence:** completed diagnostic packet and coordinator notes.
 
@@ -186,7 +186,7 @@ Create an Example Brief containing:
 - Deliverable, deadline, reviewers, and constraints.
 - Open questions and explicit non-goals.
 
-**Evidence:** completed `templates/EXAMPLE-BRIEF.md`.
+**Evidence:** completed `../templates/EXAMPLE-BRIEF.md`.
 
 ### Activity 2.2 — Intake practice
 
@@ -434,7 +434,7 @@ Write a concise update for a request that will not meet its original scope becau
 
 ### Activity 6.3 — Observed simulations
 
-Complete the intake, disclosure-pressure, and urgent-board simulations described in `CURRICULUM.md`.
+Complete the intake, disclosure-pressure, and urgent-board simulations described in `../01_foundations/CURRICULUM.md`.
 
 **Evidence:** recordings or observer notes, rubrics, and reflection.
 
@@ -573,7 +573,7 @@ Review a Supervised Strategist's artifact. Make the delivery decision, identify 
 
 ### Activity 8.3 — Lead crucible
 
-Complete Simulation 4 from `CURRICULUM.md`. The panel introduces events based on the candidate's decisions rather than following a fixed script.
+Complete Simulation 4 from `../01_foundations/CURRICULUM.md`. The panel introduces events based on the candidate's decisions rather than following a fixed script.
 
 **Evidence:** panel rubric, candidate decision log, and retrospective.
 

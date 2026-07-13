@@ -126,7 +126,7 @@ The website may be refined in parallel, but the pilot application must not open 
 **Work:**
 
 - Assign stable AI staff identities to the program owner, facilitators, assessors, Lead supervisors, pilot application owner, and client escalation owner; name the Accountable Principal before external operation.
-- Approve the six-class truth standard and critical-failure definitions in `training/TRAINING-SYSTEM-SPEC.md`.
+- Approve the six-class truth standard and critical-failure definitions in `training/01_foundations/TRAINING-SYSTEM-SPEC.md`.
 - Define client data classifications, approved AI tools, prohibited inputs, storage locations, retention, and incident escalation.
 - Choose a curriculum version, certification-record location, and authorization review cadence.
 - Set pilot capacity based on named supervision and review availability.
@@ -165,7 +165,7 @@ The website may be refined in parallel, but the pilot application must not open 
 - [ ] Assessors reach the agreed calibration tolerance after discussion.
 - [ ] No unresolved critical truth, confidentiality, authorization, or accessibility defect remains on the selected route.
 
-**Verification:** Complete the training-system quality checks for the selected route in `training/TRAINING-SYSTEM-SPEC.md` and publish a dry-run report linked to the curriculum version. Reserve full-system validation (all ten competencies) for a later calibration pass informed by pilot evidence.
+**Verification:** Complete the training-system quality checks for the selected route in `training/01_foundations/TRAINING-SYSTEM-SPEC.md` and publish a dry-run report linked to the curriculum version. Reserve full-system validation (all ten competencies) for a later calibration pass informed by pilot evidence.
 
 **Dependencies:** Task P0.1  
 **Estimated scope:** Medium

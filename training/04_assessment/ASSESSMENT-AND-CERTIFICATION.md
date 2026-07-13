@@ -139,7 +139,7 @@ The learner explains one material decision, one revision, one unresolved limitat
 
 ### 5. Record
 
-Complete `templates/CERTIFICATION-RECORD.md`. Give the learner the decision and evidence summary in an accessible format.
+Complete `../templates/CERTIFICATION-RECORD.md`. Give the learner the decision and evidence summary in an accessible format.
 
 ## Calibration
 
