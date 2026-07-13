@@ -6,9 +6,9 @@ Accepted for initial development on 2026-07-13, based on the confirmed founder i
 
 ## Objective
 
-Create an internal, competency-paced training and certification system that prepares mixed-experience learners to deliver Exemplary Examples™ work safely and consistently.
+Create an internal, competency-paced qualification and certification system that prepares versioned AI staff agents to deliver Exemplary Examples™ work safely and consistently.
 
-The system must turn brand promise into an observable operating method. A certified strategist must be able to clarify a client's real decision, distinguish evidence from inference, construct useful modeled scenarios, produce executive-ready exhibits, use AI responsibly, and manage an ongoing retainer relationship.
+The system must turn brand promise into an observable operating method. A certified strategist agent must be able to clarify a client's real decision, distinguish evidence from inference, construct useful modeled scenarios, produce executive-ready exhibits, operate its tools responsibly, and manage an ongoing retainer workflow within explicit permissions.
 
 The initial program supports three authorization levels:
 
@@ -18,21 +18,21 @@ The initial program supports three authorization levels:
 
 ## Users
 
-### Learner
+### Learner agent
 
-A prospective consultant or strategist. Learners may arrive with extensive consulting experience or with adjacent skills in research, strategy, design, facilitation, or presentations.
+A candidate agent configuration seeking authorization as a consultant or strategist. A learner is identified by agent ID, runtime/model, instructions, tools, memory/context sources, and version. A material configuration change creates a review trigger.
 
 ### Facilitator
 
-Runs workshops, observes simulations, provides feedback, and maintains a psychologically safe but demanding learning environment.
+Runs evaluation workshops, observes simulations, provides feedback, and maintains a demanding but non-manipulative evaluation environment.
 
 ### Assessor
 
-Evaluates evidence against published rubrics. The assessor may also facilitate, but cannot be the sole assessor for Lead Strategist certification.
+Evaluates evidence against published rubrics. The assessor may also facilitate, but cannot assess itself or be the sole assessor for Lead Strategist certification. Independent assessors record their initial scores before calibration context is shared.
 
 ### Supervisor
 
-A Lead Strategist accountable for a learner's supervised client work, review boundaries, and client safety.
+A Lead Strategist agent accountable for a learner agent's supervised work, review boundaries, records, and client-safety escalation.
 
 ### Program owner
 
@@ -40,10 +40,10 @@ Maintains curriculum versions, certification records, calibration, appeals, and 
 
 ## Learning model
 
-- **Competency-paced:** time in the program does not confer authorization.
+- **Competency-paced:** invocation count, token use, model reputation, or time in the program does not confer authorization.
 - **Blended:** self-paced instruction, live workshops, simulations, portfolio work, and supervised practice each teach a different kind of competence.
 - **Evidence-based:** every advancement decision cites artifacts and observed behavior.
-- **Progressive responsibility:** client exposure expands only after the learner demonstrates the prerequisites.
+- **Progressive responsibility:** client data and action permissions expand only after the learner agent demonstrates the prerequisites.
 - **Revisable:** feedback and reassessment are ordinary parts of learning, not exceptional punishment.
 - **Calibrated:** assessors periodically score the same artifact and reconcile differences.
 
@@ -58,7 +58,7 @@ Maintains curriculum versions, certification records, calibration, appeals, and 
 | C5 | Modeling | Creates transparent scenarios with inspectable inputs, logic, sensitivities, and limitations. |
 | C6 | Exhibit craft | Produces a presentation-ready exhibit with a decisive headline, legible evidence, and honest labeling. |
 | C7 | Client practice | Runs intake, handles challenge, scopes work, communicates uncertainty, and protects the relationship. |
-| C8 | AI stewardship | Uses AI with approved data, verifies outputs, documents material assistance, and retains human accountability. |
+| C8 | AI stewardship | Uses approved data and tools, verifies outputs, documents material assistance, and preserves principal accountability. |
 | C9 | Quality assurance | Detects logical, evidentiary, numerical, editorial, visual, and reputational defects before delivery. |
 | C10 | Retainer leadership | Prioritizes a request queue, maintains context, meets service commitments, and improves the operating system. |
 
@@ -93,7 +93,7 @@ Professional work may combine these categories but may not blur them. Satirical 
 
 ## AI operating standard
 
-AI may assist with ideation, structure, critique, transformation, and research leads. It may not be treated as a source, final verifier, or accountable decision-maker.
+AI staff agents may perform ideation, structure, critique, transformation, and research-lead tasks within a published work envelope. An agent may not be treated as a factual source, legal person, or its own final verifier.
 
 Always:
 
@@ -101,7 +101,7 @@ Always:
 - Remove or mask client-sensitive information unless the tool is explicitly approved for it.
 - Verify every factual, numerical, and citation-bearing output using an independent source or reproducible work.
 - Disclose material AI assistance internally in the engagement record.
-- Preserve the human reasoning behind consequential recommendations.
+- Preserve inspectable reasoning and accountable-principal review behind consequential recommendations.
 
 Ask first:
 
@@ -113,7 +113,7 @@ Never:
 
 - Invent citations, quotes, customers, results, or credentials and present them as real.
 - Upload restricted client data to an unapproved system.
-- Let an AI system send client-facing work without accountable human review.
+- Let an AI system send client-facing work outside its authorization and required principal review.
 - Use plausible wording as a substitute for verification.
 
 ## Certification requirements
@@ -193,7 +193,7 @@ Before a training release:
 
 - Check that every competency appears in instruction, practice, and assessment.
 - Check that every certification right maps to explicit evidence and a named approver.
-- Run the course's exercises with at least one person who did not author them.
+- Run the course's exercises with at least one learner-agent configuration that did not author them.
 - Have two assessors independently score the same simulation and reconcile material disagreement.
 - Search for any wording that rewards plausibility over truth classification.
 - Confirm templates contain no real client data.
@@ -204,7 +204,7 @@ Before a training release:
 ### Always
 
 - Protect client confidentiality and separate claims by evidence class.
-- Use accountable human review for professional work.
+- Use the independent agent and accountable-principal review required for professional work.
 - Provide accessible alternatives for timed, spoken, handwritten, or visually dense activities.
 - Evaluate demonstrated competence rather than speed, charisma, or prior job title.
 - Preserve an audit trail for certification decisions.

@@ -1,11 +1,25 @@
 # Certification Record
 
-**Learner:**  
+**Agent ID / learner configuration:**
+**Staff role:**
 **Target level:** Contributor / Supervised Strategist / Lead Strategist  
 **Curriculum version:**  
 **Assessment date:**  
 **Assessor(s):**  
 **Supervisor, if applicable:**  
+
+## Configuration under assessment
+
+| Component | Version or location |
+| --- | --- |
+| Runtime and model |  |
+| System/role instructions |  |
+| Tools and permissions |  |
+| Context/memory sources |  |
+| Data classes authorized |  |
+| Evaluation fixture/version |  |
+
+Material changes to any component above trigger review before this authorization is reused.
 
 ## Evidence inventory
 
@@ -54,9 +68,9 @@
 **Review/renewal date:**  
 **Program-owner approval:**  
 
-## Learner acknowledgment
+## Agent handoff and principal acknowledgment
 
-I received the decision, evidence summary, authorization boundaries, and reassessment/appeal information in an accessible format.
+The agent's activation instructions include this decision, evidence summary, authorization boundaries, stop conditions, and reassessment path. The Accountable Principal acknowledges any external authority granted.
 
-**Learner acknowledgment/date:**  
-
+**Agent configuration receipt/date:**
+**Accountable Principal acknowledgment/date (required for external authority):**
