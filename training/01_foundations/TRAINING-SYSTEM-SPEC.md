@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted for initial development on 2026-07-13, based on the confirmed founder interview.
+Initial validated release **EE-TRAINING-2026.07**, published 2026-07-13 after controlled run `2026-07-13-ee-mvq-01-r1`. The run passed the minimum viable composite route with no critical failure and assessor agreement within tolerance. This release validates the training system; it does not certify a candidate or authorize real client work.
 
 ## Objective
 
@@ -177,7 +177,16 @@ training/
 │   └── FACILITATOR-GUIDE.md
 ├── dry-runs/
 │   ├── P0.2-RUN-PLAN.md
-│   └── RUN-MANIFEST-TEMPLATE.md
+│   ├── RUN-MANIFEST-TEMPLATE.md
+│   ├── ASSESSOR-SCORE-TEMPLATE.md
+│   ├── CALIBRATION-TEMPLATE.md
+│   ├── DRY-RUN-REPORT-TEMPLATE.md
+│   └── fixtures/
+│       └── EE-MVQ-01/
+│           ├── README.md
+│           ├── 01-CANDIDATE-PACKET.md
+│           ├── 02-FACILITATOR-PACKET.md
+│           └── 03-ASSESSOR-KEY.md
 └── templates/
     ├── EXAMPLE-BRIEF.md
     ├── EVIDENCE-REGISTER.md

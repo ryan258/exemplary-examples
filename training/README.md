@@ -14,6 +14,7 @@ The program is competency-paced. Learners advance by producing evidence, not by 
 6. Use the [assessment and certification guide](04_assessment/ASSESSMENT-AND-CERTIFICATION.md) to prepare evidence.
 7. Begin client exposure only through the [supervised-practice guide](05_supervised/SUPERVISED-PRACTICE.md).
 8. Facilitators should also use the [facilitator guide](06_facilitation/FACILITATOR-GUIDE.md).
+9. For the first synthetic qualification run, use the [P0.2 run plan](dry-runs/P0.2-RUN-PLAN.md) and the [EE-MVQ-01 controlled fixture](dry-runs/fixtures/EE-MVQ-01/README.md).
 
 ## Certification levels
 
@@ -49,4 +50,8 @@ Every certification record includes the curriculum version. Material changes to 
 
 ## Pilot status
 
-These materials are the initial system for a dry run and pilot cohort. The pilot's primary objective is to prove the operating and training process, not to maximize enrollment or course revenue.
+**Release:** EE-TRAINING-2026.07 — initial validated training system.
+
+The minimum viable composite route passed controlled run `2026-07-13-ee-mvq-01-r1` with isolated candidate and assessor sessions, frozen evidence, written-event accessibility practice, no critical failure, and assessor agreement within tolerance. The fixture was revised to EE-MVQ-01.1 from observed timing, auditability, and calibration findings.
+
+Training-system validation is not candidate certification. Rendered-artifact verification, completed consequential-source triangulation, supervised practice, configuration-specific approval, and any required principal acknowledgment remain separate authorization gates.

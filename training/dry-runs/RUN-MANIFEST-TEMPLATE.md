@@ -5,6 +5,11 @@
 **Curriculum version:**  
 **Evaluation fixture version:**  
 **Data classification:** Synthetic D0/D1 only  
+**Candidate packet hash/version:**
+
+**Facilitator packet hash/version:**
+
+**Assessor key hash/version:**
 
 ## Assignments
 
@@ -29,12 +34,14 @@
 ## Validity checks
 
 - [ ] Candidate could not read hidden facts or score keys early.
+- [ ] Fixture files match the versions/hashes frozen at the start of the run.
 - [ ] Candidate output was frozen before assessors received it.
 - [ ] Assessors had no shared conversation or initial-score context.
 - [ ] Assessor outputs cite observable evidence rather than style or model reputation.
 - [ ] No real participant/client data or unauthorized tool was used.
 - [ ] Accessibility accommodation was exercised and recorded.
 - [ ] Critical failures and invalidating conditions were checked.
+- [ ] The dry-run report distinguishes completed records from certification or external authorization.
 
 ## Outcome
 
@@ -45,4 +52,3 @@
 
 **Decision and evidence:**  
 **Next action/owner:**  
-

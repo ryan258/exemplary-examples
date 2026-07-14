@@ -66,3 +66,73 @@ test("qualification records bind authorization to an agent configuration", () =>
   assert.match(runPlan, /does not certify Keystone by itself/i);
 });
 
+test("the minimum viable qualification run has an executable, isolated fixture", () => {
+  const fixtureRoot = path.join(
+    root,
+    "training",
+    "dry-runs",
+    "fixtures",
+    "EE-MVQ-01",
+  );
+  const candidate = fs.readFileSync(path.join(fixtureRoot, "01-CANDIDATE-PACKET.md"), "utf8");
+  const facilitator = fs.readFileSync(path.join(fixtureRoot, "02-FACILITATOR-PACKET.md"), "utf8");
+  const assessor = fs.readFileSync(path.join(fixtureRoot, "03-ASSESSOR-KEY.md"), "utf8");
+
+  assert.match(candidate, /Candidate-visible/i);
+  for (let competency = 1; competency <= 10; competency += 1) {
+    assert.match(candidate, new RegExp(`C${competency}(?:\\D|$)`));
+  }
+  assert.doesNotMatch(candidate, /Hidden fact/i);
+  assert.doesNotMatch(candidate, /board is deciding whether to authorize a four-week/i);
+  assert.match(candidate, /Do not read `SIMULATION-PACKS\.md`/i);
+  assert.match(facilitator, /Facilitator-only/i);
+  assert.match(facilitator, /release gate/i);
+  assert.match(assessor, /Assessor-only/i);
+  assert.match(assessor, /planted defects/i);
+
+  for (const template of [
+    "ASSESSOR-SCORE-TEMPLATE.md",
+    "CALIBRATION-TEMPLATE.md",
+    "DRY-RUN-REPORT-TEMPLATE.md",
+  ]) {
+    assert.ok(fs.existsSync(path.join(root, "training", "dry-runs", template)), template);
+  }
+});
+
+test("the validated training release retains its run evidence and certification boundary", () => {
+  const runRoot = path.join(root, "training", "dry-runs", "2026-07-13-ee-mvq-01-r1");
+  const requiredRecords = [
+    "00-RUN-MANIFEST.md",
+    "01-CANDIDATE-BRIEF.md",
+    "02-CANDIDATE-OUTPUT.md",
+    "03-FACILITATOR-OBSERVATION.md",
+    "04-VERITY-SCORE.md",
+    "05-COUNTERPOINT-SCORE.md",
+    "06-CALIBRATION.md",
+    "07-CERTIFICATION-RECORD.md",
+    "08-DRY-RUN-REPORT.md",
+  ];
+
+  for (const record of requiredRecords) {
+    assert.ok(fs.existsSync(path.join(runRoot, record)), record);
+  }
+
+  const specification = fs.readFileSync(
+    path.join(root, "training", "01_foundations", "TRAINING-SYSTEM-SPEC.md"),
+    "utf8",
+  );
+  const report = fs.readFileSync(path.join(runRoot, "08-DRY-RUN-REPORT.md"), "utf8");
+  const certification = fs.readFileSync(path.join(runRoot, "07-CERTIFICATION-RECORD.md"), "utf8");
+  const fixture = fs.readFileSync(
+    path.join(root, "training", "dry-runs", "fixtures", "EE-MVQ-01", "README.md"),
+    "utf8",
+  );
+
+  assert.match(specification, /initial validated release \*\*EE-TRAINING-2026\.07\*\*/i);
+  assert.match(report, /\[x\] Complete and successful/i);
+  assert.match(report, /P0\.2 acceptance criteria satisfied:\*\* Yes/i);
+  assert.match(report, /does not itself certify Keystone/i);
+  assert.match(certification, /\[x\] Not yet/i);
+  assert.match(certification, /No new client or external authority is granted/i);
+  assert.match(fixture, /Fixture version:\*\* EE-MVQ-01\.1/i);
+});

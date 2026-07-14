@@ -20,6 +20,8 @@
 - [x] Replaced obsolete tiers, prototype testimonials, and fake form behavior with one real pilot offer and a closed application state.
 - [x] Added a passing Node website contract for semantics, positioning, offer integrity, application safety, and metadata.
 - [x] Opened a minimal pilot-inquiry path that prepares an email locally without a form processor or site-side storage.
+- [x] Completed the reusable P0.2 qualification content: isolated candidate/facilitator/assessor fixture, independent score form, calibration record, and dry-run report template.
+- [x] Completed controlled P0.2 run `2026-07-13-ee-mvq-01-r1`; the minimum viable composite route passed with no critical failure and assessor agreement within tolerance. Published EE-TRAINING-2026.07 and revised the fixture to EE-MVQ-01.1.
 
 ## In progress
 
@@ -69,6 +71,6 @@ Working materials: [`operations/P0.1-GOVERNANCE.md`](operations/P0.1-GOVERNANCE.
 
 1. Name the Accountable Principal and approve the AI staff charter, discovery contact path, and exact agent runtime/tool envelope.
 2. Approve the prepared recruitment plan, identify prospects in the approved contact system, and authorize the first outreach batch.
-3. Run EE-04 Forge, EE-05 Verity, EE-06 Counterpoint, and EE-03 Keystone through the minimum viable synthetic training route using isolated sessions.
+3. Produce the rendered exhibit, completed source triangulation, and supervised-work evidence required before any configuration-specific certification decision for EE-03 Keystone.
 4. Measure hosted performance, complete the outsider comprehension/trust review, and monitor whether pilot inquiries produce qualified conversations.
 5. Update discovery synthesis, agent qualification records, and governance decisions with actual evidence.

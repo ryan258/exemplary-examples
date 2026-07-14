@@ -160,10 +160,10 @@ The website may be refined in parallel, but the pilot application must not open 
 
 **Acceptance criteria:**
 
-- [ ] Every competency on the minimum viable route has usable instruction, practice, and assessment evidence.
-- [ ] Facilitators can run the selected sessions from the written guides.
-- [ ] Assessors reach the agreed calibration tolerance after discussion.
-- [ ] No unresolved critical truth, confidentiality, authorization, or accessibility defect remains on the selected route.
+- [x] Every competency on the minimum viable route has usable instruction, practice, and assessment evidence.
+- [x] Facilitators can run the selected sessions from the written guides.
+- [x] Assessors reach the agreed calibration tolerance after discussion.
+- [x] No unresolved critical truth, confidentiality, authorization, or accessibility defect remains on the selected route.
 
 **Verification:** Complete the training-system quality checks for the selected route in `training/01_foundations/TRAINING-SYSTEM-SPEC.md` and publish a dry-run report linked to the curriculum version. Reserve full-system validation (all ten competencies) for a later calibration pass informed by pilot evidence.
 
