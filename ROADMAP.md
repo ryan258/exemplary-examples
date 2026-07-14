@@ -453,27 +453,7 @@ The website may be refined in parallel, but the pilot application must not open 
 
 > ✅ Task 3.1 completed — see [CHANGELOG.md](CHANGELOG.md).
 
-#### Task 3.2 — Set and meet a performance budget
-
-**Outcome:** The page remains fast without sacrificing its typographic identity.
-
-**Initial budgets:**
-
-- No unexpected layout shift from font loading.
-- No render-blocking script required for core content.
-- Compressed launch page plus first-party assets stays comfortably below 500 KB, excluding optional external font files.
-- Lighthouse targets on a production-like mobile run: Performance ≥ 90, Accessibility ≥ 95, Best Practices ≥ 95, SEO ≥ 90. Treat scores as signals, not substitutes for manual checks.
-
-**Acceptance criteria:**
-
-- [ ] The measured artifact meets the budgets or documents a specific, approved exception.
-- [ ] Fonts use only required families/weights and an appropriate loading strategy.
-- [ ] No unused third-party runtime is shipped.
-
-**Verification:** Run a production-like Lighthouse audit and inspect transferred resources, layout shift, and render-blocking requests.
-
-**Dependencies:** Tasks 2.3 and 3.1  
-**Estimated scope:** Small
+> ✅ Task 3.2 completed — see [CHANGELOG.md](CHANGELOG.md).
 
 > ✅ Task 3.3 completed — see [CHANGELOG.md](CHANGELOG.md).
 

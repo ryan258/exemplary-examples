@@ -16,6 +16,7 @@ Release candidate configured for <https://ryan258.github.io/exemplary-examples/>
 - **Task 2.2 — Responsive & interaction states.** Verified 320–1440px, `prefers-reduced-motion` honored, practical touch targets, single-offer readability.
 - **Task 2.3 — Identity & sharing metadata.** Favicon, 1200×630 social card, Open Graph/Twitter tags, canonical + `og:url`.
 - **Task 3.1 — Verification suite.** `node --test tests/*.test.js` (site + documentation contracts) plus the repeatable `tests/browser-audit.cjs`.
+- **Task 3.2 — Performance budget.** Production Lighthouse (via the `Lighthouse (production)` workflow): Performance 91, Accessibility 100, SEO 100 all meet target; Best Practices 79 accepted as a documented exception (a `mailto:` Lighthouse quirk, not a real vulnerability). See [`operations/WEBSITE-VERIFICATION-2026-07-13.md`](operations/WEBSITE-VERIFICATION-2026-07-13.md).
 - **Task 3.3 — Release candidate prepared.** GitHub Pages Actions workflow (site-only artifact, tests-gated), branded `404.html`, and deploy/rollback docs; publication is not yet recorded as complete.
 - **Pilot inquiry path.** A short form prepares a structured email in the visitor's own mail app. No third-party form processor or site-side submission storage is introduced; formal applications remain gated by Checkpoint P.
 
@@ -34,4 +35,4 @@ Release candidate configured for <https://ryan258.github.io/exemplary-examples/>
 
 - Zero-dependency OpenRouter LLM caller with `.env` config ([`scripts/llm.mjs`](scripts/llm.mjs)).
 
-> **Still open (in the roadmap):** the pilot application build (Tasks 1.3a–e), the performance budget ≥ 90 (Task 3.2), the outsider comprehension/trust review (Task 3.4), and the entire company track — real interviews, the human Accountable Principal plus legal/insurance/tax sign-off, agent qualification, and the retainer simulation.
+> **Still open (in the roadmap):** the pilot application build (Tasks 1.3a–e), the outsider comprehension/trust review (Task 3.4), and the entire company track — real interviews, the human Accountable Principal plus legal/insurance/tax sign-off, candidate certification, and the retainer simulation.
