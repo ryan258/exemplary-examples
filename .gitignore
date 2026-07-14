@@ -1,0 +1,9 @@
+# Secrets — never commit
+.env
+
+# Build output
+_site/
+
+# OS / tooling noise
+.DS_Store
+node_modules/
