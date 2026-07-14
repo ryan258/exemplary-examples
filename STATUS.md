@@ -58,7 +58,7 @@ Working materials: [`operations/P0.1-GOVERNANCE.md`](operations/P0.1-GOVERNANCE.
 - [x] Add restrained social-preview image and Open Graph/Twitter metadata (`assets/og-image.png`, 1200×630).
 - [x] Choose hosting (GitHub Pages), add the deploy workflow, `404.html`, canonical/`og:url`/absolute `og:image`, and deploy/rollback docs.
 - [ ] Enable Pages (Settings → Pages → Source: GitHub Actions) and push `main` to publish the release candidate.
-- [ ] Verify performance and supported engines on the live URL, then perform the outsider comprehension/trust release review.
+- [ ] Verify performance on the live URL (run the `Lighthouse (production)` workflow) and supported engines, then perform the outsider comprehension/trust release review.
 
 ## Current blockers
 

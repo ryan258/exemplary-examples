@@ -1,0 +1,35 @@
+name: Lighthouse (production)
+
+# On-demand production performance/accessibility/SEO audit of the live site.
+# Closes the measurable half of roadmap Task 3.2 without needing local Chrome.
+# Scores are signals, not a hard gate (per the roadmap), so this does not fail the build.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Locate Chrome
+        run: echo "CHROME_PATH=$(which google-chrome || which google-chrome-stable || which chromium-browser)" >> "$GITHUB_ENV"
+      - name: Run Lighthouse against the live site
+        run: |
+          npx -y lighthouse "https://ryan258.github.io/exemplary-examples/" \
+            --only-categories=performance,accessibility,best-practices,seo \
+            --chrome-flags="--headless=new --no-sandbox" \
+            --output=json --output=html --output-path=./lighthouse-report \
+            --quiet
+      - name: Report category scores
+        run: |
+          node -e "const r=require('./lighthouse-report.report.json');for(const[k,c]of Object.entries(r.categories))console.log(c.title.padEnd(16), Math.round(c.score*100));"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report
+          path: ./lighthouse-report.report.html
