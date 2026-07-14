@@ -177,16 +177,66 @@
     </section>
 
     <section id="contact" class="section contact-section" aria-labelledby="contact-title">
-      <div class="section-shell contact-layout">
-        <div>
-          <p class="exhibit-label">Exhibit 5.0 · Pilot access</p>
-          <h2 id="contact-title">Applications are closed while we prove the practice.</h2>
-        </div>
+      <div class="section-shell inquiry-layout">
         <div class="contact-copy">
-          <p>We are completing customer discovery, agent qualification, operating simulations, professional terms, and the business-readiness review.</p>
-          <p>The application will open only after <strong>Checkpoint P</strong> is complete. Until then, this page collects no names, email addresses, company details, or client information.</p>
-          <p class="status-line"><span aria-hidden="true"></span> Readiness review in progress</p>
+          <p class="exhibit-label">Exhibit 5.0 · Pilot access</p>
+          <h2 id="contact-title">Pilot conversations are open.</h2>
+          <p class="contact-lede">Tell us about the decision you are trying to make and the example, comparison, scenario, or exhibit that would help.</p>
+          <p>Formal applications are closed until <strong>Checkpoint P</strong> is complete. This inquiry starts a conversation; it does not guarantee acceptance, timing, scope, or capacity.</p>
+          <p class="status-line"><span aria-hidden="true"></span> Limited conversations now open</p>
         </div>
+
+        <form
+          id="pilot-inquiry"
+          class="inquiry-form"
+          action="mailto:ryanleejwebdev@gmail.com"
+          method="post"
+          enctype="text/plain"
+          data-recipient="ryanleejwebdev@gmail.com"
+        >
+          <div class="field-pair">
+            <div class="field">
+              <label for="inquiry-name">Name</label>
+              <input id="inquiry-name" name="name" type="text" autocomplete="name" maxlength="120" required>
+            </div>
+            <div class="field">
+              <label for="inquiry-email">Email</label>
+              <input id="inquiry-email" name="email" type="email" autocomplete="email" maxlength="254" required>
+            </div>
+          </div>
+
+          <div class="field-pair">
+            <div class="field">
+              <label for="inquiry-role">Role or organization <span>(optional)</span></label>
+              <input id="inquiry-role" name="role" type="text" autocomplete="organization-title" maxlength="160">
+            </div>
+            <div class="field">
+              <label for="inquiry-timing">When do you need help?</label>
+              <select id="inquiry-timing" name="timing" required>
+                <option value="">Choose one</option>
+                <option>Within 2 weeks</option>
+                <option>Within 30 days</option>
+                <option>Within 90 days</option>
+                <option>Exploring</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="inquiry-need">What decision or project do you need help with?</label>
+            <textarea id="inquiry-need" name="need" rows="6" maxlength="1200" required></textarea>
+            <p class="field-help">Describe the business need at a high level. Do not include confidential, client-identifiable, privileged, or restricted information.</p>
+          </div>
+
+          <label class="consent-row" for="inquiry-consent">
+            <input id="inquiry-consent" name="consent" type="checkbox" required>
+            <span>I understand this starts a conversation and is not an application or acceptance into the pilot.</span>
+          </label>
+
+          <button class="button inquiry-submit" type="submit">Prepare inquiry email</button>
+          <p class="form-note">Submitting opens your email app with a prepared message. Nothing is stored by this website; you review and send the email yourself.</p>
+          <p id="inquiry-status" class="form-status" role="status" aria-live="polite"></p>
+        </form>
       </div>
     </section>
   </main>
@@ -198,5 +248,6 @@
       <p>Current artifact · 2026</p>
     </div>
   </footer>
+  <script type="module" src="assets/inquiry.mjs"></script>
 </body>
 </html>

@@ -48,13 +48,20 @@ test("only the Executive Retainer pilot is presented as a real offer", () => {
   assert.doesNotMatch(html, /fictional testimonials?/i);
 });
 
-test("the application remains closed and collects no data", () => {
+test("formal applications remain closed while pilot inquiries are actionable", () => {
   const html = page();
 
   assert.match(html, /applications? (?:are |is )?closed/i);
   assert.match(html, /Checkpoint P/i);
-  assert.doesNotMatch(html, /<form\b/i);
-  assert.doesNotMatch(html, /<(?:input|select|textarea)\b/i);
+  assert.match(html, /pilot conversations? (?:are |is )?open/i);
+  assert.match(html, /<form\s+id="pilot-inquiry"/i);
+  assert.match(html, /<input[^>]+type="email"[^>]+required/i);
+  assert.match(html, /<textarea[^>]+maxlength="1200"[^>]+required/i);
+  assert.match(html, /<input[^>]+type="checkbox"[^>]+required/i);
+  assert.match(html, /opens? your email app/i);
+  assert.match(html, /do not include confidential/i);
+  assert.match(html, /<script\s+type="module"\s+src="assets\/inquiry\.mjs"/i);
+  assert.doesNotMatch(html, /<form[^>]+action="https?:/i);
   assert.doesNotMatch(html, /\son[a-z]+\s*=/i);
 });
 
