@@ -33,20 +33,30 @@ test("all relative Markdown links resolve", () => {
   assert.deepEqual(broken, []);
 });
 
-test("governing documents use the disclosed AI-staff operating model", () => {
+test("governing documents define the completed Local Edition scope", () => {
   const readme = fs.readFileSync(path.join(root, "README.md"), "utf8");
   const roadmap = fs.readFileSync(path.join(root, "ROADMAP.md"), "utf8");
   const status = fs.readFileSync(path.join(root, "STATUS.md"), "utf8");
   const charter = fs.readFileSync(path.join(root, "operations", "AI-STAFF-CHARTER.md"), "utf8");
 
-  for (const document of [readme, roadmap, status, charter]) {
-    assert.match(document, /AI staff agents?/i);
-    assert.match(document, /Accountable Principal/i);
+  for (const document of [readme, roadmap, status]) {
+    assert.match(document, /Local Edition/i);
+    assert.match(document, /local-only|local project/i);
   }
-  assert.doesNotMatch(status, /requires named humans with authority/i);
+  assert.match(readme, /AI staff agents?/i);
+  assert.match(readme, /simulation/i);
+  assert.match(status, /complete/i);
+  assert.doesNotMatch(status, /current blockers/i);
+  assert.match(charter, /Accountable Principal/i);
   for (const id of ["EE-01", "EE-02", "EE-03", "EE-04", "EE-05", "EE-06", "EE-07", "EE-08", "EE-09", "EE-10"]) {
     assert.match(charter, new RegExp(id));
   }
+});
+
+test("Local Edition has no automatic publishing or inquiry mechanism", () => {
+  assert.equal(fs.existsSync(path.join(root, ".github", "workflows", "deploy.yml")), false);
+  assert.equal(fs.existsSync(path.join(root, "assets", "inquiry.mjs")), false);
+  assert.equal(fs.existsSync(path.join(root, "tests", "inquiry.test.js")), false);
 });
 
 test("qualification records bind authorization to an agent configuration", () => {

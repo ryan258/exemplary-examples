@@ -1,5 +1,7 @@
 # Exemplary Examples™ Roadmap
 
+> **Archived external-expansion plan.** The Local Edition is a complete local-only project. Unchecked items below are not active work or completion blockers. This document is retained as design archaeology and becomes relevant only if [`LOCAL-EDITION.md`](LOCAL-EDITION.md) is explicitly superseded.
+
 ## Purpose
 
 Turn the existing satirical concept into a real, trustworthy consulting and creative company for consultants, agencies, and presentation professionals.

@@ -1,5 +1,7 @@
 # Website Verification Report — 2026-07-13
 
+> **Historical record:** This verifies the earlier deployment candidate with a pilot inquiry. It was superseded by the completed Local Edition, which removes the inquiry path and automatic public deployment. Current behavior is governed by [`../LOCAL-EDITION.md`](../LOCAL-EDITION.md) and the current site contracts.
+
 **Artifact:** `index.html` production candidate  
 **Release state:** Deployment-ready preview; formal application closed; limited pilot inquiries enabled; public deployment not yet recorded as complete
 **Operator:** EE-10 Beacon role, executed in the project workspace

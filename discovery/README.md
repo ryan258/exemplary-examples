@@ -1,5 +1,7 @@
 # P0.0 Customer Discovery
 
+> **Local Edition reference material.** External customer discovery is intentionally out of scope. This directory is preserved for synthetic exercises and as a reusable research design; its completion gates are not active project blockers.
+
 ## Objective
 
 Determine whether consultants, agency staff, and presentation professionals experience the target problem, trust the satirical positioning, accept the professional disclosure boundary, and would consider a limited Executive Retainer pilot.

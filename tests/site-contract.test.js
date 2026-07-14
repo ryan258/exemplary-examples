@@ -10,8 +10,8 @@ function page() {
   return fs.readFileSync(entrypoint, "utf8");
 }
 
-test("the production entrypoint exists", () => {
-  assert.equal(fs.existsSync(entrypoint), true, "index.html must be the production entrypoint");
+test("the Local Edition entrypoint exists", () => {
+  assert.equal(fs.existsSync(entrypoint), true, "index.html must be the Local Edition entrypoint");
 });
 
 test("the page exposes a semantic, keyboard-oriented document structure", () => {
@@ -29,39 +29,38 @@ test("the page exposes a semantic, keyboard-oriented document structure", () => 
   }
 });
 
-test("the satire and the real practice are both explicit", () => {
+test("the satire and Local Edition scope are both explicit", () => {
   const html = page();
 
   assert.match(html, /openly satirical/i);
-  assert.match(html, /real professional (?:practice|service)/i);
+  assert.match(html, /Local Edition/i);
+  assert.match(html, /personal, local/i);
   assert.match(html, /satirical fiction/i);
   assert.match(html, /modeled scenario/i);
   assert.match(html, /AI staff agents?/i);
-  assert.match(html, /accountable principal/i);
+  assert.match(html, /simulation/i);
 });
 
-test("only the Executive Retainer pilot is presented as a real offer", () => {
+test("the Executive Retainer is presented only as a simulated offer", () => {
   const html = page();
 
-  assert.match(html, /Executive Retainer pilot/i);
+  assert.match(html, /Executive Retainer/i);
+  assert.match(html, /simulated offer/i);
+  assert.match(html, /not (?:a real|an active) (?:service|offer)/i);
   assert.doesNotMatch(html, /Tier I|Tier II|\$8,500|\$22,000/i);
   assert.doesNotMatch(html, /fictional testimonials?/i);
 });
 
-test("formal applications remain closed while pilot inquiries are actionable", () => {
+test("the Local Edition exposes no application or inquiry path", () => {
   const html = page();
 
-  assert.match(html, /applications? (?:are |is )?closed/i);
-  assert.match(html, /Checkpoint P/i);
-  assert.match(html, /pilot conversations? (?:are |is )?open/i);
-  assert.match(html, /<form\s+id="pilot-inquiry"/i);
-  assert.match(html, /<input[^>]+type="email"[^>]+required/i);
-  assert.match(html, /<textarea[^>]+maxlength="1200"[^>]+required/i);
-  assert.match(html, /<input[^>]+type="checkbox"[^>]+required/i);
-  assert.match(html, /opens? your email app/i);
-  assert.match(html, /do not include confidential/i);
-  assert.match(html, /<script\s+type="module"\s+src="assets\/inquiry\.mjs"/i);
-  assert.doesNotMatch(html, /<form[^>]+action="https?:/i);
+  assert.match(html, /complete local project/i);
+  assert.match(html, /no (?:applications|inquiries|client work)/i);
+  assert.doesNotMatch(html, /<form\b/i);
+  assert.doesNotMatch(html, /mailto:/i);
+  assert.doesNotMatch(html, /pilot conversations? (?:are |is )?open/i);
+  assert.doesNotMatch(html, /Checkpoint P/i);
+  assert.doesNotMatch(html, /assets\/inquiry\.mjs/i);
   assert.doesNotMatch(html, /\son[a-z]+\s*=/i);
 });
 
@@ -75,4 +74,6 @@ test("the page includes baseline sharing and rendering metadata", () => {
   assert.match(html, /<meta\s+name="viewport"/i);
   assert.match(html, /<link\s+rel="icon"[^>]+href="assets\/favicon\.svg"/i);
   assert.match(html, /href="assets\/styles\.css"/i);
+  assert.doesNotMatch(html, /ryan258\.github\.io/i);
+  assert.doesNotMatch(html, /<link\s+rel="canonical"/i);
 });

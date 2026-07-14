@@ -1,5 +1,7 @@
 # AI Staff Charter and Roster
 
+> **Local Edition status:** The roster is active only as a local simulation and training device. External-operation language below is retained as a conditional reference, not unfinished Local Edition work.
+
 **Decision:** Exemplary Examples operates with disclosed AI staff agents rather than pretending its operating roles are conventional human employees.  
 **Effective:** 2026-07-13 for internal, synthetic, and public-information work only  
 **External authority:** Closed until Checkpoint P
@@ -88,4 +90,3 @@ Public and client-facing descriptions say **AI staff agent** plainly. The compan
 ## Activation gate
 
 The roster is active for repository work, public-information analysis, and purpose-built synthetic exercises. It is not authorized for autonomous external communication, real applicant/client data, client acceptance, contracting, payment, or public deployment until the corresponding roadmap gates are complete.
-

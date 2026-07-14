@@ -1,5 +1,7 @@
 # Initial AI and Data Policy
 
+> **Local Edition status:** This is a reference policy for synthetic/local exercises. No real applicant, prospect, client, or restricted data is in scope; unratified external fields are intentionally dormant.
+
 **Status:** Draft for P0.1 approval  
 **Owner:** EE-09 Steward (proposed controls); Accountable Principal ratification pending
 **Approved version/date:**  

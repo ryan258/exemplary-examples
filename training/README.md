@@ -1,6 +1,6 @@
 # Exemplary Examples™ Strategist Certification
 
-This directory contains the internal training system for consultants and strategists who will deliver real Exemplary Examples™ engagements.
+This directory contains the validated Local Edition training system. It prepares simulated consultants and strategists for synthetic Exemplary Examples™ engagements; it does not issue a public credential or authorize real client work.
 
 The program is competency-paced. Learners advance by producing evidence, not by completing a fixed number of hours.
 
@@ -12,7 +12,7 @@ The program is competency-paced. Learners advance by producing evidence, not by 
 4. Complete the instruction and activities in [course modules](02_instruction/COURSE-MODULES.md).
 5. Use the [workshop deck outlines](03_live-practice/WORKSHOP-DECKS.md) and [simulation packs](03_live-practice/SIMULATION-PACKS.md) for live practice.
 6. Use the [assessment and certification guide](04_assessment/ASSESSMENT-AND-CERTIFICATION.md) to prepare evidence.
-7. Begin client exposure only through the [supervised-practice guide](05_supervised/SUPERVISED-PRACTICE.md).
+7. Run synthetic supervised exposure only through the [supervised-practice guide](05_supervised/SUPERVISED-PRACTICE.md).
 8. Facilitators should also use the [facilitator guide](06_facilitation/FACILITATOR-GUIDE.md).
 9. For the first synthetic qualification run, use the [P0.2 run plan](dry-runs/P0.2-RUN-PLAN.md) and the [EE-MVQ-01 controlled fixture](dry-runs/fixtures/EE-MVQ-01/README.md).
 

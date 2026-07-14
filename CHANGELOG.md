@@ -4,6 +4,14 @@ Completed work, moved out of [`ROADMAP.md`](ROADMAP.md) as it finishes. The road
 
 ## 2026-07-13
 
+### Local Edition — completed
+
+- Adopted the Local Edition as the terminal personal, local-only scope.
+- Reframed the Executive Retainer as a simulation rather than a real offer.
+- Removed the pilot inquiry form, email handoff, public canonical URL, and automatic GitHub Pages deployment.
+- Published EE-TRAINING-2026.07 after a successful controlled run with isolated assessment and calibration.
+- Preserved company-launch, governance, and discovery materials as an optional simulation/reference system rather than an active backlog.
+
 ### Website — built, verified, and deployment-ready
 
 Release candidate configured for <https://ryan258.github.io/exemplary-examples/> as a closed-formal-application pilot site. Publication remains pending in [`STATUS.md`](STATUS.md). Verification record: [`operations/WEBSITE-VERIFICATION-2026-07-13.md`](operations/WEBSITE-VERIFICATION-2026-07-13.md).

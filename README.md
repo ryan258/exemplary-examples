@@ -1,284 +1,114 @@
-# Exemplary Examples™
+# Exemplary Examples™ — Local Edition
 
 > Every business case needs one perfect example. We build yours.
 
-Exemplary Examples™ is a real consulting and creative company with an openly satirical brand. We help consultants, agencies, and presentation professionals develop sourced examples, disclosed composites, transparent modeled scenarios, and executive-ready exhibits.
+**Status:** Complete local project
 
-The satire exposes the desire to manufacture evidence after a decision has already been made. The professional practice must never reproduce the deception it satirizes.
+**Mode:** Personal, local-only creative and educational artifact
+**External commercialization:** Intentionally out of scope
+Exemplary Examples™ is an openly satirical brand, a five-exhibit local website, and a complete consulting-operation simulation. It explores a familiar corporate mechanism: choosing the conclusion first and manufacturing the appearance of supporting evidence afterward.
 
-## North star
+The project answers that joke with a serious method for decision framing, evidence classification, transparent modeling, exhibit craft, adversarial review, and AI-agent training. It is not a real consultancy, active service, application program, or public certification provider.
 
-Build the clearest useful example for the decision in front of the client—and make its relationship to reality unmistakable.
+The governing scope decision is recorded in [`LOCAL-EDITION.md`](LOCAL-EDITION.md).
 
-We are succeeding when our work improves a real decision, every material claim is traceable, constructed material is understood as constructed, the responsible AI staff agents can produce a complete work record, and an accountable principal can defend the result.
+## What is complete
 
-We are failing when polish hides uncertainty, satire creates false professional proof, AI output substitutes for verification, or the audience could reasonably mistake something invented or modeled for a verified real-world event.
+- The responsive, accessible Local Edition website in [`index.html`](index.html).
+- The original single-file parody prototype in [`exemplary-examples.html`](exemplary-examples.html).
+- The validated EE-TRAINING-2026.07 curriculum, workshops, simulations, assessment system, and facilitation guides in [`training/`](training/).
+- A controlled synthetic training run with an isolated candidate, two independent assessors, calibration, and frozen evidence in [`training/dry-runs/2026-07-13-ee-mvq-01-r1/`](training/dry-runs/2026-07-13-ee-mvq-01-r1/).
+- The ten-role disclosed AI staff agents simulation and its governance, data, authorization, and escalation reference materials in [`operations/`](operations/).
+- Synthetic customer-discovery exercises and reusable research materials in [`discovery/`](discovery/).
+- Automated documentation and website contracts in [`tests/`](tests/).
 
-## The company we are building
+## Local Edition boundary
 
-### Customer
-
-The initial customer is a consultant, agency, or presentation professional who repeatedly needs examples, comparisons, scenarios, and exhibits for consequential business decisions.
-
-### Initial offer
-
-The only real launch offer is a limited, application-only **Executive Retainer pilot**:
-
-- Disclosed, qualified AI staff agents operate the relationship and production workflow within explicit permissions.
-- An accountable principal authorizes company commitments and consequential final delivery.
-- Facts, calculations, assumptions, inferences, and modeled outputs remain distinguishable.
-- Review depth follows the consequence and risk of the work.
-- Urgency narrows scope; it does not remove truth, data, or approval controls.
-
-Tier I and Tier II in the original prototype are not active commercial offers. They must be removed from real-offer presentation or unmistakably contained as satirical exhibits.
-
-### Pilot purpose
-
-The pilot exists to prove the operating and training system—not to maximize revenue, enrollment, automation, or public attention.
-
-Pilot validation requires:
-
-- Two or three active design partners.
-- At least three complete request cycles in total.
-- No client-visible critical truth, privacy, or authorization failure.
-- Every final claim traceable to an Evidence Register.
-- Measured supervisor rescue work that declines with learning.
-- Client confirmation that the work was decision-useful.
-- Training and operating revisions based on observed evidence.
-- An explicit decision to repeat, launch fully, narrow, or stop.
-
-## The non-negotiable trust boundary
-
-Satirical products may be fully fictional. Professional work may not pass fictional, composite, counterfactual, or modeled material off as a verified real case, quotation, source, customer, event, or result.
-
-Every material professional claim belongs to one of these classes:
-
-| Class | Meaning | Required treatment |
-| --- | --- | --- |
-| Sourced fact | Verifiable external information | Retrievable source, context, and access date |
-| Client-provided fact | Information supplied by the client | Attributable approved client reference |
-| Calculation | Result derived from inputs | Reproducible working and units |
-| Inference | Interpretation drawn from facts | Supporting facts and exposed reasoning |
-| Modeled scenario | Conditional projection or constructed case | Assumptions, method, sensitivity, and limitations |
-| Satirical fiction | Invented creative material | Clear placement inside the satirical context |
-
-The governing test is simple:
-
-> If a reasonable audience could mistake constructed material for verified real-world fact, change the labeling, sourcing, design, or artifact before delivery.
-
-## How the brand and practice coexist
-
-- The brand is explicitly satirical at the brand level.
-- After that disclosure, the public voice remains straight-faced, authoritative, and institutionally restrained.
-- The satire targets a mechanism—manufactured business evidence—not a named person or consultancy.
-- Fictional testimonials, entities, metrics, and prototype prices cannot imply real endorsement or professional proof.
-- Real methodology, terms, privacy information, and client communication use plain language rather than irony.
-- The joke may attract attention; only trustworthy work earns the relationship.
-
-## Operating principles
-
-1. **Decision before deliverable.** Clarify the owner, choice, alternatives, audience, consequence, and evidence that could change the answer.
-2. **Classification before persuasion.** Establish what each material claim is before improving how it sounds.
-3. **Agent-operated, principal-accountable.** Disclosed AI staff agents may own bounded operating tasks; they are not legal persons, sources, or their own final authority.
-4. **Traceability over plausibility.** Confidence, repetition, and polish do not establish truth.
-5. **Progressive authorization.** Contributors, Supervised Strategists, and Lead Strategists work only within demonstrated authority.
-6. **Accessibility without lowered standards.** Remove irrelevant participation barriers while measuring the same competency.
-7. **Minimum necessary data and tooling.** Collect and process only what the work requires in approved systems.
-8. **Prove before scaling.** Expand the offer, team, tooling, or platform only after evidence triggers the need.
-9. **Stop safely.** Pausing work for truth, data, authorization, accessibility, or review concerns is a professional control.
-
-## What we are doing now
-
-The project is in **P0.0 Customer Discovery** and **P0.1 Governance**.
-
-Current objectives:
-
-- Interview 5–8 target professionals without pitching before understanding their existing behavior.
-- Recruit 2–3 prospective design partners for concrete follow-up.
-- Test whether the satire signals insight or irresponsibility and whether the professional boundary earns trust.
-- Qualify the named AI staff agents assigned to training, assessment, supervision, applications, data/tools, escalation, and release.
-- Approve the truth standard, critical failures, AI/data policy, record locations, and initial capacity method.
-
-The formal pilot application remains closed. Prospective clients may start a limited pilot conversation through the site's local email handoff; no inquiry is an acceptance, service commitment, or authorization to send confidential client information.
-
-See [`STATUS.md`](STATUS.md) for the live execution state and [`ROADMAP.md`](ROADMAP.md) for dependencies and gates.
-
-## What we are not doing now
-
-- Open self-service subscriptions or guaranteed acceptance.
-- Tier I or Tier II as real offers.
-- AI delivery or autonomous client communication outside an explicitly authorized work envelope.
-- Public course sales or attendance-based certification.
-- A CMS, CRM, client portal, account system, payment platform, or broad analytics stack without an evidence-backed need.
-- Publishing fictional testimonials as real proof.
-- Collecting sensitive information in the pilot application.
-- Entering client information into an AI tool before the exact tool, account, configuration, data class, and purpose are approved.
-
-## Decision hierarchy
-
-When documents appear to conflict, use this order:
-
-1. Applicable law, signed client terms, and approved privacy/security obligations.
-2. Approved truth, authorization, AI, data, and incident policies.
-3. This README for mission, business model, boundaries, and current strategy.
-4. The training specification for competency and certification rules.
-5. The roadmap for sequence, dependencies, and readiness gates.
-6. The status file for current execution state.
-7. The project description for brand and product context.
-8. The HTML artifact as a prototype and design reference only.
-
-More restrictive truth, confidentiality, authorization, accessibility, or data controls always prevail. Change the governing document before implementing a decision that contradicts it.
-
-## Project map
-
-| Path | Purpose |
+| Included | Not part of this project |
 | --- | --- |
-| [`README.md`](README.md) | North star and governing entry point |
-| [`STATUS.md`](STATUS.md) | Current work, blockers, and next actions |
-| [`ROADMAP.md`](ROADMAP.md) | Ordered company, training, website, pilot, and launch plan |
-| [`exemplary-examples-project-description.md`](exemplary-examples-project-description.md) | Brand and product description |
-| [`index.html`](index.html) | Current production website candidate; application remains closed |
-| [`exemplary-examples.html`](exemplary-examples.html) | Original single-file brand prototype; not current production truth |
-| [`discovery/`](discovery/) | P0.0 interview, record, and synthesis materials |
-| [`operations/`](operations/) | P0.1 governance, AI, and data policy materials |
-| [`operations/AI-STAFF-CHARTER.md`](operations/AI-STAFF-CHARTER.md) | AI staff roster, permissions, separation of duties, and transparency rules |
-| [`training/`](training/) | Agent qualification curriculum, handbook, workshops, simulations, assessment, supervision, and templates |
-| [`training/dry-runs/`](training/dry-runs/) | P0.2 isolated-session run plan and manifest |
-| [`tests/`](tests/) | Documentation, site-contract, and real-browser verification |
+| Local website and visual artifact | Public deployment or hosted service |
+| Synthetic D0/D1 exercises | Real applicant, prospect, or client data |
+| AI staff agents as simulated roles | Claims that agents hold real professional authority |
+| Executive Retainer as a simulated offer | Applications, inquiries, sales, or client delivery |
+| Training-system validation | Public credentials or external certification |
+| Governance as an inspectable reference system | Legal, tax, insurance, vendor, or commercial launch work |
 
-## Training and authorization
+The historical company-launch plan remains in [`ROADMAP.md`](ROADMAP.md) as design archaeology and an optional thought experiment. Its unchecked items are not Local Edition blockers or an active backlog.
 
-The internal training system is a competency-paced agent qualification and evaluation harness. A role name, persuasive output, or quiz completion does not authorize client work.
+## Truth standard
 
-```text
-Contributor
-    ↓ demonstrated research, drafting, evidence, exhibit, and AI safety
-Supervised Strategist
-    ↓ observed simulations and supervised request ownership
-Lead Strategist
-    ↓ sustained engagement performance, quality leadership, and panel approval
-Executive Retainer ownership
-```
+The satire may be fictional; its relationship to reality must remain clear. Every material claim in professional-style simulation belongs to one of six classes:
 
-The initial bootstrap uses a temporary Founding Lead authorization based on equivalent prior evidence, two independent reviewers, and the end-to-end retainer simulation. It converts to ordinary Lead certification only after two successful pilot cycles.
+| Class | Required treatment |
+| --- | --- |
+| Sourced fact | Retrievable source, context, and access date |
+| Supplied fact | Attributable supplied reference |
+| Calculation | Reproducible inputs, formula, and units |
+| Inference | Supporting facts and exposed reasoning |
+| Modeled scenario | Assumptions, method, sensitivities, and limitations |
+| Satirical fiction | Clear placement inside the satirical context |
 
-Start with [`training/README.md`](training/README.md).
+> If a reasonable audience could mistake constructed material for verified real-world fact, change the labeling, sourcing, design, or artifact.
 
-## AI and data posture
+## Training system
 
-The initial approved-tool register is empty. The staff roster therefore operates only on repository material, public information, and purpose-built synthetic exercises in the current authorized workspace. Real applicant or client data requires approval of the exact runtime, model, account, tools, connectors, memory, retention, and purpose.
+EE-TRAINING-2026.07 is an initial validated training release covering ten competencies from decision framing through retainer leadership. It uses self-paced modules, workshops, simulations, portfolio artifacts, critical-failure rules, independent assessment, accessibility accommodations, and calibration.
 
-Data classes:
+The controlled run passed its minimum viable composite route with no critical failure and assessor agreement within tolerance. That proves the training system is usable; it does not create real-world authority. The historical candidate record deliberately remains “Not Yet” certified because external authorization is outside the Local Edition scope.
 
-- **D0 Public:** intentionally public, retrievable information.
-- **D1 Internal:** non-public operating material with limited disclosure impact.
-- **D2 Confidential:** client, applicant, partner, or business information with material disclosure impact.
-- **D3 Restricted:** secrets, regulated or highly sensitive information, privileged material, and data prohibited from AI use.
+Start with [`training/README.md`](training/README.md) or read the completed [`dry-run report`](training/dry-runs/2026-07-13-ee-mvq-01-r1/08-DRY-RUN-REPORT.md).
 
-See [`operations/AI-DATA-POLICY.md`](operations/AI-DATA-POLICY.md). When uncertain, choose the more restrictive class and stop for review.
+## Run locally
 
-## Working in this repository
-
-### Start here
-
-1. Read this README.
-2. Read [`STATUS.md`](STATUS.md) for the active task.
-3. Read only the relevant section of [`ROADMAP.md`](ROADMAP.md) and its linked operating material.
-4. State assumptions and identify the acceptance criteria before changing files.
-5. Make the smallest complete change.
-6. Verify it using the task's named evidence.
-7. Update status and governing documentation when a decision changes.
-
-### Preview the production candidate
-
-No dependency installation or build step currently exists.
+No dependency installation or build step is required.
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then open:
+Open:
 
 ```text
 http://localhost:8000/
 ```
 
-The production candidate is `index.html`. Its pilot-inquiry form prepares a message in the visitor's own email app; the site has no submission endpoint and stores nothing. The preserved `exemplary-examples.html` prototype contains obsolete offer, testimonial, and form behavior; do not treat its copy as approved production truth.
+The page contains no form, inquiry handoff, analytics, backend, storage, or automatic publishing mechanism. Google Fonts are the only remote browser resources; the content and functionality are otherwise static.
 
-### Verification today
+## Verify
 
-Run the current website contract:
+Run all contracts:
 
 ```bash
 node --test tests/*.test.js
 ```
 
-It verifies documentation links and agent-governance consistency plus the production entry point, semantic structure, dual proposition, single real offer, closed formal-application state, safe pilot-inquiry handoff, and baseline metadata. The repeatable real-browser audit is `tests/browser-audit.cjs`; see [`operations/WEBSITE-VERIFICATION-2026-07-13.md`](operations/WEBSITE-VERIFICATION-2026-07-13.md) for the verified viewport and axe results. Performance and supported-engine release checks remain required before release.
+The suite verifies Markdown links, Local Edition scope, the frozen training record, semantic structure, evidence-language requirements, metadata, and the absence of application or publishing mechanisms.
 
-- Confirm local Markdown links resolve.
-- Search for stale offer and “precedent sourcing” language after editorial changes.
-- Preview HTML over a local HTTP server rather than relying only on a file URL.
-- Use the acceptance and verification steps attached to the active roadmap task.
-- Never test with real personal or client information.
+The prior real-browser verification record remains at [`operations/WEBSITE-VERIFICATION-2026-07-13.md`](operations/WEBSITE-VERIFICATION-2026-07-13.md). It describes the earlier deployment candidate and is retained as historical evidence, not a current hosting plan.
 
-### Deployment (GitHub Pages)
+## Project map
 
-The public site is only `index.html`, `assets/`, and `404.html`. Internal docs (roadmap, governance, discovery, training) stay in the repo but are **not published**.
+| Path | Purpose |
+| --- | --- |
+| [`LOCAL-EDITION.md`](LOCAL-EDITION.md) | Governing scope and completion decision |
+| [`STATUS.md`](STATUS.md) | Final project status |
+| [`index.html`](index.html) | Current Local Edition experience |
+| [`assets/`](assets/) | Styles and visual identity assets |
+| [`training/`](training/) | Validated educational and assessment series |
+| [`operations/`](operations/) | Simulated company operating system |
+| [`discovery/`](discovery/) | Synthetic discovery exercises and reusable templates |
+| [`ROADMAP.md`](ROADMAP.md) | Archived external-expansion plan |
+| [`CHANGELOG.md`](CHANGELOG.md) | Historical work record |
+| [`tests/`](tests/) | Local contracts and browser-audit tooling |
 
-Deployment is automated by [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml): every push to `main` that touches the site runs the contract tests, assembles a public-only `_site/`, and deploys to GitHub Pages.
+## Safe use
 
-- One-time setup: repo **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-- Production URL: <https://ryan258.github.io/exemplary-examples/>
-- Rollback: re-run the workflow on the last good commit (Actions → Deploy → Re-run all jobs), or revert the offending commit and push.
-- If a custom domain is added later, update the canonical URL, `og:url`, absolute `og:image`, and the `404.html` home link from `/exemplary-examples/` to `/`.
+- Use synthetic or deliberately public material.
+- Do not treat fictional organizations, results, roles, or certifications as real.
+- Keep generated citations and factual claims untrusted until independently verified.
+- Do not add personal, applicant, prospect, or client data.
+- Preserve accessibility and the visible distinction between evidence classes.
 
-## Contribution rules
+## Definition of complete
 
-Always:
-
-- Preserve the satirical-brand/real-practice distinction.
-- Keep professional evidence classes visible and traceable.
-- Work within the current authorization and data rules.
-- Make accessibility part of content, training, interaction, and review.
-- Record material decisions and update the source of truth first.
-- Protect real participant and client information.
-
-Ask before:
-
-- Contacting or committing the company to an external person.
-- Collecting or transmitting personal, applicant, or client information.
-- Approving an AI tool, vendor, integration, or new data category.
-- Publishing, deploying, changing professional terms, or claiming certification.
-- Expanding the pilot, offer, pricing, service level, or active customer scope.
-
-Never:
-
-- Present invented material as verified professional evidence.
-- Fabricate a citation, quote, customer, event, credential, or result.
-- Use prototype testimonials or prices as real proof or active offers.
-- Put secrets or restricted data in the repository.
-- Bypass review because a deadline is urgent.
-- Penalize someone for using an approved accessibility accommodation.
-
-## Definition of ready
-
-The company is ready to open the pilot application only when Checkpoint P in the roadmap is green:
-
-- Customer discovery supports the offer and framing.
-- Initial team authorization and supervision capacity are current.
-- The minimum viable training dry run and end-to-end simulation have no unresolved critical issue.
-- The pilot offer, selection, application data path, professional terms, and escalation are owned.
-- The Business Readiness Gate has appropriate qualified sign-off.
-- The website accurately presents satire, real service, methodology, limitations, and application behavior.
-
-Until then, the work is preparation—not a public promise.
-
-## Immediate next action
-
-Run P0.0 and P0.1 in parallel, but assign discovery-data readiness before recording any interview contacts:
-
-1. Ratify the AI staff charter and name the Accountable Principal; approve the discovery contact location and runtime/tool envelope.
-2. Have EE-02 Fieldnote build a 10–15-person prospective-interview recruitment plan capable of yielding 5–8 conversations.
-3. Approve external outreach, then conduct and synthesize interviews.
-
-Do not open the pilot application or process real client data yet.
+The Local Edition is complete because its website, method, training curriculum, simulations, assessment system, controlled validation run, and reference operating materials all exist and pass their local contracts. Nothing requires a customer, Accountable Principal, commercial entity, public deployment, or real-world certification unless the owner explicitly reopens external commercialization through a new scope decision.
