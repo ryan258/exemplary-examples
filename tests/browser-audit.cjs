@@ -112,6 +112,16 @@ fs.mkdirSync(outputDirectory, { recursive: true });
     () => getComputedStyle(document.documentElement).scrollBehavior === "auto",
   );
 
+  const inquiryPage = await browser.newPage({ viewport: { width: 375, height: 812 } });
+  await inquiryPage.goto(url, { waitUntil: "networkidle" });
+  await inquiryPage.fill("#inquiry-name", "Avery Example");
+  await inquiryPage.fill("#inquiry-email", "avery@example.com");
+  await inquiryPage.selectOption("#inquiry-timing", { label: "Within 30 days" });
+  await inquiryPage.fill("#inquiry-need", "We need a transparent comparison for an upcoming decision.");
+  await inquiryPage.check("#inquiry-consent");
+  await inquiryPage.click(".inquiry-submit");
+  const inquiryStatus = await inquiryPage.locator("#inquiry-status").textContent();
+
   await browser.close();
 
   const failures = results.flatMap((result) => {
@@ -129,8 +139,19 @@ fs.mkdirSync(outputDirectory, { recursive: true });
   if (firstFocus.href !== "#main-content") failures.push("skip link is not first focus target");
   if (!skipLinkLanded) failures.push("skip link did not move focus to main content");
   if (!reducedMotion) failures.push("reduced-motion preference is not honored");
+  if (!/email app should open/i.test(inquiryStatus || "")) {
+    failures.push("pilot inquiry did not prepare the email handoff");
+  }
 
-  const report = { url, outputDirectory, results, keyboard: { firstFocus, skipLinkLanded }, reducedMotion, failures };
+  const report = {
+    url,
+    outputDirectory,
+    results,
+    keyboard: { firstFocus, skipLinkLanded },
+    inquiryStatus,
+    reducedMotion,
+    failures,
+  };
   process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
   process.exitCode = failures.length ? 1 : 0;
 })().catch((error) => {

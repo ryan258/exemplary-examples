@@ -1,7 +1,7 @@
 # Website Verification Report — 2026-07-13
 
 **Artifact:** `index.html` production candidate  
-**Release state:** Internal preview; application closed; no public deployment authorized  
+**Release state:** Deployment-ready preview; formal application closed; limited pilot inquiries enabled; public deployment not yet recorded as complete
 **Operator:** EE-10 Beacon role, executed in the project workspace
 
 ## Automated content and structure contract
@@ -49,6 +49,8 @@ At every width:
 
 Keyboard verification confirmed the skip link is first in the focus order and moves focus to main content. Reduced-motion emulation confirmed smooth scrolling is disabled. Full-page screenshots were reviewed at phone and wide-desktop widths; no collision, clipping, illegible block, or broken hierarchy was observed.
 
+The matrix was rerun after adding the pilot-inquiry path. The form rendered without overflow at every viewport, all controls met the audit's target-size check, and the interaction test confirmed that valid fields produce the local email-handoff status. The page made no inquiry submission request and reported no console, page, or failed-resource errors.
+
 ## Automated accessibility
 
 Command:
@@ -84,7 +86,7 @@ Observed metrics were 3.2 s First Contentful Paint, 3.2 s Largest Contentful Pai
 ## Remaining release gates
 
 - Checkpoint A outsider comprehension/trust review.
-- Approved P0.5c application fields, disclosures, data path, and operator process.
+- Approved P0.5c formal-application fields, disclosures, data path, and operator process. The current email inquiry is not the formal application.
 - Checkpoint P business readiness.
-- Favicon/social image, production URL/canonical metadata, hosting choice, and preview deployment.
+- GitHub Pages enablement and hosted-candidate verification.
 - Release-candidate review in supported browser engines, including Safari/VoiceOver where available.

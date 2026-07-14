@@ -99,7 +99,7 @@ Current objectives:
 - Qualify the named AI staff agents assigned to training, assessment, supervision, applications, data/tools, escalation, and release.
 - Approve the truth standard, critical failures, AI/data policy, record locations, and initial capacity method.
 
-The pilot application remains closed. No real client work or client-data use is authorized.
+The formal pilot application remains closed. Prospective clients may start a limited pilot conversation through the site's local email handoff; no inquiry is an acceptance, service commitment, or authorization to send confidential client information.
 
 See [`STATUS.md`](STATUS.md) for the live execution state and [`ROADMAP.md`](ROADMAP.md) for dependencies and gates.
 
@@ -203,7 +203,7 @@ Then open:
 http://localhost:8000/
 ```
 
-The production candidate is `index.html`. The preserved `exemplary-examples.html` prototype contains obsolete offer, testimonial, and form behavior; do not treat its copy as approved production truth.
+The production candidate is `index.html`. Its pilot-inquiry form prepares a message in the visitor's own email app; the site has no submission endpoint and stores nothing. The preserved `exemplary-examples.html` prototype contains obsolete offer, testimonial, and form behavior; do not treat its copy as approved production truth.
 
 ### Verification today
 
@@ -213,7 +213,7 @@ Run the current website contract:
 node --test tests/*.test.js
 ```
 
-It verifies documentation links and agent-governance consistency plus the production entry point, semantic structure, dual proposition, single real offer, closed application state, and baseline metadata. The repeatable real-browser audit is `tests/browser-audit.cjs`; see [`operations/WEBSITE-VERIFICATION-2026-07-13.md`](operations/WEBSITE-VERIFICATION-2026-07-13.md) for the verified viewport and axe results. Performance and supported-engine release checks remain required before release.
+It verifies documentation links and agent-governance consistency plus the production entry point, semantic structure, dual proposition, single real offer, closed formal-application state, safe pilot-inquiry handoff, and baseline metadata. The repeatable real-browser audit is `tests/browser-audit.cjs`; see [`operations/WEBSITE-VERIFICATION-2026-07-13.md`](operations/WEBSITE-VERIFICATION-2026-07-13.md) for the verified viewport and axe results. Performance and supported-engine release checks remain required before release.
 
 - Confirm local Markdown links resolve.
 - Search for stale offer and “precedent sourcing” language after editorial changes.

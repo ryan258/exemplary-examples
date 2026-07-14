@@ -19,6 +19,7 @@
 - [x] Created the production `index.html` and extracted responsive styling.
 - [x] Replaced obsolete tiers, prototype testimonials, and fake form behavior with one real pilot offer and a closed application state.
 - [x] Added a passing Node website contract for semantics, positioning, offer integrity, application safety, and metadata.
+- [x] Opened a minimal pilot-inquiry path that prepares an email locally without a form processor or site-side storage.
 
 ## In progress
 
@@ -50,7 +51,7 @@ Working materials: [`operations/P0.1-GOVERNANCE.md`](operations/P0.1-GOVERNANCE.
 - [x] Establish the five-section production entry point and semantic navigation.
 - [x] Make the satirical brand and real service explicit on a skim.
 - [x] Present only the Executive Retainer pilot as a real offer.
-- [x] Keep the application closed and collect no data before Checkpoint P.
+- [x] Keep the formal application closed before Checkpoint P while opening limited, non-confidential pilot conversations.
 - [x] Complete real-browser responsive, keyboard, visual, and axe accessibility verification; see [`operations/WEBSITE-VERIFICATION-2026-07-13.md`](operations/WEBSITE-VERIFICATION-2026-07-13.md).
 - [x] Add restrained social-preview image and Open Graph/Twitter metadata (`assets/og-image.png`, 1200×630).
 - [x] Choose hosting (GitHub Pages), add the deploy workflow, `404.html`, canonical/`og:url`/absolute `og:image`, and deploy/rollback docs.
@@ -69,5 +70,5 @@ Working materials: [`operations/P0.1-GOVERNANCE.md`](operations/P0.1-GOVERNANCE.
 1. Name the Accountable Principal and approve the AI staff charter, discovery contact path, and exact agent runtime/tool envelope.
 2. Approve the prepared recruitment plan, identify prospects in the approved contact system, and authorize the first outreach batch.
 3. Run EE-04 Forge, EE-05 Verity, EE-06 Counterpoint, and EE-03 Keystone through the minimum viable synthetic training route using isolated sessions.
-4. Add identity assets, measure performance, choose hosting, and complete the outsider comprehension/trust review.
+4. Measure hosted performance, complete the outsider comprehension/trust review, and monitor whether pilot inquiries produce qualified conversations.
 5. Update discovery synthesis, agent qualification records, and governance decisions with actual evidence.

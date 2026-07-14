@@ -4,9 +4,9 @@ Completed work, moved out of [`ROADMAP.md`](ROADMAP.md) as it finishes. The road
 
 ## 2026-07-13
 
-### Website — built, verified, and deployed
+### Website — built, verified, and deployment-ready
 
-Live at <https://ryan258.github.io/exemplary-examples/> as a closed-state pilot site (the application is intentionally closed until Checkpoint P). Verification record: [`operations/WEBSITE-VERIFICATION-2026-07-13.md`](operations/WEBSITE-VERIFICATION-2026-07-13.md).
+Release candidate configured for <https://ryan258.github.io/exemplary-examples/> as a closed-formal-application pilot site. Publication remains pending in [`STATUS.md`](STATUS.md). Verification record: [`operations/WEBSITE-VERIFICATION-2026-07-13.md`](operations/WEBSITE-VERIFICATION-2026-07-13.md).
 
 - **Task 0.1 — Format & premise alignment.** Single-page, five-section site; obsolete tiers and "precedent" language removed; Executive Retainer is the only real offer.
 - **Task 0.2 — Content & exhibit map.** Explicit brand-level satire framing; the Proof section shows methodology, not fictional testimonials; no named real firms or people.
@@ -16,7 +16,8 @@ Live at <https://ryan258.github.io/exemplary-examples/> as a closed-state pilot 
 - **Task 2.2 — Responsive & interaction states.** Verified 320–1440px, `prefers-reduced-motion` honored, practical touch targets, single-offer readability.
 - **Task 2.3 — Identity & sharing metadata.** Favicon, 1200×630 social card, Open Graph/Twitter tags, canonical + `og:url`.
 - **Task 3.1 — Verification suite.** `node --test tests/*.test.js` (site + documentation contracts) plus the repeatable `tests/browser-audit.cjs`.
-- **Task 3.3 — Release candidate published.** GitHub Pages via an Actions workflow (site-only artifact, tests-gated), HTTPS, branded `404.html`, deploy/rollback docs.
+- **Task 3.3 — Release candidate prepared.** GitHub Pages Actions workflow (site-only artifact, tests-gated), branded `404.html`, and deploy/rollback docs; publication is not yet recorded as complete.
+- **Pilot inquiry path.** A short form prepares a structured email in the visitor's own mail app. No third-party form processor or site-side submission storage is introduced; formal applications remain gated by Checkpoint P.
 
 ### Foundations & governance (scaffolded)
 
