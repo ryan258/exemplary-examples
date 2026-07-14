@@ -324,53 +324,9 @@ The website may be refined in parallel, but the pilot application must not open 
 
 ### Website Track — Phase 0: Align the artifact and source of truth
 
-#### Task 0.1 — Resolve format and premise inconsistencies
+> ✅ Task 0.1 completed — see [CHANGELOG.md](CHANGELOG.md).
 
-**Outcome:** The project description and artifact describe the same launch product and use one vocabulary for the central idea.
-
-**Work:**
-
-- Clarify that launch is a five-section single-page site, or deliberately choose five separate pages before structural work begins.
-- Replace the `<title>` phrase “Precedent-Driven Strategy Consulting” with example-development language.
-- Change “Tier II — The Precedent Package” in the contact form to “The Example Development Package.”
-- Change the post-submit “Sourcing Your Precedent” message to example-development language.
-- Audit every CTA, metric, tier, testimonial, and exhibit reference against the project description.
-- Present Executive Retainer as the only real offer; remove Tier I and II or label them unmistakably as satirical exhibits, and ensure no prototype price resembles an active commercial offer.
-
-**Acceptance criteria:**
-
-- [x] The project description and production artifact no longer disagree about page structure.
-- [x] No unintended “source/find precedent” language remains in the production artifact.
-- [x] Executive Retainer is the only real offer; the preserved prototype is explicitly non-production.
-
-**Verification:** Search the repository for `precedent`, `sourc`, all three tier names, and all price strings; review every match in context.
-
-**Dependencies:** None  
-**Estimated scope:** Small
-
-#### Task 0.2 — Establish a concise content and exhibit map
-
-**Outcome:** Every public claim and cross-reference has an intentional role.
-
-**Work:**
-
-- Create a short content inventory covering headline, supporting premise, metrics, founder narrative, tiers, testimonials, CTA, and confirmation state.
-- Define whether references such as “See Exhibit 3.2” are intentionally non-clickable texture or should resolve to a visible sub-exhibit.
-- Establish a visible brand-level framing that identifies the satirical context without explaining every joke.
-- Reframe the current fictional testimonials and performance metrics as unmistakable satirical brand exhibits, or replace the “Proof” section with real methodology/process proof until authorized pilot evidence exists.
-- Check fictional names, roles, company descriptions, and quantitative claims for plausibility without accidental real-world identification or implied real-client endorsement.
-
-**Acceptance criteria:**
-
-- [x] Each section reinforces the central mechanism without simply repeating the hero.
-- [x] Every production exhibit is a visible numbered section; there are no unresolved exhibit references.
-- [x] Brand-level copy explicitly distinguishes satirical fiction from claims about the real service.
-- [x] Production copy contains no named real firms or people and uses method proof instead of testimonials.
-
-**Verification:** Perform one headline-only skim and one full read aloud; record and fix any place where the premise becomes ambiguous or the tone turns winking.
-
-**Dependencies:** Task 0.1  
-**Estimated scope:** Small
+> ✅ Task 0.2 completed — see [CHANGELOG.md](CHANGELOG.md).
 
 ### Checkpoint A — Narrative lock
 
@@ -380,49 +336,9 @@ The website may be refined in parallel, but the pilot application must not open 
 
 ### Phase 1 — Build the maintainable static baseline
 
-#### Task 1.1 — Organize the static artifact
+> ✅ Task 1.1 completed — see [CHANGELOG.md](CHANGELOG.md).
 
-**Outcome:** The page remains simple but gains a clear local-development and maintenance structure.
-
-**Work:**
-
-- Choose the smallest viable layout: an `index.html` plus external stylesheet and script only if separation improves readability.
-- Add a short `README.md` with purpose, local preview command, file map, verification commands, and deployment notes.
-- Add formatting/lint configuration only where it catches real errors; avoid introducing a framework or package manager solely for convention.
-
-**Acceptance criteria:**
-
-- [x] A new contributor can preview the site from documented instructions.
-- [x] Content and presentation are separated into `index.html` and `assets/styles.css`; no interaction script is needed in the closed state.
-- [x] The project requires no build step.
-
-**Verification:** Follow the README from a clean shell and load the site over a local HTTP server.
-
-**Dependencies:** Checkpoint A  
-**Estimated scope:** Small
-
-#### Task 1.2 — Strengthen document semantics and navigation
-
-**Outcome:** The visual structure is represented accurately in HTML and works without a mouse.
-
-**Work:**
-
-- Add semantic header, navigation, main, section, form, and footer relationships.
-- Provide a visible-on-focus skip link and a useful document heading hierarchy.
-- Give the navigation an accessible name and expose current/active section behavior only if it is accurate.
-- Ensure sticky navigation does not cover anchored headings and that mobile users have access to navigation rather than losing it entirely.
-
-**Acceptance criteria:**
-
-- [x] All primary sections and controls are reachable in a logical keyboard order.
-- [x] Anchor targets land with their headings visible and the skip link moves focus into main content.
-- [x] Mobile navigation exposes all five destinations.
-- [x] The page retains a coherent semantic outline independent of CSS.
-
-**Verification:** Keyboard-only walkthrough at desktop and narrow widths; inspect the accessibility tree and heading outline.
-
-**Dependencies:** Task 1.1  
-**Estimated scope:** Medium
+> ✅ Task 1.2 completed — see [CHANGELOG.md](CHANGELOG.md).
 
 #### Task 1.3a — Build the accessible application form
 
@@ -521,73 +437,11 @@ The website may be refined in parallel, but the pilot application must not open 
 
 ### Phase 2 — Visual refinement and resilience
 
-#### Task 2.1 — Codify the visual system
+> ✅ Task 2.1 completed — see [CHANGELOG.md](CHANGELOG.md).
 
-**Outcome:** The page feels intentionally art-directed and future edits remain consistent.
+> ✅ Task 2.2 completed — see [CHANGELOG.md](CHANGELOG.md).
 
-**Work:**
-
-- Consolidate color, typography, spacing, border, radius, and width values into a small token set.
-- Define repeatable styles for exhibit tags, section headings, cards, buttons, form controls, and focus states.
-- Review brass-on-cream and muted text combinations for contrast at their actual sizes and weights.
-- Preserve sensible system fallbacks for all external fonts.
-
-**Acceptance criteria:**
-
-- [x] Repeated visual decisions come from shared tokens rather than near-duplicate literals.
-- [x] Automated contrast checks report no WCAG AA violation at actual sizes and surfaces.
-- [x] Focus indicators are visible on every interactive element.
-- [x] Font stacks include layout-safe system fallbacks; font-blocked visual comparison remains for release review.
-
-**Verification:** Contrast audit, keyboard focus review, and font-blocked screenshot comparison.
-
-**Dependencies:** Checkpoint B  
-**Estimated scope:** Medium
-
-#### Task 2.2 — Refine responsive layout and interaction states
-
-**Outcome:** The institutional feel survives across screen sizes and input modes.
-
-**Work:**
-
-- Test representative widths from 320px through wide desktop, including zoomed text.
-- Tune hero measure, tier cards, testimonials, statistics, form spacing, and sticky navigation behavior.
-- Add restrained hover/active states without making hover the only feedback.
-- Respect `prefers-reduced-motion`; avoid decorative motion unless it materially improves orientation.
-
-**Acceptance criteria:**
-
-- [x] No horizontal overflow appears from 320 through 1440 CSS pixels; 200% zoom remains for manual release review.
-- [x] Controls meet practical touch-target sizing and do not overlap in the browser matrix.
-- [x] The single offer remains readable without a compressed tier comparison.
-- [x] Meaning and interaction do not depend on hover or motion; reduced-motion behavior is verified.
-
-**Verification:** Screenshot matrix at 320, 375, 768, 1024, and 1440 pixels; keyboard and touch-emulation walkthrough; 200% zoom check.
-
-**Dependencies:** Task 2.1  
-**Estimated scope:** Medium
-
-#### Task 2.3 — Add complete identity and sharing metadata
-
-**Outcome:** The site looks deliberate in browser chrome, search previews, and social shares.
-
-**Work:**
-
-- Write a concise title and description that land the premise while staying in character.
-- Add canonical URL only after the production URL is known.
-- Create a restrained favicon and social preview image from the established identity.
-- Add Open Graph and social metadata; add structured data only if it truthfully represents the real company and will not turn satirical copy, prototype pricing, or fictional proof into factual service claims.
-
-**Acceptance criteria:**
-
-- [ ] Title, description, favicon, and preview image match the final brand language.
-- [ ] Metadata contains no stale “precedent sourcing” terminology.
-- [ ] All referenced assets exist and have appropriate dimensions/file sizes.
-
-**Verification:** Inspect the document head, request every asset locally, and validate a production preview with at least one link-preview debugger after deployment.
-
-**Dependencies:** Tasks 0.2 and 2.1  
-**Estimated scope:** Small
+> ✅ Task 2.3 completed — see [CHANGELOG.md](CHANGELOG.md).
 
 ### Checkpoint C — Design and accessibility review
 
@@ -597,26 +451,7 @@ The website may be refined in parallel, but the pilot application must not open 
 
 ### Phase 3 — Quality gates and launch
 
-#### Task 3.1 — Establish a compact verification suite
-
-**Outcome:** The critical journey and known failure modes are cheap to re-check.
-
-**Work:**
-
-- Add automated checks for valid markup, internal anchors, missing local assets, and serious accessibility violations.
-- Add a browser smoke test for navigation, pilot-application field handling, required-field handling, and confirmation behavior.
-- Keep the suite proportional to a static site; avoid broad unit-test infrastructure for declarative content.
-
-**Acceptance criteria:**
-
-- [ ] One documented command runs the repeatable checks.
-- [ ] A deliberately broken anchor, label, or pilot-application state causes a check to fail.
-- [ ] Checks run reliably from a clean project state.
-
-**Verification:** Run the suite successfully, introduce one temporary known failure to prove detection, revert it, and run clean again.
-
-**Dependencies:** Checkpoint C  
-**Estimated scope:** Medium
+> ✅ Task 3.1 completed — see [CHANGELOG.md](CHANGELOG.md).
 
 #### Task 3.2 — Set and meet a performance budget
 
@@ -640,28 +475,7 @@ The website may be refined in parallel, but the pilot application must not open 
 **Dependencies:** Tasks 2.3 and 3.1  
 **Estimated scope:** Small
 
-#### Task 3.3 — Publish a release candidate
-
-**Outcome:** A stable HTTPS preview is available for final review before the public URL is promoted.
-
-**Work:**
-
-- Configure static hosting with a production build/publish directory appropriate to the final file layout.
-- Add preview deployments for changes if supported without meaningful maintenance overhead.
-- Configure cache behavior, a useful not-found response, HTTPS, and production URL metadata.
-- Document deploy and rollback steps.
-
-**Acceptance criteria:**
-
-- [ ] The release candidate is reachable over HTTPS at a stable preview URL.
-- [ ] Direct navigation and all in-page anchors work in the hosted environment.
-- [ ] A previous known-good version can be restored using documented steps.
-- [ ] Production metadata uses the final canonical URL and assets.
-
-**Verification:** Run the full quality suite against the hosted URL and rehearse rollback before launch approval.
-
-**Dependencies:** Tasks 3.1 and 3.2  
-**Estimated scope:** Medium
+> ✅ Task 3.3 completed — see [CHANGELOG.md](CHANGELOG.md).
 
 #### Task 3.4 — Final editorial and release review
 
