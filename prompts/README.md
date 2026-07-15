@@ -17,15 +17,15 @@ Pick a chain, give it an idea/input, and the console runs it card → edit → c
 
 Folders are task types (stable on purpose — don't add narrow, personal, or model-named folders):
 
-| Category | Starter card |
+| Category | Cards |
 | --- | --- |
-| `architecture/` | System Design |
-| `agent-workflows/` | Multi-Agent Orchestration |
-| `coding/` | Refactor |
-| `review/` | Code Review |
-| `research/` | Research Synthesis |
-| `testing/` | Test Generation |
-| `debugging/` | Failure Analysis |
+| `architecture/` | System Design · Architecture Decision Record |
+| `agent-workflows/` | Multi-Agent Orchestration · Prompt Optimization |
+| `coding/` | Refactor · Implement From Spec |
+| `review/` | Code Review · Security Review |
+| `research/` | Research Synthesis · Comparative Analysis |
+| `testing/` | Test Generation · Edge Case Enumeration |
+| `debugging/` | Failure Analysis · Performance Investigation |
 
 ## Card format, quality bar, ownership
 
