@@ -10,6 +10,7 @@
 // Env: OPENROUTER_API_KEY (required), OPENROUTER_MODEL (default model),
 //      OPENROUTER_BASE_URL, OPENROUTER_APP_URL, OPENROUTER_APP_NAME (all optional).
 import { strict as assert } from "node:assert";
+import { fileURLToPath } from "node:url";
 
 export function buildPayload(model, prompt, system) {
   const messages = [];
@@ -26,6 +27,21 @@ export function buildHeaders(env) {
   if (env.OPENROUTER_APP_URL) headers["HTTP-Referer"] = env.OPENROUTER_APP_URL;
   if (env.OPENROUTER_APP_NAME) headers["X-Title"] = env.OPENROUTER_APP_NAME;
   return headers;
+}
+
+// Reusable one-shot chat call. Returns the assistant content; throws on error.
+export async function chat({ model, system, prompt, env = process.env }) {
+  const base = env.OPENROUTER_BASE_URL || "https://openrouter.ai/api/v1";
+  const res = await fetch(`${base}/chat/completions`, {
+    method: "POST",
+    headers: buildHeaders(env),
+    body: JSON.stringify(buildPayload(model, prompt, system)),
+  });
+  if (!res.ok) throw new Error(`OpenRouter ${res.status} ${res.statusText}: ${await res.text()}`);
+  const json = await res.json();
+  const content = json.choices?.[0]?.message?.content;
+  if (content == null) throw new Error(`Unexpected response: ${JSON.stringify(json)}`);
+  return content;
 }
 
 function parseArgs(argv) {
@@ -97,26 +113,19 @@ async function main() {
     process.exit(1);
   }
 
-  const base = process.env.OPENROUTER_BASE_URL || "https://openrouter.ai/api/v1";
-  const res = await fetch(`${base}/chat/completions`, {
-    method: "POST",
-    headers: buildHeaders(process.env),
-    body: JSON.stringify(buildPayload(model, prompt, args.system)),
-  });
-  if (!res.ok) {
-    console.error(`OpenRouter ${res.status} ${res.statusText}: ${await res.text()}`);
+  try {
+    const content = await chat({ model, system: args.system, prompt, env: process.env });
+    process.stdout.write(content + "\n");
+  } catch (error) {
+    console.error(error.message);
     process.exit(1);
   }
-  const json = await res.json();
-  const content = json.choices?.[0]?.message?.content;
-  if (content == null) {
-    console.error(`Unexpected response: ${JSON.stringify(json)}`);
-    process.exit(1);
-  }
-  process.stdout.write(content + "\n");
 }
 
-main().catch((error) => {
-  console.error(error.message || error);
-  process.exit(1);
-});
+// Run the CLI only when executed directly, not when imported (e.g. by the console).
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(error.message || error);
+    process.exit(1);
+  });
+}
