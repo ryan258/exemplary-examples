@@ -22,15 +22,29 @@ import { chat } from "../scripts/llm.mjs";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const CARDS_DIR = join(HERE, "cards");
 
+// Pull one "## Section" body out of a card, or null if absent/empty.
+function section(body, name) {
+  const lines = body.split(/\r?\n/);
+  const start = lines.findIndex((l) => new RegExp(`^##\\s+${name}\\b`, "i").test(l));
+  if (start === -1) return null;
+  let end = lines.length;
+  for (let i = start + 1; i < lines.length; i++) {
+    if (/^##\s+/.test(lines[i])) { end = i; break; }
+  }
+  return lines.slice(start + 1, end).join("\n").trim() || null;
+}
+
 export function loadCards(dir = CARDS_DIR) {
   return readdirSync(dir)
-    .filter((f) => f.endsWith(".md"))
+    .filter((f) => f.endsWith(".md") && !f.startsWith("_")) // _TEMPLATE.md etc. are not runnable cards
     .sort()
     .map((f) => {
-      const prompt = readFileSync(join(dir, f), "utf8");
+      const raw = readFileSync(join(dir, f), "utf8");
       const id = basename(f, ".md").replace(/^\d+[-_]/, ""); // drop a leading NN- ordering prefix
-      const title = (prompt.match(/^#\s+(.+)$/m)?.[1] || id).trim();
-      return { file: f, id, title, prompt };
+      const title = (raw.match(/^#\s+(.+)$/m)?.[1] || id).trim();
+      const prompt = section(raw, "Prompt") || raw.trim(); // only ## Prompt is sent; bare files still work
+      const tier = section(raw, "Model tier");
+      return { file: f, id, title, prompt, tier, raw };
     });
 }
 
@@ -67,7 +81,7 @@ function parseArgs(argv) {
 
 function listCards(cards) {
   console.log("Cards:");
-  cards.forEach((c, i) => console.log(`  ${i + 1}. ${c.title}  (${c.id})`));
+  cards.forEach((c, i) => console.log(`  ${i + 1}. ${c.title}  (${c.id})${c.tier ? `  [${c.tier}]` : ""}`));
 }
 
 // Edit phase: open text in $EDITOR and return the edited result.
