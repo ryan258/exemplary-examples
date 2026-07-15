@@ -2,8 +2,6 @@
 
 A stage-by-stage script for walking a prospect through Exemplary Examples™ and winning the relationship. The differentiator is **trust, not hype**: this brand builds the perfect example *and* shows its work, so a prospect can put it in front of their board without fear.
 
-> **Scope note.** This is an in-universe demo artifact for the [Local Edition](../LOCAL-EDITION.md), where the Executive Retainer is a *simulated* offer. Using it with real prospects means reopening commercial scope (per LOCAL-EDITION.md) — and the same rule holds either way: **never present fictional or modeled material as verified real-world proof.** The honesty is the pitch, not a disclaimer to work around.
-
 ## The one idea to land
 
 > "Everyone can make a slide look convincing. We make an example your board can *trust* — because we label exactly what's sourced, what's calculated, and what's modeled. You get persuasion you can defend under cross-examination."
