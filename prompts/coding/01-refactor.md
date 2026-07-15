@@ -19,6 +19,8 @@ Given the code and goal:
 
 Do not change behavior, add dependencies, or expand scope unless explicitly asked. Flag anything ambiguous instead of guessing.
 
+**Before you finish, verify:** the public interface and observable behavior are unchanged, no new dependency was added, and the named test would actually catch a regression. Flag any behavior change you could not avoid.
+
 ## Customization points
 - Set the goal: `[readability]`, `[remove duplication]`, `[testability]`, `[performance]`.
 - Constrain to a single function/module, or allow broader restructuring.
@@ -32,3 +34,4 @@ A brief plan, the refactored code with the interface preserved, risks noted, and
 
 ## Changelog
 - 2026-07-15: Initial entry.
+- 2026-07-15: Optimized — added an explicit verification/self-check step.

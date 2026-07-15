@@ -16,6 +16,8 @@ For each finding provide: file and line, a one-sentence statement of the defect,
 
 Do not report style preferences unless they cause a real bug. Only report issues you can justify with a concrete scenario. If the code is clean, say so plainly.
 
+**Before you finish, verify:** every finding has a concrete inputs→wrong-output scenario and a specific fix, findings are ordered by severity, and no pure-style nits remain. If nothing qualifies, state "no issues found."
+
 ## Customization points
 - Set focus: `[correctness only]`, `[security]`, `[performance]`.
 - Provide the intended behavior/spec to check against.
@@ -29,3 +31,4 @@ A severity-ranked list of findings (file/line, defect, failure scenario, fix), o
 
 ## Changelog
 - 2026-07-15: Initial entry.
+- 2026-07-15: Optimized — added an explicit verification/self-check step.

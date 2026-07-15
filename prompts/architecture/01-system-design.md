@@ -22,6 +22,8 @@ Then deliver:
 
 Prefer the simplest design that meets the stated requirements. Do not add components, scale, or flexibility the requirements do not justify.
 
+**Before you finish, verify:** every component maps to a stated requirement, each decision names its discarded alternative, and every assumption is flagged. Remove anything the requirements do not justify.
+
 ## Customization points
 - Provide `[scale]`, `[latency budget]`, `[team size]`, or fixed stack to sharpen the design.
 - Ask for one component in depth vs. a broad sketch.
@@ -35,3 +37,4 @@ Restated requirements/assumptions, decisions with trade-offs, a text diagram, fa
 
 ## Changelog
 - 2026-07-15: Initial entry.
+- 2026-07-15: Optimized — added an explicit verification/self-check step.

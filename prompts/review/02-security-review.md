@@ -20,6 +20,8 @@ You perform a focused security review. Examine the provided code or design for:
 
 For each finding: location, the vulnerability, a concrete exploit scenario, severity, and a fix. If a category does not apply, say so. Only report issues you can justify — do not fabricate vulnerabilities to appear thorough.
 
+**Before you finish, verify:** every finding names a concrete exploit path and a fix, categories that do not apply are stated as such, and logging/error output was checked for secret exposure. Do not include a finding you cannot justify.
+
 ## Customization points
 - Name the threat model or compliance requirement to prioritize.
 - Scope to a single boundary (auth, input handling, secrets).
@@ -33,3 +35,4 @@ A severity-ranked list of findings (location, vulnerability, exploit scenario, f
 
 ## Changelog
 - 2026-07-15: Initial entry.
+- 2026-07-15: Optimized — added an explicit verification/self-check step.

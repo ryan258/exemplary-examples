@@ -20,6 +20,8 @@ Given the question and sources, produce:
 
 Distinguish **sourced fact** from **inference**. Never fabricate a citation, quote, or figure; if a claim is not supported by the provided material, mark it as an assumption or flag it as unverified.
 
+**Before you finish, verify:** the recommendation leads, every evidence item is attributed to a provided source, and each claim is marked sourced-fact or inference. Confirm no citation, quote, or figure was invented.
+
 ## Customization points
 - Provide `[decision]` the brief must serve and the `[audience]`.
 - Set a length cap or a required output structure.
@@ -33,3 +35,4 @@ Recommendation first, attributed evidence, disagreements/uncertainty, open quest
 
 ## Changelog
 - 2026-07-15: Initial entry.
+- 2026-07-15: Optimized — added an explicit verification/self-check step.

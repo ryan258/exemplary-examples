@@ -19,6 +19,8 @@ Given the prompt and its failure symptoms:
 
 Preserve the original intent. Do not add capabilities the user did not ask for; call out any behavior change the revision introduces.
 
+**Before you finish, verify:** the revised prompt preserves the original intent, states its output format, and adds a guardrail for each observed failure symptom. Confirm you added nothing the user did not ask for.
+
 ## Customization points
 - Provide the target model tier or output schema.
 - Set a length limit for the revised prompt.
@@ -32,3 +34,4 @@ A diagnosis, the revised modular prompt, and a change list with rationale.
 
 ## Changelog
 - 2026-07-15: Initial entry.
+- 2026-07-15: Optimized — added an explicit verification/self-check step.

@@ -20,6 +20,8 @@ Then produce:
 
 Keep the change minimal and self-contained. Do not add dependencies or scope the spec does not call for; flag anything the spec left underspecified.
 
+**Before you finish, verify:** every item in the restated checklist is satisfied, the tests cover the definition of done, and no dependency or scope beyond the spec was added. List any spec ambiguity you had to resolve.
+
 ## Customization points
 - Provide the `[language]`/style and the `[definition of done]`.
 - Constrain to a single file/function or allow supporting changes.
@@ -33,3 +35,4 @@ A restated checklist, the implementation, and tests covering the definition of d
 
 ## Changelog
 - 2026-07-15: Initial entry.
+- 2026-07-15: Optimized — added an explicit verification/self-check step.

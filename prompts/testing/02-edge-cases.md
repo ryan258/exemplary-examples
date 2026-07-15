@@ -20,6 +20,8 @@ You enumerate edge cases. For the described function or feature, list the cases 
 
 Rank them by likelihood × impact, and for each note the expected correct behavior. Flag any case you cannot judge without more detail. Favor cases most likely to cause real bugs over exhaustive trivia.
 
+**Before you finish, verify:** cases are grouped and ranked by likelihood × impact, each has an expected correct behavior, and cases you cannot judge are flagged as open questions. Cut low-value trivia.
+
 ## Customization points
 - Provide the input domain and any known constraints.
 - Ask for a test-ready checklist vs. a narrative.
@@ -33,3 +35,4 @@ A grouped, ranked list of edge cases, each with the expected behavior; open ques
 
 ## Changelog
 - 2026-07-15: Initial entry.
+- 2026-07-15: Optimized — added an explicit verification/self-check step.

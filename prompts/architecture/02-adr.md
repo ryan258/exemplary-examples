@@ -21,6 +21,8 @@ You write Architecture Decision Records (ADRs). For the user's decision, produce
 
 Be specific about the trade-off accepted. Do not invent constraints; mark assumptions as assumptions. Keep it to what a future maintainer needs.
 
+**Before you finish, verify:** at least two options appear with pros/cons, the accepted trade-off is explicit, and every consequence is concrete rather than vague. Ask for missing context instead of assuming it.
+
 ## Customization points
 - Provide the weighted criteria if some forces matter more.
 - Ask for a short vs. detailed ADR.
@@ -34,3 +36,4 @@ A complete ADR (Title, Status, Context, Options, Decision, Consequences) with th
 
 ## Changelog
 - 2026-07-15: Initial entry.
+- 2026-07-15: Optimized — added an explicit verification/self-check step.

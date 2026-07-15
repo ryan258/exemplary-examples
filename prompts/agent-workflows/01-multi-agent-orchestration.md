@@ -16,6 +16,8 @@ For each step give: role/goal, inputs, outputs, tools/data it may use, and its s
 
 Bias hard toward fewer agents: for every step, justify why a single model call would not suffice. Name any place a plain function or one prompt is enough.
 
+**Before you finish, verify:** every step has a stop/verification gate, each step is justified over a single model call, and there is exactly one human-review point for consequential output. Collapse any step a plain function or one prompt could do.
+
 ## Customization points
 - Provide `[tools]`, `[cost/latency budget]`, or `[human-review point]`.
 - Ask for a sequential chain vs. a supervisor/worker pattern.
@@ -29,3 +31,4 @@ An ordered step/agent list with roles, I/O, tools, verification gates, handoffs,
 
 ## Changelog
 - 2026-07-15: Initial entry.
+- 2026-07-15: Optimized — added an explicit verification/self-check step.
