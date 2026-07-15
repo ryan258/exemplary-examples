@@ -11,7 +11,7 @@
 //
 // Env: OPENROUTER_API_KEY, OPENROUTER_MODEL (see ../.env.example). Editor: $EDITOR (default vi).
 import { readFileSync, readdirSync, writeFileSync, mkdtempSync } from "node:fs";
-import { join, dirname, basename } from "node:path";
+import { join, dirname, basename, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
@@ -34,17 +34,29 @@ function section(body, name) {
   return lines.slice(start + 1, end).join("\n").trim() || null;
 }
 
+// Collect card files recursively; skip _template/hidden files and folders.
+function walkCards(dir) {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
+    if (e.name.startsWith("_") || e.name.startsWith(".")) return [];
+    const p = join(dir, e.name);
+    if (e.isDirectory()) return walkCards(p);
+    return e.name.endsWith(".md") && e.name.toLowerCase() !== "readme.md" ? [p] : [];
+  });
+}
+
 export function loadCards(dir = CARDS_DIR) {
-  return readdirSync(dir)
-    .filter((f) => f.endsWith(".md") && !f.startsWith("_")) // _TEMPLATE.md etc. are not runnable cards
+  return walkCards(dir)
     .sort()
-    .map((f) => {
-      const raw = readFileSync(join(dir, f), "utf8");
-      const id = basename(f, ".md").replace(/^\d+[-_]/, ""); // drop a leading NN- ordering prefix
+    .map((p) => {
+      const raw = readFileSync(p, "utf8");
+      const rel = relative(dir, p);
+      const parts = rel.split(sep);
+      const category = parts.length > 1 ? parts[parts.length - 2] : null; // parent folder = category
+      const id = basename(p, ".md").replace(/^\d+[-_]/, ""); // drop a leading NN- ordering prefix
       const title = (raw.match(/^#\s+(.+)$/m)?.[1] || id).trim();
       const prompt = section(raw, "Prompt") || raw.trim(); // only ## Prompt is sent; bare files still work
       const tier = section(raw, "Model tier");
-      return { file: f, id, title, prompt, tier, raw };
+      return { file: rel, id, category, title, prompt, tier, raw };
     });
 }
 
@@ -63,10 +75,11 @@ export function resolveChain(tokens, cards) {
 }
 
 function parseArgs(argv) {
-  const out = { cards: null, idea: null, model: null, list: false, dryRun: false, noEdit: false, selftest: false, help: false };
+  const out = { cards: null, idea: null, model: null, dir: null, list: false, dryRun: false, noEdit: false, selftest: false, help: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
-    if (a === "--list") out.list = true;
+    if (a === "--dir") out.dir = argv[++i];
+    else if (a === "--list") out.list = true;
     else if (a === "--dry-run") out.dryRun = true;
     else if (a === "--no-edit") out.noEdit = true;
     else if (a === "--selftest") out.selftest = true;
@@ -81,7 +94,11 @@ function parseArgs(argv) {
 
 function listCards(cards) {
   console.log("Cards:");
-  cards.forEach((c, i) => console.log(`  ${i + 1}. ${c.title}  (${c.id})${c.tier ? `  [${c.tier}]` : ""}`));
+  let cat;
+  cards.forEach((c, i) => {
+    if (c.category && c.category !== cat) { cat = c.category; console.log(`  ${cat}/`); }
+    console.log(`  ${i + 1}. ${c.title}  (${c.id})${c.tier ? `  [${c.tier}]` : ""}`);
+  });
 }
 
 // Edit phase: open text in $EDITOR and return the edited result.
@@ -100,10 +117,11 @@ function editInEditor(text, label) {
 
 const HELP = `Console mode — run an idea through a chain of cards, editing between steps.
 
-  node --env-file=.env console/console.mjs [--cards a,b] [--idea "..."] [--no-edit]
+  node --env-file=.env console/console.mjs [--dir <path>] [--cards a,b] [--idea "..."] [--no-edit]
   node console/console.mjs --list | --dry-run | --selftest
 
-Cards live in console/cards/ (one .md per card = its system prompt).`;
+Cards live in console/cards/ by default; --dir runs another library (e.g. --dir prompts).
+One .md per card; only its "## Prompt" section is sent to the model.`;
 
 function selftest() {
   const cards = loadCards();
@@ -121,7 +139,7 @@ async function main() {
   if (args.help) return void console.log(HELP);
   if (args.selftest) return void selftest();
 
-  const cards = loadCards();
+  const cards = loadCards(args.dir ? resolve(args.dir) : CARDS_DIR);
   if (args.list || cards.length === 0) return void listCards(cards);
 
   const rl = createInterface({ input: process.stdin, output: process.stdout });

@@ -24,7 +24,11 @@ Each card is one `.md` file in [`cards/`](cards/) using a standard entry format.
 - `## Common issues & fixes`
 - `## Changelog` — required; date + what changed and why
 
-Files beginning with `_` (like the template) are ignored by the console. A leading `NN-` on the filename only controls list order.
+Files beginning with `_` (like the template) are ignored by the console. A leading `NN-` on the filename only controls list order. Cards may also be grouped into category subfolders (the console recurses and shows the folder as a category).
+
+## Other libraries
+
+This engine also drives the general AI-engineering prompt library in [`../prompts`](../prompts) — run it with `--dir prompts` (see [`../prompts/README.md`](../prompts/README.md)).
 
 ## Quality bar & ownership
 
@@ -34,6 +38,7 @@ Before a card enters the library: it has worked for its task a few times, its ou
 
 | Flag | Meaning |
 | --- | --- |
+| `--dir <path>` | Run a different card library (default `console/cards`), e.g. `--dir prompts`. |
 | `--list` | List cards (with model tier) and exit. |
 | `--cards a,b` | Pick the chain non-interactively (indices or ids). |
 | `--idea "…"` / `--idea-file path` | Provide the input without a prompt. |
