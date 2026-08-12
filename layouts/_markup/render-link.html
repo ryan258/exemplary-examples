@@ -1,0 +1,9 @@
+{{- /* Rewrite relative .md links to their rendered page URLs; leave everything else as written. */ -}}
+{{- $u := urls.Parse .Destination -}}
+{{- $dest := .Destination -}}
+{{- if and (not $u.IsAbs) (strings.HasSuffix $u.Path ".md") -}}
+  {{- with .Page.GetPage $u.Path -}}
+    {{- $dest = printf "%s%s" .RelPermalink (cond (ne $u.Fragment "") (printf "#%s" $u.Fragment) "") -}}
+  {{- end -}}
+{{- end -}}
+<a href="{{ $dest }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text }}</a>

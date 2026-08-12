@@ -1,0 +1,4 @@
+{{- /* Training docs have no front matter; fall back to a humanized filename. */ -}}
+{{- $t := .Title -}}
+{{- if not $t -}}{{- with .File -}}{{- $t = humanize .ContentBaseName -}}{{- end -}}{{- end -}}
+{{- return $t -}}

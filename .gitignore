@@ -3,6 +3,9 @@
 
 # Build output
 _site/
+public/
+resources/
+.hugo_build.lock
 
 # OS / tooling noise
 .DS_Store

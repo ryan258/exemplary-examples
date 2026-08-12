@@ -1,0 +1,31 @@
+# Hugo wrapper around the existing repo — files stay where they are; mounts map them in.
+baseURL = "/"
+title = "Exemplary Examples™ Local Edition"
+disableKinds = ["taxonomy", "term", "rss", "sitemap"]
+
+[module]
+  # Defining any mount replaces Hugo's defaults, so layouts must be re-mounted too.
+  [[module.mounts]]
+    source = "layouts"
+    target = "layouts"
+  [[module.mounts]]
+    source = "training"
+    target = "content/training"
+    # ponytail: excludeFiles is deprecated (v0.153) but the replacement `files` globs
+    # don't exclude here in v0.164; revisit when Hugo actually removes it.
+    excludeFiles = "README.md" # top-level README is mounted as the section index below
+  [[module.mounts]]
+    source = "training/README.md"
+    target = "content/training/_index.md"
+  [[module.mounts]]
+    source = "assets"
+    target = "static/assets"
+  [[module.mounts]]
+    source = "exemplary-examples.html"
+    target = "static/exemplary-examples.html"
+  [[module.mounts]]
+    source = "404.html"
+    target = "static/404.html"
+
+[markup.goldmark.renderer]
+  unsafe = true # training docs may embed raw HTML tables

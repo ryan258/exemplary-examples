@@ -1,0 +1,18 @@
+{{ define "main" }}
+<p class="doc-crumbs">
+  {{ range .Ancestors.Reverse }}{{ if not .IsHome }}<a href="{{ .RelPermalink }}">{{ partial "title.html" . }}</a> / {{ end }}{{ end }}{{ partial "title.html" . }}
+</p>
+{{ .Content }}
+{{ if not .Content }}
+  {{/* No curated index (no README mounted as _index): fall back to a generated list. */}}
+  <h1>{{ partial "title.html" . }}</h1>
+  <ul>
+    {{ range .Sections }}
+      <li><a href="{{ .RelPermalink }}">{{ partial "title.html" . }}/</a></li>
+    {{ end }}
+    {{ range .RegularPages }}
+      <li><a href="{{ .RelPermalink }}">{{ partial "title.html" . }}</a></li>
+    {{ end }}
+  </ul>
+{{ end }}
+{{ end }}

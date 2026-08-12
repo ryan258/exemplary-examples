@@ -1,0 +1,6 @@
+{{ define "main" }}
+<p class="doc-crumbs">
+  {{ range .Ancestors.Reverse }}{{ if not .IsHome }}<a href="{{ .RelPermalink }}">{{ partial "title.html" . }}</a> / {{ end }}{{ end }}{{ partial "title.html" . }}
+</p>
+{{ .Content }}
+{{ end }}
