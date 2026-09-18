@@ -29,6 +29,9 @@ export function buildHeaders(env) {
   return headers;
 }
 
+// finish_reason values that mean the text is cut short — never a usable result.
+const INCOMPLETE = new Set(["length", "content_filter", "error"]);
+
 // Reusable one-shot chat call. Returns the assistant content; throws on error.
 export async function chat({ model, system, prompt, env = process.env }) {
   const base = env.OPENROUTER_BASE_URL || "https://openrouter.ai/api/v1";
@@ -36,11 +39,18 @@ export async function chat({ model, system, prompt, env = process.env }) {
     method: "POST",
     headers: buildHeaders(env),
     body: JSON.stringify(buildPayload(model, prompt, system)),
+    // ponytail: one flat deadline; per-step budgets if long jobs ever need them.
+    signal: AbortSignal.timeout(Number(env.OPENROUTER_TIMEOUT_MS) || 120000),
   });
   if (!res.ok) throw new Error(`OpenRouter ${res.status} ${res.statusText}: ${await res.text()}`);
   const json = await res.json();
-  const content = json.choices?.[0]?.message?.content;
-  if (content == null) throw new Error(`Unexpected response: ${JSON.stringify(json)}`);
+  const choice = json.choices?.[0];
+  const content = choice?.message?.content;
+  if (!content?.trim()) throw new Error(`Empty or unexpected response: ${JSON.stringify(json)}`);
+  // ponytail: blocklist, not allowlist — providers invent their own success words.
+  if (INCOMPLETE.has(choice.finish_reason)) {
+    throw new Error(`Response incomplete (finish_reason: ${choice.finish_reason}). Partial output kept out of the chain:\n${content}`);
+  }
   return content;
 }
 

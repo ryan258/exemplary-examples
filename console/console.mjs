@@ -23,14 +23,25 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const CARDS_DIR = join(HERE, "cards");
 
 // Pull one "## Section" body out of a card, or null if absent/empty.
-function section(body, name) {
+// Headings inside fenced code blocks are content, not boundaries.
+export function section(body, name) {
   const lines = body.split(/\r?\n/);
-  const start = lines.findIndex((l) => new RegExp(`^##\\s+${name}\\b`, "i").test(l));
-  if (start === -1) return null;
-  let end = lines.length;
-  for (let i = start + 1; i < lines.length; i++) {
-    if (/^##\s+/.test(lines[i])) { end = i; break; }
-  }
+  const heads = [];
+  let fence = null;
+  lines.forEach((l, i) => {
+    const f = l.match(/^\s*(`{3,}|~{3,})/);
+    if (f) {
+      const char = f[1][0], len = f[1].length;
+      // A shorter run of the same character is content inside a longer fence, not a close.
+      if (!fence) fence = { char, len };
+      else if (char === fence.char && len >= fence.len) fence = null;
+      return;
+    }
+    if (!fence && /^##\s+/.test(l)) heads.push(i);
+  });
+  const start = heads.find((i) => new RegExp(`^##\\s+${name}\\b`, "i").test(lines[i]));
+  if (start === undefined) return null;
+  const end = heads.find((i) => i > start) ?? lines.length;
   return lines.slice(start + 1, end).join("\n").trim() || null;
 }
 
@@ -54,7 +65,8 @@ export function loadCards(dir = CARDS_DIR) {
       const category = parts.length > 1 ? parts[parts.length - 2] : null; // parent folder = category
       const id = basename(p, ".md").replace(/^\d+[-_]/, ""); // drop a leading NN- ordering prefix
       const title = (raw.match(/^#\s+(.+)$/m)?.[1] || id).trim();
-      const prompt = section(raw, "Prompt") || raw.trim(); // only ## Prompt is sent; bare files still work
+      const prompt = section(raw, "Prompt");
+      if (!prompt) throw new Error(`Card ${rel} has no usable "## Prompt" section.`);
       const tier = section(raw, "Model tier");
       return { file: rel, id, category, title, prompt, tier, raw };
     });
@@ -68,27 +80,37 @@ export function resolveChain(tokens, cards) {
     .map((t) => {
       const n = Number(t);
       if (Number.isInteger(n) && n >= 1 && n <= cards.length) return cards[n - 1];
-      const hit = cards.find((c) => c.id === t) || cards.find((c) => c.id.includes(t));
-      if (!hit) throw new Error(`No card matches "${t}". Try --list.`);
-      return hit;
+      const exact = cards.filter((c) => c.id === t);
+      if (exact.length === 1) return exact[0];
+      const hits = exact.length ? exact : cards.filter((c) => c.id.includes(t));
+      if (!hits.length) throw new Error(`No card matches "${t}". Try --list.`);
+      if (hits.length > 1) throw new Error(`"${t}" matches ${hits.map((c) => c.id).join(", ")}. Be specific.`);
+      return hits[0];
     });
 }
 
-function parseArgs(argv) {
+const FLAGS = { "--list": "list", "--dry-run": "dryRun", "--no-edit": "noEdit", "--selftest": "selftest", "--help": "help", "-h": "help" };
+const OPTS = { "--dir": "dir", "--cards": "cards", "--idea": "idea", "--idea-file": "ideaFile", "--model": "model" };
+
+export function parseArgs(argv) {
   const out = { cards: null, idea: null, model: null, dir: null, list: false, dryRun: false, noEdit: false, selftest: false, help: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
-    if (a === "--dir") out.dir = argv[++i];
-    else if (a === "--list") out.list = true;
-    else if (a === "--dry-run") out.dryRun = true;
-    else if (a === "--no-edit") out.noEdit = true;
-    else if (a === "--selftest") out.selftest = true;
-    else if (a === "--help" || a === "-h") out.help = true;
-    else if (a === "--cards") out.cards = argv[++i].split(/[,\s]+/).filter(Boolean);
-    else if (a === "--idea") out.idea = argv[++i];
-    else if (a === "--idea-file") out.idea = readFileSync(argv[++i], "utf8");
-    else if (a === "--model") out.model = argv[++i];
+    if (FLAGS[a]) { out[FLAGS[a]] = true; continue; }
+    const [name, ...inlineParts] = a.split("=");
+    const inline = a.includes("=") ? inlineParts.join("=") : null;
+    const key = OPTS[name];
+    if (!key) throw new Error(`Unknown option "${name}". Try --help.`);
+    // Only --opt=value may carry a leading dash; a bare dashed token is the next option.
+    const value = inline ?? argv[++i];
+    if (value === undefined || (inline === null && value.startsWith("-"))) {
+      throw new Error(`${name} needs a value. For a value starting with "-", use ${name}=<value>.`);
+    }
+    if (key === "cards") out.cards = value.split(/[,\s]+/).filter(Boolean);
+    else if (key === "ideaFile") out.idea = readFileSync(value, "utf8");
+    else out[key] = value;
   }
+  if (out.cards && !out.cards.length) throw new Error("--cards was empty.");
   return out;
 }
 
@@ -104,14 +126,13 @@ function listCards(cards) {
 // Edit phase: open text in $EDITOR and return the edited result.
 // ponytail: relies on $EDITOR grabbing the tty; readline is idle during this sync spawn.
 function editInEditor(text, label) {
-  const editor = process.env.EDITOR || process.env.VISUAL || "vi";
+  const [editor, ...editorArgs] = (process.env.EDITOR || process.env.VISUAL || "vi").split(/\s+/);
   const file = join(mkdtempSync(join(tmpdir(), "console-")), `${label}.md`);
   writeFileSync(file, text);
-  const r = spawnSync(editor, [file], { stdio: "inherit" });
-  if (r.error) {
-    console.error(`(editor '${editor}' failed: ${r.error.message}; keeping the unedited result)`);
-    return text;
-  }
+  const r = spawnSync(editor, [...editorArgs, file], { stdio: "inherit" });
+  // Never advance on an edit that did not happen — the next step is a paid call.
+  if (r.error) throw new Error(`Editor '${editor}' failed: ${r.error.message}. Result kept at ${file}`);
+  if (r.status !== 0) throw new Error(`Editor '${editor}' exited ${r.status ?? r.signal}. Result kept at ${file}`);
   return readFileSync(file, "utf8");
 }
 
@@ -131,6 +152,20 @@ function selftest() {
   assert.equal(chain[0].file, cards[0].file);
   assert.equal(chain[1].id, cards[1].id);
   assert.throws(() => resolveChain(["definitely-not-a-card"], cards));
+  assert.throws(() => parseArgs(["--modle", "x"]), /Unknown option/);
+  assert.throws(() => parseArgs(["--cards"]), /needs a value/);
+  assert.throws(() => parseArgs(["--cards", "--idea"]), /needs a value/);
+  assert.throws(() => parseArgs(["--model", "--modle", "--idea", "t"]), /--model needs a value/);
+  assert.equal(parseArgs(["--idea=-dash-led text"]).idea, "-dash-led text");
+  assert.equal(parseArgs(["--model=a/b=c"]).model, "a/b=c");
+  const nested = "## Prompt\nreal\n\n````md\n```js\nx\n```\n## Still Inside\n````\ntail\n\n## Model tier\nsmall";
+  assert.match(section(nested, "Prompt"), /## Still Inside[\s\S]*tail$/);
+  assert.equal(section(nested, "Model tier"), "small");
+  assert.equal(parseArgs(["--dry-run", "--idea", "x"]).idea, "x");
+  const fenced = "## Prompt\nreal\n\n```md\n## Not A Heading\n```\nstill real\n\n## Model tier\nsmall";
+  assert.equal(section(fenced, "Prompt"), "real\n\n```md\n## Not A Heading\n```\nstill real");
+  assert.equal(section(fenced, "Model tier"), "small");
+  assert.equal(section("## Prompt\n\n## Other\nx", "Prompt"), null);
   console.log(`selftest ok (${cards.length} cards: ${cards.map((c) => c.id).join(", ")})`);
 }
 
@@ -155,6 +190,10 @@ async function main() {
     let current = args.idea;
     if (current == null) current = await rl.question("Idea to run through the chain: ");
     if (!current.trim()) throw new Error("No idea provided.");
+    const brief = current;
+    if (!args.dryRun && !process.env.OPENROUTER_API_KEY) {
+      throw new Error("Missing OPENROUTER_API_KEY. Run with --env-file=.env, or use --dry-run.");
+    }
 
     for (let i = 0; i < chain.length; i++) {
       const card = chain[i];
@@ -166,7 +205,9 @@ async function main() {
       }
       const model = args.model || process.env.OPENROUTER_MODEL;
       if (!model) throw new Error("No model. Set OPENROUTER_MODEL in .env or pass --model <slug>.");
-      const out = await chat({ model, system: card.prompt, prompt: current, env: process.env });
+      // R3: later cards judge against the original brief, not just the previous output.
+      const input = i === 0 ? current : `ORIGINAL BRIEF:\n${brief}\n\nPREVIOUS STEP OUTPUT:\n${current}`;
+      const out = await chat({ model, system: card.prompt, prompt: input, env: process.env });
       console.log(`\n${out}\n`);
 
       if (!last && !args.noEdit) {
