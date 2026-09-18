@@ -4,8 +4,8 @@ A five-minute walkthrough to confirm the Exemplary Examples™ **Local Edition**
 
 ## Prerequisites
 
-- **Node** 18+ (has global `fetch` and `--env-file`; tested on 22).
-- **Python 3** (for the static preview server).
+- **Node** 20.6+ (`--env-file` landed in 20.6.0; global `fetch` in 18). Tested on 22.
+- **Hugo** (extended; tested on 0.166) for the preview server.
 - A **browser**.
 - Optional: an **OpenRouter API key** (for the LLM caller) and a **Chromium** binary (for the browser audit).
 
@@ -17,15 +17,17 @@ Run everything from the repo root.
 node --test tests/*.test.js
 ```
 
-**Expect:** all tests pass (`# pass 12`, `# fail 0`). This checks the site's semantics, positioning, single-offer integrity, closed-state safety, and metadata; that every relative Markdown link resolves; and that the training run keeps its evidence and its "not a certification" boundary.
+**Expect:** `# fail 0` (the pass count grows as contracts are added). This checks the site's semantics, positioning, single-offer integrity, closed-state safety, and metadata; that every relative Markdown link resolves; and that the training run keeps its evidence and its "not a certification" boundary.
 
 ## 2. Preview the website
 
 ```bash
-python3 -m http.server 8000
+hugo server
 ```
 
-Open <http://localhost:8000/> and walk the five exhibits:
+`hugo server` binds to `127.0.0.1` and serves only the generated site from memory — the repository directory is never a document root, so `.env` and `.git/` are not reachable. Don't serve the repo root with a generic static server; that does expose them.
+
+Open <http://localhost:1313/> and walk the five exhibits:
 
 - **Home / Premise / Practice / Method / Pilot** are all reachable from the nav.
 - On a skim you can tell it's an **openly satirical brand** *and* a **real professional method** — without mistaking fiction for a real client claim.
@@ -34,7 +36,11 @@ Open <http://localhost:8000/> and walk the five exhibits:
 
 Keyboard check: press `Tab` from the top — the first stop is **"Skip to main content"**; `Enter` jumps focus into the page.
 
-404 check: open <http://localhost:8000/nope> → the branded **"This exhibit isn't on file."** page.
+404 check: open <http://localhost:1313/nope> → the branded **"This exhibit isn't on file."** page.
+
+Isolation check: <http://localhost:1313/.env> and <http://localhost:1313/.git/HEAD> both return 404.
+
+Training content: the nav's **Training** link reaches the rendered Markdown; every section page lists its own documents.
 
 **Expect:** no console errors (DevTools → Console), no horizontal scrollbar, legible at narrow widths.
 
@@ -53,7 +59,7 @@ node scripts/llm.mjs --selftest      # prints: selftest ok
 Live call:
 
 ```bash
-cp .env.example .env                 # then put your key in .env:
+cp -n .env.example .env              # -n: never clobber an existing .env
                                      #   OPENROUTER_API_KEY=sk-or-...
 node --env-file=.env scripts/llm.mjs "In one sentence, what is Exemplary Examples?"
 ```
@@ -89,6 +95,6 @@ CHROMIUM_PATH=/path/to/chrome-headless-shell node tests/browser-audit.cjs
 
 - [ ] `node --test tests/*.test.js` → all pass.
 - [ ] The site previews locally; the satire-and-real-method premise is clear; Contact is closed.
-- [ ] The 404 route shows the branded page.
+- [ ] The 404 route renders the branded page.
 - [ ] `node scripts/llm.mjs --selftest` prints `selftest ok` (and a live call works if you set a key).
 - [ ] The training run's frozen hash verifies and its certification boundary reads "Not yet."

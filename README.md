@@ -15,12 +15,19 @@ The governing scope decision is recorded in [`LOCAL-EDITION.md`](LOCAL-EDITION.m
 ## What is complete
 
 - The responsive, accessible Local Edition website in [`index.html`](index.html).
-- The original single-file parody prototype in [`exemplary-examples.html`](exemplary-examples.html).
+- The original single-file parody prototype in [`exemplary-examples.html`](exemplary-examples.html), kept as history and excluded from the generated site.
 - The validated EE-TRAINING-2026.07 curriculum, workshops, simulations, assessment system, and facilitation guides in [`training/`](training/).
 - A controlled synthetic training run with an isolated candidate, two independent assessors, calibration, and frozen evidence in [`training/dry-runs/2026-07-13-ee-mvq-01-r1/`](training/dry-runs/2026-07-13-ee-mvq-01-r1/).
 - The ten-role disclosed AI staff agents simulation and its governance, data, authorization, and escalation reference materials in [`operations/`](operations/).
 - Synthetic customer-discovery exercises and reusable research materials in [`discovery/`](discovery/).
 - Automated documentation and website contracts in [`tests/`](tests/).
+
+## What is still moving
+
+- The card runner in [`console/`](console/) and the cards in [`prompts/`](prompts/) are a working proof of concept, not a finished tool. It sends one prompt per step and edits between steps; it has no saved run state, so an interrupted chain starts over.
+- Each step carries the original brief forward, so a later card can check work against what was actually asked. It does not yet detect an unanswered clarifying question: a card that responds by asking one will have that question passed to the next card as if it were finished work. Watch for it when chaining cards that open with questions.
+- The runner has no tools, retrieval, or code execution. A card named "Code Review" produces a review written from the text you give it — it cannot open a repository or run tests. Read card names as tasks the model is asked to perform, not capabilities the runner has.
+- The Hugo site renders every Markdown file in `training/`, assessor keys and facilitator material included. That is fine as an owner's reference archive; it is not a candidate-isolated evaluation bundle.
 
 ## Local Edition boundary
 
@@ -60,17 +67,19 @@ Start with [`training/README.md`](training/README.md) or read the completed [`dr
 
 ## Run locally
 
-No dependency installation or build step is required.
+The site is a Hugo wrapper over the Markdown already in the repository; no other dependency or install step is required.
 
 ```bash
-python3 -m http.server 8000
+hugo server
 ```
 
 Open:
 
 ```text
-http://localhost:8000/
+http://localhost:1313/
 ```
+
+`hugo server` serves only generated output, bound to `127.0.0.1`. Do not preview by serving the repository root with a generic static server — that publishes `.env` and `.git/` to anything that can reach the port.
 
 The page contains no form, inquiry handoff, analytics, backend, storage, or automatic publishing mechanism. Google Fonts are the only remote browser resources; the content and functionality are otherwise static.
 
@@ -99,6 +108,10 @@ The prior real-browser verification record remains at [`operations/WEBSITE-VERIF
 | [`discovery/`](discovery/) | Synthetic discovery exercises and reusable templates |
 | [`ROADMAP.md`](ROADMAP.md) | Archived external-expansion plan |
 | [`CHANGELOG.md`](CHANGELOG.md) | Historical work record |
+| [`console/`](console/) | Card runner CLI and its seed card library |
+| [`prompts/`](prompts/) | Technical prompt cards, runnable via `--dir prompts` |
+| [`scripts/llm.mjs`](scripts/llm.mjs) | The single provider call both of the above use |
+| [`hugo.toml`](hugo.toml), [`layouts/`](layouts/) | Renders the Markdown content as a browsable site |
 | [`tests/`](tests/) | Local contracts and browser-audit tooling |
 
 ## Safe use
@@ -111,4 +124,4 @@ The prior real-browser verification record remains at [`operations/WEBSITE-VERIF
 
 ## Definition of complete
 
-The Local Edition is complete because its website, method, training curriculum, simulations, assessment system, controlled validation run, and reference operating materials all exist and pass their local contracts. Nothing requires a customer, Accountable Principal, commercial entity, public deployment, or real-world certification unless the owner explicitly reopens external commercialization through a new scope decision.
+The Local Edition's *content* is complete: its website, method, training curriculum, simulations, assessment system, controlled validation run, and reference operating materials all exist and pass their local contracts. The card runner listed under "What is still moving" is deliberately outside that claim. Nothing requires a customer, Accountable Principal, commercial entity, public deployment, or real-world certification unless the owner explicitly reopens external commercialization through a new scope decision.

@@ -1,5 +1,7 @@
 # Demo — Sales Walkthrough
 
+> **Historical / simulation material.** There is no Executive Retainer pilot, no intake, and no way to engage Exemplary Examples™ — see [`../LOCAL-EDITION.md`](../LOCAL-EDITION.md). This script was written for the archived external-expansion plan and is retained as a writing specimen. Do not deliver it to anyone as a real offer. For what the project actually does today, read [`happy-path.md`](happy-path.md).
+
 A stage-by-stage script for walking a prospect through Exemplary Examples™ and winning the relationship. The differentiator is **trust, not hype**: this brand builds the perfect example *and* shows its work, so a prospect can put it in front of their board without fear.
 
 ## The one idea to land

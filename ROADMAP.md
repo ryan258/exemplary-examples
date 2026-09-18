@@ -1,6 +1,6 @@
 # Exemplary Examples™ Roadmap
 
-> **Archived external-expansion plan.** The Local Edition is a complete local-only project. Unchecked items below are not active work or completion blockers. This document is retained as design archaeology and becomes relevant only if [`LOCAL-EDITION.md`](LOCAL-EDITION.md) is explicitly superseded.
+> **Archived external-expansion plan.** The Local Edition is a complete local-only project. Unchecked items below are not active work or completion blockers. This document is retained as design archaeology and becomes relevant only if [`LOCAL-EDITION.md`](LOCAL-EDITION.md) is explicitly superseded. For the current local workflow, Hugo site wrapper, and console card runner tooling, see [`README.md`](README.md), [`docs/happy-path.md`](docs/happy-path.md), and [`docs/continue.md`](docs/continue.md).
 
 ## Purpose
 
