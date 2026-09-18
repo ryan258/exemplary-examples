@@ -1,4 +1,9 @@
-{{- /* Training docs have no front matter; fall back to a humanized filename. */ -}}
+{{- /* Training docs have no front matter: use their H1, then a humanized filename. */ -}}
 {{- $t := .Title -}}
+{{- if not $t -}}
+  {{- with findRE `(?m)^#\s+\S.*$` .RawContent 1 -}}
+    {{- $t = strings.TrimSpace (strings.TrimPrefix "#" (index . 0)) -}}
+  {{- end -}}
+{{- end -}}
 {{- if not $t -}}{{- with .File -}}{{- $t = humanize .ContentBaseName -}}{{- end -}}{{- end -}}
 {{- return $t -}}

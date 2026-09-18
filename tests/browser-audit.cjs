@@ -9,7 +9,7 @@ try {
 }
 const { chromium } = playwright;
 
-const url = process.env.SITE_URL || "http://127.0.0.1:8000/";
+const url = process.env.SITE_URL || "http://127.0.0.1:1313/";
 const executablePath = process.env.CHROMIUM_PATH;
 const outputDirectory = process.env.AUDIT_DIR || "/tmp/exemplary-examples-browser-audit";
 const widths = [320, 375, 768, 1024, 1440];
@@ -52,7 +52,13 @@ fs.mkdirSync(outputDirectory, { recursive: true });
       const skippedHeadingLevels = headingLevels.some(
         (level, index) => index > 0 && level > headingLevels[index - 1] + 1,
       );
+      const isControl = (element) =>
+        // Navigation and skip links are controls wherever they sit — a nav's own list
+        // items do not make them inline prose.
+        Boolean(element.closest("nav, header, footer")) || element.classList.contains("skip-link");
+      const isInProse = (element) => Boolean(element.closest("p, li, td, blockquote, h1, h2, h3, h4"));
       const smallTargets = [...document.querySelectorAll("a")]
+        .filter((element) => isControl(element) || !isInProse(element))
         .map((element) => ({
           text: element.textContent.trim(),
           width: Math.round(element.getBoundingClientRect().width),
@@ -77,7 +83,7 @@ fs.mkdirSync(outputDirectory, { recursive: true });
         skippedHeadingLevels,
         smallTargets,
         interactiveForms: document.querySelectorAll("form").length,
-        localEditionComplete: /local edition is complete/i.test(document.body.textContent),
+        localEditionDisclosed: /local edition/i.test(document.body.textContent),
       };
     });
 
@@ -127,7 +133,11 @@ fs.mkdirSync(outputDirectory, { recursive: true });
     if (result.consoleErrors.length || result.pageErrors.length) issues.push("browser error");
     if (result.failedResponses.length) issues.push("failed resource response");
     if (result.interactiveForms !== 0) issues.push("unexpected interactive form");
-    if (!result.localEditionComplete) issues.push("missing Local Edition completion status");
+    if (result.smallTargets.length) {
+      issues.push(`standalone target under 24px: ${result.smallTargets.map((t) => t.text || "(no text)").join(", ")}`);
+    }
+    // Scope boundary is the contract; a completion claim is not. See documentation-contract.
+    if (!result.localEditionDisclosed) issues.push("missing Local Edition disclosure");
     return issues.map((issue) => `${result.width}px: ${issue}`);
   });
   if (firstFocus.href !== "#main-content") failures.push("skip link is not first focus target");

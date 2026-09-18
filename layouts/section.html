@@ -2,17 +2,15 @@
 <p class="doc-crumbs">
   {{ range .Ancestors.Reverse }}{{ if not .IsHome }}<a href="{{ .RelPermalink }}">{{ partial "title.html" . }}</a> / {{ end }}{{ end }}{{ partial "title.html" . }}
 </p>
-{{ .Content }}
-{{ if not .Content }}
-  {{/* No curated index (no README mounted as _index): fall back to a generated list. */}}
-  <h1>{{ partial "title.html" . }}</h1>
-  <ul>
-    {{ range .Sections }}
-      <li><a href="{{ .RelPermalink }}">{{ partial "title.html" . }}/</a></li>
-    {{ end }}
-    {{ range .RegularPages }}
-      <li><a href="{{ .RelPermalink }}">{{ partial "title.html" . }}</a></li>
-    {{ end }}
-  </ul>
-{{ end }}
+{{ if not .Content }}<h1>{{ partial "title.html" . }}</h1>{{ else }}{{ .Content }}{{ end }}
+{{/* Always list what this section holds: a curated README never links every page. */}}
+<h2>Everything in this section</h2>
+<ul>
+  {{ range .Sections }}
+    <li><a href="{{ .RelPermalink }}">{{ partial "title.html" . }}/</a></li>
+  {{ end }}
+  {{ range .RegularPages }}
+    <li><a href="{{ .RelPermalink }}">{{ partial "title.html" . }}</a></li>
+  {{ end }}
+</ul>
 {{ end }}

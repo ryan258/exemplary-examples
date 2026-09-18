@@ -21,9 +21,6 @@ disableKinds = ["taxonomy", "term", "rss", "sitemap"]
     source = "assets"
     target = "static/assets"
   [[module.mounts]]
-    source = "exemplary-examples.html"
-    target = "static/exemplary-examples.html"
-  [[module.mounts]]
     source = "404.html"
     target = "static/404.html"
 

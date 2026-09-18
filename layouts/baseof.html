@@ -5,17 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b1526">
   <title>{{ if not .IsHome }}{{ partial "title.html" . }} · {{ end }}{{ site.Title }}</title>
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="{{ "assets/favicon.svg" | relURL }}" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="{{ "assets/styles.css" | relURL }}">
   <style>
     /* Doc pages: markdown typography on top of the brand stylesheet. */
     .doc { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 5rem; font-family: var(--sans); color: var(--ink); }
     .doc h1, .doc h2, .doc h3, .doc h4 { font-family: var(--serif); color: var(--navy); line-height: 1.2; }
     .doc h1 { font-size: 2.2rem; margin-top: 0; }
-    .doc h2 { margin-top: 2.5rem; border-bottom: 1px solid var(--line); padding-bottom: 0.3rem; }
+    .doc h2 { font-size: 1.5rem; margin-top: 2.5rem; border-bottom: 1px solid var(--line); padding-bottom: 0.3rem; }
+    .doc h3 { font-size: 1.15rem; }
     .doc a { color: var(--brass-dark); }
     .doc code { font-family: var(--mono); font-size: 0.9em; background: rgba(20, 33, 61, 0.06); padding: 0.1em 0.3em; border-radius: 3px; }
     .doc pre { background: var(--navy-deep); color: var(--cream); padding: 1rem; border-radius: 6px; overflow-x: auto; }
@@ -34,13 +35,14 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
   <header class="doc-header">
     <nav aria-label="Primary navigation">
-      <a class="wordmark-link" href="/">Exemplary Examples<sup>™</sup></a>
-      <a href="/training/">Training</a>
+      <a class="wordmark-link" href="{{ site.Home.RelPermalink }}">Exemplary Examples<sup>™</sup></a>
+      {{ with site.GetPage "/training" }}<a href="{{ .RelPermalink }}">{{ partial "title.html" . }}</a>{{ end }}
     </nav>
   </header>
-  <main class="doc">
+  <main class="doc" id="main-content" tabindex="-1">
     {{ block "main" . }}{{ end }}
   </main>
 </body>

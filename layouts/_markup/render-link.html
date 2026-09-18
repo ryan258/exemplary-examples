@@ -3,7 +3,9 @@
 {{- $dest := .Destination -}}
 {{- if and (not $u.IsAbs) (strings.HasSuffix $u.Path ".md") -}}
   {{- with .Page.GetPage $u.Path -}}
-    {{- $dest = printf "%s%s" .RelPermalink (cond (ne $u.Fragment "") (printf "#%s" $u.Fragment) "") -}}
+    {{- $q := cond (ne $u.RawQuery "") (printf "?%s" $u.RawQuery) "" -}}
+    {{- $f := cond (ne $u.Fragment "") (printf "#%s" $u.Fragment) "" -}}
+    {{- $dest = printf "%s%s%s" .RelPermalink $q $f -}}
   {{- end -}}
 {{- end -}}
 <a href="{{ $dest }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text }}</a>
