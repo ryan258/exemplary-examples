@@ -13,11 +13,12 @@ Application and accessibility conversation
                     ↓
         Orientation and diagnostic
                     ↓
-       Core Modules 1–4 + Portfolio A
+   Core Modules 1–5 + Module 7 safety lessons
+            (Module 5 produces Portfolio A)
                     ↓
              Contributor gate
                     ↓
-       Applied Modules 5–7 + Portfolio B
+        Applied Modules 6–7 + Portfolio B
                     ↓
       Live simulations + review panel
                     ↓

@@ -3,7 +3,13 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 
+const crypto = require("node:crypto");
+
 const root = path.resolve(__dirname, "..");
+
+function sha256(file) {
+  return crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
+}
 
 function markdownFiles(directory = root) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -45,8 +51,8 @@ test("governing documents define the completed Local Edition scope", () => {
   }
   assert.match(readme, /AI staff agents?/i);
   assert.match(readme, /simulation/i);
-  assert.match(status, /complete/i);
-  assert.doesNotMatch(status, /current blockers/i);
+  // A truthful blocked or in-progress status must be allowed to ship; only the
+  // scope boundary above is a contract. Status wording is not.
   assert.match(charter, /Accountable Principal/i);
   for (const id of ["EE-01", "EE-02", "EE-03", "EE-04", "EE-05", "EE-06", "EE-07", "EE-08", "EE-09", "EE-10"]) {
     assert.match(charter, new RegExp(id));
@@ -145,4 +151,38 @@ test("the validated training release retains its run evidence and certification 
   assert.match(certification, /\[x\] Not yet/i);
   assert.match(certification, /No new client or external authority is granted/i);
   assert.match(fixture, /Fixture version:\*\* EE-MVQ-01\.1/i);
+});
+
+test("the frozen run's recorded hashes still match its files", () => {
+  const runRoot = path.join(root, "training", "dry-runs", "2026-07-13-ee-mvq-01-r1");
+  const manifest = fs.readFileSync(path.join(runRoot, "00-RUN-MANIFEST.md"), "utf8");
+  // The run's own fixture/ copy is the one it executed, and it is what the manifest
+  // hashes describe. The reusable fixtures/EE-MVQ-01/ tree has since moved to v01.1
+  // and is deliberately not compared here.
+  const runFixture = path.join(runRoot, "fixture");
+
+  const expected = new Map([
+    [path.join(runFixture, "01-CANDIDATE-PACKET.md"), /Candidate packet SHA-256:\*\* `([0-9a-f]{64})`/],
+    [path.join(runFixture, "02-FACILITATOR-PACKET.md"), /Facilitator packet SHA-256:\*\* `([0-9a-f]{64})`/],
+    [path.join(runFixture, "03-ASSESSOR-KEY.md"), /Assessor key SHA-256:\*\* `([0-9a-f]{64})`/],
+  ]);
+  for (const record of [
+    "02-CANDIDATE-OUTPUT.md",
+    "04-VERITY-SCORE.md",
+    "05-COUNTERPOINT-SCORE.md",
+    "06-CALIBRATION.md",
+    "07-CERTIFICATION-RECORD.md",
+    "08-DRY-RUN-REPORT.md",
+  ]) {
+    expected.set(path.join(runRoot, record), new RegExp(`${record}\`; SHA-256 \`([0-9a-f]{64})`));
+  }
+
+  const mismatched = [];
+  for (const [file, pattern] of expected) {
+    const recorded = manifest.match(pattern);
+    assert.ok(recorded, `no hash recorded in the manifest for ${path.basename(file)}`);
+    const actual = sha256(file);
+    if (actual !== recorded[1]) mismatched.push(`${path.relative(root, file)}: ${recorded[1]} -> ${actual}`);
+  }
+  assert.deepEqual(mismatched, [], "frozen evidence no longer matches its manifest");
 });

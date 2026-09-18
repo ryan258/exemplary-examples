@@ -22,4 +22,6 @@ The candidate must not receive facilitator or assessor material. Assessors must 
 
 ## Integrity
 
+These files are the reusable fixture at **v01.1**. The run `2026-07-13-ee-mvq-01-r1` executed **v01.0** and kept its own copy in that run's `fixture/` directory, which is what the run manifest's hashes describe. Compare against that copy, not this directory. `tests/documentation-contract.test.js` hash-verifies all nine: the run's three fixture files and its six records.
+
 Copy the files into a run-specific directory and record their hashes or immutable versions in the run manifest. Do not edit the fixture during a run. Record discovered ambiguity in the dry-run report and revise the fixture only under a new version.

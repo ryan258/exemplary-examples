@@ -14,7 +14,7 @@ The satirical brand exposes the desire for perfect supporting evidence by taking
 
 ### Professional practice
 
-The real company helps consultants, agencies, and presentation professionals clarify decisions, find or build appropriate examples, model scenarios, and create executive-ready exhibits. In this context, persuasive clarity never outranks truth classification.
+The company as portrayed in this training material helps consultants, agencies, and presentation professionals clarify decisions, find or build appropriate examples, model scenarios, and create executive-ready exhibits. In this context, persuasive clarity never outranks truth classification.
 
 The same artifact can be clever, sharp, and memorable without impersonating verified evidence.
 
