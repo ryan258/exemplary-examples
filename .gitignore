@@ -10,3 +10,9 @@ resources/
 # OS / tooling noise
 .DS_Store
 node_modules/
+
+# Saved console runs
+console/runs/
+
+# Local Claude Code permissions
+.claude/settings.local.json
