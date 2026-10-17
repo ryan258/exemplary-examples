@@ -1,0 +1,11 @@
+{
+  "name": "exemplary-examples",
+  "private": true,
+  "description": "Local Edition: a satirical consultancy site, the six-class truth standard, a card runner, and the Claim Audit workflow. No dependencies.",
+  "type": "commonjs",
+  "engines": { "node": ">=20.6" },
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "check:claim-audit": "node claim-audit/check.mjs"
+  }
+}

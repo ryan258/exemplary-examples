@@ -39,9 +39,11 @@ a {
   color: inherit;
 }
 
+/* Two-tone indicator: the navy outline carries light surfaces, the brass inner ring carries dark ones. */
 :focus-visible {
-  outline: 3px solid var(--brass-light);
-  outline-offset: 4px;
+  outline: 3px solid var(--navy-deep);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px var(--brass-light);
 }
 
 .skip-link {
@@ -666,6 +668,15 @@ h3 {
 }
 
 @media (max-width: 780px) {
+  /* The wrapped nav makes the header too tall to stay pinned without covering anchor targets. */
+  .site-header {
+    position: static;
+  }
+
+  section {
+    scroll-margin-top: 1rem;
+  }
+
   .nav-shell {
     align-items: flex-start;
     flex-direction: column;

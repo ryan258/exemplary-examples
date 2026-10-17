@@ -1,35 +1,56 @@
-name: Lighthouse (production)
+name: Lighthouse (local build)
 
-# On-demand production performance/accessibility/SEO audit of the live site.
-# Closes the measurable half of roadmap Task 3.2 without needing local Chrome.
-# Scores are signals, not a hard gate (per the roadmap), so this does not fail the build.
+# Manual audit of the site generated from a chosen revision — not the historical public URL.
+# Builds with Hugo, serves the output on localhost, and audits the homepage plus one training route.
+# Scores are signals, not a gate, so this does not fail the build. Nothing is published.
 
 on:
   workflow_dispatch:
+    inputs:
+      ref:
+        description: Branch, tag, or commit to build and audit
+        default: main
 
 permissions:
   contents: read
+
+env:
+  HUGO_VERSION: 0.166.0
 
 jobs:
   lighthouse:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
+      - name: Install Hugo
+        run: |
+          curl -fsSL "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz" | tar -xz hugo
+          ./hugo version
+      - name: Build the site
+        run: ./hugo --destination ./site
       - name: Locate Chrome
         run: echo "CHROME_PATH=$(which google-chrome || which google-chrome-stable || which chromium-browser)" >> "$GITHUB_ENV"
-      - name: Run Lighthouse against the live site
+      - name: Audit the generated site
         run: |
-          npx -y lighthouse "https://ryan258.github.io/exemplary-examples/" \
-            --only-categories=performance,accessibility,best-practices,seo \
-            --chrome-flags="--headless=new --no-sandbox" \
-            --output=json --output=html --output-path=./lighthouse-report \
-            --quiet
-      - name: Report category scores
-        run: |
-          node -e "const r=require('./lighthouse-report.report.json');for(const[k,c]of Object.entries(r.categories))console.log(c.title.padEnd(16), Math.round(c.score*100));"
+          python3 -m http.server 8080 --directory ./site >/dev/null 2>&1 &
+          sleep 2
+          i=0
+          for path in "/" "/training/"; do
+            i=$((i + 1))
+            npx -y lighthouse@12.8.2 "http://127.0.0.1:8080${path}" \
+              --only-categories=performance,accessibility,best-practices,seo \
+              --chrome-flags="--headless=new --no-sandbox" \
+              --output=json --output=html --output-path="./lighthouse-report-${i}" \
+              --quiet
+            echo "== ${path}"
+            node -e "const r=require('./lighthouse-report-${i}.report.json');for(const[k,c]of Object.entries(r.categories))console.log(c.title.padEnd(16), Math.round(c.score*100));"
+          done
       - uses: actions/upload-artifact@v4
         with:
           name: lighthouse-report
-          path: ./lighthouse-report.report.html
+          path: ./lighthouse-report-*.report.html

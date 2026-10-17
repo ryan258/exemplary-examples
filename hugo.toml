@@ -3,6 +3,7 @@ baseURL = "/"
 title = "Exemplary Examples™ Local Edition"
 disableKinds = ["taxonomy", "term", "rss", "sitemap"]
 
+# 404 is a Hugo layout (layouts/404.html) so its asset and home URLs resolve from any depth.
 [module]
   # Defining any mount replaces Hugo's defaults, so layouts must be re-mounted too.
   [[module.mounts]]
@@ -20,9 +21,6 @@ disableKinds = ["taxonomy", "term", "rss", "sitemap"]
   [[module.mounts]]
     source = "assets"
     target = "static/assets"
-  [[module.mounts]]
-    source = "404.html"
-    target = "static/404.html"
 
 [markup.goldmark.renderer]
   unsafe = true # training docs may embed raw HTML tables

@@ -1,0 +1,7 @@
+{{- /* Headings inside a blockquote are quoted exhibit/slide content, not the page's own outline.
+       Show them as bold text so they cannot add H1s or skip levels. The Markdown source
+       (and the frozen-evidence hashes) stay untouched; real headings render as written. */ -}}
+{{- $text := .Text | replaceRE `<h[1-6][^>]*>` `<p class="quoted-heading"><strong>` | replaceRE `</h[1-6]>` `</strong></p>` -}}
+<blockquote>
+{{ $text | safeHTML }}
+</blockquote>
