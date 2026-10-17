@@ -1,26 +1,26 @@
-# Scope Decision (Draft): Claim Audit Extension
+# Scope Decision: Claim Audit Extension
 
 **Status:** Accepted
 **Date:** 2026-10-17
 **Decision owner:** Repository owner
-**Effect:** amends [`LOCAL-EDITION.md`](LOCAL-EDITION.md); supersedes its "Intentionally excluded" list only for the items named under "Scope that would be opened". Everything else in the Local Edition stands.
+**Effect:** amends [`LOCAL-EDITION.md`](LOCAL-EDITION.md); supersedes its "Intentionally excluded" list only for the items named under "Scope opened". Everything else in the Local Edition stands.
 
 ## Context
 
-The Local Edition closed the project as a satirical, local-only artifact. Its one reusable asset is the six-class truth standard, plus a card runner that can chain prompts. A review on 2026-10-17 found that marketing and business professionals have a real need this asset fits: showing which claims in their own copy, decks and case studies are sourced, calculated, inferred or modeled. Serving that need requires real user material and real users, which the Local Edition forbids.
+The Local Edition closed the project as a satirical, local-only artifact. Its one reusable asset is the six-class truth standard, plus a card runner that can chain prompts. A review on 2026-10-17 found that marketing and business professionals have a real need this asset fits: showing which claims in their own copy, decks and case studies are sourced, calculated, inferred or modeled. Serving that need requires real user material, which the Local Edition forbids.
 
-## Proposed decision
+## Decision
 
 Add one workflow, **Claim Audit**, and nothing else.
 
 > Input: draft marketing or business copy. Output: an evidence pack listing every atomic claim, its truth class, the evidence it still needs, what it cannot support, and a safer rewrite.
 
-## Scope that would be opened
+## Scope opened
 
 | Item | Limit |
 | --- | --- |
-| Real user material | The owner's own copy first; then up to 5 volunteers' non-confidential drafts (data class D0/D1 only). |
-| External participants | Up to 5, unpaid, informed that output is untrusted until verified. |
+| Real user material | The owner's own non-confidential drafts only (data class D0/D1). |
+| External participants | None. The owner is the only user. |
 | Deliverable | A local CLI producing a Markdown/CSV (later HTML) evidence pack. |
 | Cards | At most 8 marketing cards, plus brand-agnostic versions of the 3 existing brand cards. |
 | AI use on real material | Only through a provider the owner has checked for data retention; recorded in the approved-tool register in `operations/AI-DATA-POLICY.md`. |
@@ -53,7 +53,7 @@ Add one workflow, **Claim Audit**, and nothing else.
 
 1. `LOCAL-EDITION.md` points here (done).
 2. `README.md`, `STATUS.md`, `index.html` and the scope assertions in `tests/documentation-contract.test.js` were updated in the same change (done).
-3. `operations/AI-DATA-POLICY.md` now has a Claim Audit section. On 2026-10-17 the owner recorded one own-use approval (OpenRouter, `tencent/hy3`, D0/D1, with retention unknowns stated). No other provider or data source is approved; volunteers' drafts need the written notice first.
+3. `operations/AI-DATA-POLICY.md` now has a Claim Audit section. On 2026-10-17 the owner recorded one own-use approval (OpenRouter, `tencent/hy3`, D0/D1, with retention unknowns stated). No other provider or data source is approved.
 4. The exclusions on hosting, payments, intake and D2/D3 data are unchanged; reopening any of them needs another written decision.
 
 ## Progress (2026-10-17)
@@ -69,6 +69,10 @@ Add one workflow, **Claim Audit**, and nothing else.
 - **Still excluded:** real customers' data or results, testimonials and attributed quotations, invented statistics or sources, payments, hosting, intake, and D2/D3 data.
 - **Real case studies** built from a business's actual customers need a further written decision.
 - Code: [`examples/`](examples/); known limits: [`examples/README.md`](examples/README.md#known-gaps).
+
+## Amendment: owner-only
+
+**Date:** 2026-10-17. **Chosen by the owner in chat.** The owner is the only user of this program, on their own machine. The earlier allowance for up to five volunteers' drafts, and the volunteer notice that went with it, is withdrawn. Anyone else's draft needs a new written decision.
 
 ## Approval
 

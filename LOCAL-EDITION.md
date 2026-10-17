@@ -46,7 +46,7 @@ The website is not a commercial offer. The Executive Retainer is a simulated ope
 
 ## Amendment — 2026-10-17
 
-[`SCOPE-DECISION-CLAIM-AUDIT.md`](SCOPE-DECISION-CLAIM-AUDIT.md) (Accepted) opens one narrow exception: a local **Claim Audit** workflow run on the owner's own drafts and on up to five volunteers' non-confidential (D0/D1) drafts. Hosting, payments, intake, paid client work, and confidential or restricted data stay excluded. That decision lists the exact limits; where it is silent, this document applies.
+[`SCOPE-DECISION-CLAIM-AUDIT.md`](SCOPE-DECISION-CLAIM-AUDIT.md) (Accepted) opens one narrow exception: a local **Claim Audit** workflow run on the owner's own non-confidential (D0/D1) drafts. Hosting, payments, intake, paid client work, and confidential or restricted data stay excluded. That decision lists the exact limits; where it is silent, this document applies.
 
 ## Reopening external scope
 

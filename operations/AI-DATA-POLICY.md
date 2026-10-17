@@ -58,9 +58,8 @@ The row above is the only approval. It covers D0 and D1 only, for the owner's ow
 
 Accepted in [`SCOPE-DECISION-CLAIM-AUDIT.md`](../SCOPE-DECISION-CLAIM-AUDIT.md) on 2026-10-17.
 
-- **Data allowed:** the owner's own drafts and up to five volunteers' drafts, class D0 or D1 only. D2 and D3 stay excluded; when unsure, use the more restrictive class.
-- **Before any real draft is sent to a provider:** the provider must have a row in the register above. As of 2026-10-17 the only row is the owner's own-use OpenRouter row, so the owner's own D0/D1 drafts may be sent; drafts from anyone else may not until the volunteer notice below is given and the owner decides the row covers them. Any other provider or model stays out of AI tools until it has its own row.
-- **Volunteers** are told in writing that output is untrusted until independently verified, that drafts go to a third-party model provider, and that they may withdraw a draft at any time.
+- **Data allowed:** the owner's own drafts only, class D0 or D1. D2 and D3 stay excluded; when unsure, use the more restrictive class.
+- **Before any real draft is sent to a provider:** the provider must have a row in the register above. As of 2026-10-17 the only row is the owner's own-use OpenRouter row, so the owner's own D0/D1 drafts may be sent; drafts from anyone else may not. Any other provider or model stays out of AI tools until it has its own row.
 - **Run records** (`console/runs/`) hold drafts in plaintext and are gitignored. Delete them when the audit is done; never copy them into the repository.
 - Nothing in this section approves a tool by itself, sets a retention period, or replaces the review required before any use beyond this extension. The register row is the approval.
 

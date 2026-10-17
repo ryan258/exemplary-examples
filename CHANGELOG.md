@@ -6,6 +6,10 @@ Completed work, moved out of [`ROADMAP.md`](ROADMAP.md) as it finishes. The road
 
 ### Review corrections
 
+- Owner-only scope: the volunteer allowance and notice were withdrawn from the scope decision, policy, and READMEs (amendment recorded); the scope decision is no longer titled "Draft"; `AGENTS.md` is a symlink to `CLAUDE.md`.
+- `parseStage` forgives bold/backtick marks and letter case on the `STATUS:` line (a bolded status no longer costs a failed stage and a paid retry); both checkers refuse a run whose last card is not their library's (`safe-rewrite` / `challenge-example`) instead of printing misleading errors.
+- The runner and `scripts/llm.mjs` refuse any model without a register row (today `tencent/hy3`; `:free` variants are refused) before a request or run record, unless `--allow-unregistered-model` is given; a test keeps the list in step with the register. A checker's relative `--out` now lands in `console/runs/` (gitignored) and cannot climb out of it.
+
 - `scripts/llm.mjs` and the console share one strict option parser: unknown flags, missing values, and flags consumed as values fail before any provider request; `--` ends options.
 - Card sections match headings exactly (no `## Prompt injection` for `## Prompt`), ignore fenced headings, and reject duplicates; the card-contract test uses the runtime parser.
 - The console saves every completed request to `console/runs/`, requires a `STATUS:` line so a question stops the run instead of flowing downstream, and adds `--resume`, `--run`, and `--answer`.

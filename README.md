@@ -33,7 +33,7 @@ The governing scope decision is recorded in [`LOCAL-EDITION.md`](LOCAL-EDITION.m
 
 [`SCOPE-DECISION-CLAIM-AUDIT.md`](SCOPE-DECISION-CLAIM-AUDIT.md) opens two bounded workflows under the same limits:
 
-- **Claim Audit** ([`claim-audit/`](claim-audit/)): paste draft marketing or business copy, get every claim classified under the six-class standard with the evidence it still needs and a safer rewrite. The CLI and its mechanical pack checker live in [`claim-audit/`](claim-audit/); its README lists what is known to be unreliable. It runs locally on the owner's drafts and up to five volunteers' non-confidential drafts. One own-use provider row (D0/D1, with unknowns stated) is recorded in the register in [`operations/AI-DATA-POLICY.md`](operations/AI-DATA-POLICY.md).
+- **Claim Audit** ([`claim-audit/`](claim-audit/)): paste draft marketing or business copy, get every claim classified under the six-class standard with the evidence it still needs and a safer rewrite. The CLI and its mechanical pack checker live in [`claim-audit/`](claim-audit/); its README lists what is known to be unreliable. It runs locally on the owner's own non-confidential drafts; the owner is its only user. One own-use provider row (D0/D1, with unknowns stated) is recorded in the register in [`operations/AI-DATA-POLICY.md`](operations/AI-DATA-POLICY.md).
 - **Illustrative Examples** ([`examples/`](examples/)): three cards (frame, write, challenge), a mechanical checker, and synthetic samples producing openly labeled, assumption-based examples for small businesses. Every example requires the label line `Illustrative example — not a real customer or result.` and never uses real customer results or invented statistics.
 
 ## Local Edition boundary
@@ -46,7 +46,7 @@ The governing scope decision is recorded in [`LOCAL-EDITION.md`](LOCAL-EDITION.m
 | Executive Retainer as a simulated offer | Applications, inquiries, sales, or client delivery |
 | Training-system validation | Public credentials or external certification |
 | Governance as an inspectable reference system | Legal, tax, insurance, vendor, or commercial launch work |
-| Claim Audit and Illustrative Examples on the owner's and up to five volunteers' D0/D1 drafts | Confidential (D2) or restricted (D3) data, paid client work, hosting, intake |
+| Claim Audit and Illustrative Examples on the owner's own D0/D1 drafts | Confidential (D2) or restricted (D3) data, paid client work, hosting, intake |
 
 The historical company-launch plan remains in [`ROADMAP.md`](ROADMAP.md) as design archaeology and an optional thought experiment. Its unchecked items are not Local Edition blockers or an active backlog.
 

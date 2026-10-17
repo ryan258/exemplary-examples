@@ -9,20 +9,20 @@ Historical pick-up point. **Current status lives in [`../STATUS.md`](../STATUS.m
 - Whether anything is unpushed is a fact about the repository right now, not about this snapshot: check `git status -sb`.
 
 ## What We Built (this stretch)
-- `scripts/llm.mjs` & `console/console.mjs` — shared strict option parser (`parseOptions`); rejects unknown flags, missing arguments, or options after `--`.
-- Runner hardening in `console/console.mjs` — saves every completed stage request to `console/runs/`; requires a `STATUS:` line (`COMPLETE`, `NEEDS_INPUT`, `BLOCKED`) so questions halt execution; adds `--resume`, `--run`, `--answer`, `--profile`, and `--all` flags; tracks per-stage tokens and reported provider cost; handles GUI editor wait flags; extended timeout to 300s.
-- `claim-audit/` — Claim Audit extension v1: four cards (`extract-claims`, `classify-claims`, `evidence-needs`, `safe-rewrite`), `--profile` context injection, mechanical pack checker (`check.mjs`), and synthetic test drafts (`_samples/`) with planted defects.
-- `examples/` — Illustrative Examples extension: three cards (`frame-scenario`, `write-exhibit`, `adversarial-challenge`), mechanical checker (`check.mjs`), mandatory labeling rules, and synthetic test briefs (`_samples/`).
+- `scripts/llm.mjs` & `console/console.mjs` — shared strict option parser (`parseOptions`); rejects unknown flags, missing arguments, or options after `--`; enforces registered models from `AI-DATA-POLICY.md` (`assertRegisteredModel`), refusing unregistered or `:free` models before any request unless `--allow-unregistered-model` is explicitly given.
+- Runner hardening in `console/console.mjs` — saves every completed stage request to `console/runs/`; requires a `STATUS:` line (`COMPLETE`, `NEEDS_INPUT`, `BLOCKED`, tolerating markdown bold/backticks and case variations) so questions halt execution; adds `--resume`, `--run`, `--answer`, `--profile`, and `--all` flags; tracks per-stage tokens and reported provider cost; handles GUI editor wait flags; safe `--out` output destination via `outPath`; extended timeout to 300s.
+- `claim-audit/` — Claim Audit extension v1: four cards (`extract-claims`, `classify-claims`, `evidence-needs`, `safe-rewrite`), `--profile` context injection, mechanical pack checker (`check.mjs`) verifying pack identity, and synthetic test drafts (`_samples/`) with planted defects. Owner-only scope (volunteers excluded).
+- `examples/` — Illustrative Examples extension: three cards (`frame-example`, `write-example`, `challenge-example`), mechanical checker (`check.mjs`), mandatory labeling rules, and synthetic test briefs (`_samples/`).
 - `layouts/` & `hugo.toml` — `layouts/404.html` with root-relative assets and links; `layouts/_markup/render-blockquote.html` blockquote render hook; skip link and mobile header accessibility fixes in `assets/styles.css`.
-- Test suites in `tests/` — 6 suites (66 tests):
+- Test suites in `tests/` — 6 suites (71 tests):
   - `tests/cards-contract.test.js` (card format, exact section heading matching, prompt parsing)
   - `tests/documentation-contract.test.js` (links, Local Edition boundaries, manifest SHA-256 hashes, scope decisions)
-  - `tests/claim-audit.test.js` (four cards, pack checker, error detection, sample verification)
+  - `tests/claim-audit.test.js` (four cards, pack checker, error detection, sample verification, cross-pack rejection)
   - `tests/examples.test.js` (three cards, checker, labeling enforcement, fictional samples)
-  - `tests/console.test.js` (option parsing, local mock provider, resume, edit confirmation, brief forwarding)
+  - `tests/console.test.js` (option parsing, local mock provider, resume, edit confirmation, brief forwarding, registered model enforcement, flexible status parsing, outPath validation)
   - `tests/site-generated.test.js` (Hugo build route audits, single H1, heading hierarchy, unique IDs, broken link detection)
 - CI workflows — `.github/workflows/test.yml` (automated test runner) and `.github/workflows/lighthouse.yml` (audits Hugo build of target commit).
-- Policy register — `operations/AI-DATA-POLICY.md` recorded owner's own-use approval for OpenRouter (`tencent/hy3`, D0/D1, retention unknowns stated).
+- Policy register — `operations/AI-DATA-POLICY.md` recorded owner's own-use approval for OpenRouter (`tencent/hy3`, D0/D1, retention unknowns stated). Volunteers explicitly excluded.
 
 ## Decisions Made
 - **Cards are data, not code** — `.md` files; exact `## Prompt` heading extraction; fenced headings ignored; duplicate sections rejected.
