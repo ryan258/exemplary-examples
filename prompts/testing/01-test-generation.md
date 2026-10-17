@@ -29,4 +29,4 @@ A small suite in the project's style, each test named by what it verifies, cover
 
 ## Changelog
 - 2026-07-15: Initial entry.
-- 2026-07-15: Optimized — added an explicit verification/self-check step.
+- 2026-07-15: Instruction revision — added an explicit verification/self-check step (not measured against an evaluation set).

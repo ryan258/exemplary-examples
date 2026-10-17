@@ -34,4 +34,4 @@ A diagnosis, the revised modular prompt, and a change list with rationale.
 
 ## Changelog
 - 2026-07-15: Initial entry.
-- 2026-07-15: Optimized — added an explicit verification/self-check step.
+- 2026-07-15: Instruction revision — added an explicit verification/self-check step (not measured against an evaluation set).
