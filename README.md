@@ -4,7 +4,7 @@
 
 **Status:** Complete local project
 
-**Mode:** Personal, local-only creative and educational artifact
+**Mode:** Personal, local-only creative and educational artifact, plus accepted narrow extensions (Claim Audit and Illustrative Examples, below)
 **External commercialization:** Intentionally out of scope
 Exemplary Examples™ is an openly satirical brand, a five-exhibit local website, and a complete consulting-operation simulation. It explores a familiar corporate mechanism: choosing the conclusion first and manufacturing the appearance of supporting evidence afterward.
 
@@ -16,7 +16,7 @@ The governing scope decision is recorded in [`LOCAL-EDITION.md`](LOCAL-EDITION.m
 
 - The responsive, accessible Local Edition website in [`index.html`](index.html).
 - The original single-file parody prototype in [`exemplary-examples.html`](exemplary-examples.html), kept as history and excluded from the generated site.
-- The validated EE-TRAINING-2026.07 curriculum, workshops, simulations, assessment system, and facilitation guides in [`training/`](training/).
+- The complete authored EE-TRAINING-2026.07 curriculum, workshops, simulations, assessment system, and facilitation guides in [`training/`](training/).
 - A controlled synthetic training run with an isolated candidate, two independent assessors, calibration, and frozen evidence in [`training/dry-runs/2026-07-13-ee-mvq-01-r1/`](training/dry-runs/2026-07-13-ee-mvq-01-r1/).
 - The ten-role disclosed AI staff agents simulation and its governance, data, authorization, and escalation reference materials in [`operations/`](operations/).
 - Synthetic customer-discovery exercises and reusable research materials in [`discovery/`](discovery/).
@@ -24,10 +24,17 @@ The governing scope decision is recorded in [`LOCAL-EDITION.md`](LOCAL-EDITION.m
 
 ## What is still moving
 
-- The card runner in [`console/`](console/) and the cards in [`prompts/`](prompts/) are a working proof of concept, not a finished tool. It sends one prompt per step and edits between steps; it has no saved run state, so an interrupted chain starts over.
-- Each step carries the original brief forward, so a later card can check work against what was actually asked. It does not yet detect an unanswered clarifying question: a card that responds by asking one will have that question passed to the next card as if it were finished work. Watch for it when chaining cards that open with questions.
+- The card runner in [`console/`](console/) and the cards in [`prompts/`](prompts/) are a working proof of concept, not a finished tool. It sends one prompt per step and edits between steps. Every completed request is saved to `console/runs/` (gitignored), and `--resume` continues the last run at the stage that needs it.
+- Each step carries the original brief forward, so a later card can check work against what was actually asked. The runner requires each reply to open with a `STATUS:` line (`COMPLETE`, `NEEDS_INPUT`, or `BLOCKED`). A card that asks a question stops the run and waits for your answer instead of passing the question on; a reply with no valid status line is treated as a failed stage, never as finished work.
 - The runner has no tools, retrieval, or code execution. A card named "Code Review" produces a review written from the text you give it — it cannot open a repository or run tests. Read card names as tasks the model is asked to perform, not capabilities the runner has.
 - The Hugo site renders every Markdown file in `training/`, assessor keys and facilitator material included. That is fine as an owner's reference archive; it is not a candidate-isolated evaluation bundle.
+
+## Extensions (accepted; v1 built, synthetic drafts only)
+
+[`SCOPE-DECISION-CLAIM-AUDIT.md`](SCOPE-DECISION-CLAIM-AUDIT.md) opens two bounded workflows under the same limits:
+
+- **Claim Audit** ([`claim-audit/`](claim-audit/)): paste draft marketing or business copy, get every claim classified under the six-class standard with the evidence it still needs and a safer rewrite. The CLI and its mechanical pack checker live in [`claim-audit/`](claim-audit/); its README lists what is known to be unreliable. It runs locally on the owner's drafts and up to five volunteers' non-confidential drafts. One own-use provider row (D0/D1, with unknowns stated) is recorded in the register in [`operations/AI-DATA-POLICY.md`](operations/AI-DATA-POLICY.md).
+- **Illustrative Examples** ([`examples/`](examples/)): three cards (frame, write, challenge), a mechanical checker, and synthetic samples producing openly labeled, assumption-based examples for small businesses. Every example requires the label line `Illustrative example — not a real customer or result.` and never uses real customer results or invented statistics.
 
 ## Local Edition boundary
 
@@ -39,6 +46,7 @@ The governing scope decision is recorded in [`LOCAL-EDITION.md`](LOCAL-EDITION.m
 | Executive Retainer as a simulated offer | Applications, inquiries, sales, or client delivery |
 | Training-system validation | Public credentials or external certification |
 | Governance as an inspectable reference system | Legal, tax, insurance, vendor, or commercial launch work |
+| Claim Audit and Illustrative Examples on the owner's and up to five volunteers' D0/D1 drafts | Confidential (D2) or restricted (D3) data, paid client work, hosting, intake |
 
 The historical company-launch plan remains in [`ROADMAP.md`](ROADMAP.md) as design archaeology and an optional thought experiment. Its unchecked items are not Local Edition blockers or an active backlog.
 
@@ -49,7 +57,7 @@ The satire may be fictional; its relationship to reality must remain clear. Ever
 | Class | Required treatment |
 | --- | --- |
 | Sourced fact | Retrievable source, context, and access date |
-| Supplied fact | Attributable supplied reference |
+| Client-provided fact | Attributable supplied reference |
 | Calculation | Reproducible inputs, formula, and units |
 | Inference | Supporting facts and exposed reasoning |
 | Modeled scenario | Assumptions, method, sensitivities, and limitations |
@@ -59,9 +67,17 @@ The satire may be fictional; its relationship to reality must remain clear. Ever
 
 ## Training system
 
-EE-TRAINING-2026.07 is an initial validated training release covering ten competencies from decision framing through retainer leadership. It uses self-paced modules, workshops, simulations, portfolio artifacts, critical-failure rules, independent assessment, accessibility accommodations, and calibration.
+EE-TRAINING-2026.07 is a complete authored Local Edition training release covering ten competencies from decision framing through retainer leadership. It uses self-paced modules, workshops, simulations, portfolio artifacts, critical-failure rules, independent assessment, accessibility accommodations, and calibration.
 
-The controlled run passed its minimum viable composite route with no critical failure and assessor agreement within tolerance. That proves the training system is usable; it does not create real-world authority. The historical candidate record deliberately remains “Not Yet” certified because external authorization is outside the Local Edition scope.
+A minimum viable synthetic composite route was demonstrated in one controlled run, with no critical failure and assessor agreement within tolerance. That shows the route can be executed once under controlled conditions; it does not validate the whole system or create real-world authority.
+
+| Material | State |
+| --- | --- |
+| Curriculum, instruction, workshop outlines, simulations, assessment, facilitation, supervision, templates | **Authored** |
+| Minimum viable composite route | **Demonstrated** in one controlled synthetic run (`2026-07-13-ee-mvq-01-r1`) |
+| Full-system validation, standalone workshop timing, rendered exhibits, supervised practice, candidate certification | **Not validated** — separate later gates named in the [run report](training/dry-runs/2026-07-13-ee-mvq-01-r1/08-DRY-RUN-REPORT.md) |
+
+The historical candidate record deliberately remains “Not Yet” certified because external authorization is outside the Local Edition scope.
 
 Start with [`training/README.md`](training/README.md) or read the completed [`dry-run report`](training/dry-runs/2026-07-13-ee-mvq-01-r1/08-DRY-RUN-REPORT.md).
 
@@ -103,20 +119,22 @@ The prior real-browser verification record remains at [`operations/WEBSITE-VERIF
 | [`STATUS.md`](STATUS.md) | Final project status |
 | [`index.html`](index.html) | Current Local Edition experience |
 | [`assets/`](assets/) | Styles and visual identity assets |
-| [`training/`](training/) | Validated educational and assessment series |
+| [`training/`](training/) | Authored educational and assessment series |
 | [`operations/`](operations/) | Simulated company operating system |
 | [`discovery/`](discovery/) | Synthetic discovery exercises and reusable templates |
 | [`ROADMAP.md`](ROADMAP.md) | Archived external-expansion plan |
 | [`CHANGELOG.md`](CHANGELOG.md) | Historical work record |
 | [`console/`](console/) | Card runner CLI and its seed card library |
 | [`prompts/`](prompts/) | Technical prompt cards, runnable via `--dir prompts` |
+| [`examples/`](examples/) | Illustrative examples for small businesses: cards, checker, fictional samples (`--dir examples --all`) |
+| [`claim-audit/`](claim-audit/) | Claim Audit cards, pack checker, synthetic samples, and usage (`--dir claim-audit --all`) |
 | [`scripts/llm.mjs`](scripts/llm.mjs) | The single provider call both of the above use |
 | [`hugo.toml`](hugo.toml), [`layouts/`](layouts/) | Renders the Markdown content as a browsable site |
 | [`tests/`](tests/) | Local contracts and browser-audit tooling |
 
 ## Safe use
 
-- Use synthetic or deliberately public material.
+- Use synthetic or deliberately public material. The only exception is Claim Audit on non-confidential (D0/D1) drafts, and only through a provider with a row in the AI-DATA-POLICY register (currently one, for the owner's own use).
 - Do not treat fictional organizations, results, roles, or certifications as real.
 - Keep generated citations and factual claims untrusted until independently verified.
 - Do not add personal, applicant, prospect, or client data.

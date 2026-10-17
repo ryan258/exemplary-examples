@@ -1,54 +1,63 @@
-# CONTINUE — Exemplary Examples™ (updated 2026-07-15)
+# CONTINUE — Exemplary Examples™ (snapshot of 2026-10-17)
 
-Pick-up point for the next session. Repo: `/Users/ryanjohnson/Projects/nonsense/exemplary-examples`.
+Historical pick-up point. **Current status lives in [`../STATUS.md`](../STATUS.md)**; read this for the shape of the console, Hugo work, and extensions, and run `git status -sb` for the actual repository state. Repo: `/Users/ryanjohnson/Projects/nonsense/exemplary-examples`.
 
 ## TL;DR
 - Project is a **Local Edition** — complete, local-only, not commercial. See [`../LOCAL-EDITION.md`](../LOCAL-EDITION.md) and [`../STATUS.md`](../STATUS.md).
-- Latest work built a **prompt-library / console system** and added a **Hugo site wrapper** to render training and documentation.
-- Commits are ready on `main` ahead of origin. Push when ready.
+- Accepted extensions under [`../SCOPE-DECISION-CLAIM-AUDIT.md`](../SCOPE-DECISION-CLAIM-AUDIT.md): **Claim Audit** (`claim-audit/`) and **Illustrative Examples** (`examples/`), both bounded to local, D0/D1 non-confidential material.
+- Latest work hardened the **prompt card runner**, built **deterministic pack checkers**, added comprehensive **contract suites**, and refined the **Hugo site wrapper**.
+- Whether anything is unpushed is a fact about the repository right now, not about this snapshot: check `git status -sb`.
 
 ## What We Built (this stretch)
-- `hugo.toml` and `layouts/` — Hugo site wrapper rendering the Markdown content (with skip links, section indices, and training doc navigation) locally via `hugo server`.
-- `console/console.mjs` — card+chain engine: run an idea through a chain of prompt "cards" with an `$EDITOR` edit phase between each. Reuses the OpenRouter caller; includes robust arg parsing, fuzzy/exact card lookup, multi-step brief forwarding, and `$EDITOR` failure safety.
-- `console/cards/` — brand-asset cards (brand voice, visual style guide, brand guidelines), standard entry format.
-- `prompts/` — general **AI-engineering prompt library**: 14 cards, 2 per category (architecture, agent-workflows, coding, review, research, testing, debugging). See [`../prompts/README.md`](../prompts/README.md).
-- `scripts/llm.mjs` — zero-dep OpenRouter caller; exports `chat()`; CLI only runs when executed directly; includes timeout and `finish_reason` safety checks.
-- `tests/documentation-contract.test.js` & `tests/cards-contract.test.js` — enforces contracts across cards, Markdown links, and frozen training dry-run SHA-256 manifest hashes.
-- `.github/workflows/lighthouse.yml` — on-demand production Lighthouse.
-- `docs/happy-path.md` — local smoke-test walkthrough. `docs/demo--sales.md` — sales demo script with simulation caveat.
+- `scripts/llm.mjs` & `console/console.mjs` — shared strict option parser (`parseOptions`); rejects unknown flags, missing arguments, or options after `--`.
+- Runner hardening in `console/console.mjs` — saves every completed stage request to `console/runs/`; requires a `STATUS:` line (`COMPLETE`, `NEEDS_INPUT`, `BLOCKED`) so questions halt execution; adds `--resume`, `--run`, `--answer`, `--profile`, and `--all` flags; tracks per-stage tokens and reported provider cost; handles GUI editor wait flags; extended timeout to 300s.
+- `claim-audit/` — Claim Audit extension v1: four cards (`extract-claims`, `classify-claims`, `evidence-needs`, `safe-rewrite`), `--profile` context injection, mechanical pack checker (`check.mjs`), and synthetic test drafts (`_samples/`) with planted defects.
+- `examples/` — Illustrative Examples extension: three cards (`frame-scenario`, `write-exhibit`, `adversarial-challenge`), mechanical checker (`check.mjs`), mandatory labeling rules, and synthetic test briefs (`_samples/`).
+- `layouts/` & `hugo.toml` — `layouts/404.html` with root-relative assets and links; `layouts/_markup/render-blockquote.html` blockquote render hook; skip link and mobile header accessibility fixes in `assets/styles.css`.
+- Test suites in `tests/` — 6 suites (66 tests):
+  - `tests/cards-contract.test.js` (card format, exact section heading matching, prompt parsing)
+  - `tests/documentation-contract.test.js` (links, Local Edition boundaries, manifest SHA-256 hashes, scope decisions)
+  - `tests/claim-audit.test.js` (four cards, pack checker, error detection, sample verification)
+  - `tests/examples.test.js` (three cards, checker, labeling enforcement, fictional samples)
+  - `tests/console.test.js` (option parsing, local mock provider, resume, edit confirmation, brief forwarding)
+  - `tests/site-generated.test.js` (Hugo build route audits, single H1, heading hierarchy, unique IDs, broken link detection)
+- CI workflows — `.github/workflows/test.yml` (automated test runner) and `.github/workflows/lighthouse.yml` (audits Hugo build of target commit).
+- Policy register — `operations/AI-DATA-POLICY.md` recorded owner's own-use approval for OpenRouter (`tencent/hy3`, D0/D1, retention unknowns stated).
 
 ## Decisions Made
-- **Cards are data, not code** — a `.md` per card; only the `## Prompt` section is sent to the model; metadata is docs + tested.
-- **One engine, two libraries** — brand cards in `console/cards/`, general library in `prompts/`; run either with `--dir`.
-- **Kept generic AI-eng categories out of the brand console** — the general library is separate.
-- **Prompt optimization = uniform verification-step pass**, not idiosyncratic rewrites (all 14 cards now self-check before output).
-- **Sales demo is straight, not in-universe** — honesty is the pitch; audience is Ryan + a few people.
-
-## What's Next
-- Push `main` to origin — Ryan, when ready.
-- Optional: deeper-optimize a specific card via the built-in `prompt-optimization` card.
-- Optional: a standalone general prompt library *outside* this repo (offered; not started).
-
-## Open Questions
-- Push the unpushed commits now, or keep local?
-- Any prompt cards worth a deeper (per-card) rewrite vs. the uniform pass done?
-- Add categories/cards to the library, or is 14 enough for now?
+- **Cards are data, not code** — `.md` files; exact `## Prompt` heading extraction; fenced headings ignored; duplicate sections rejected.
+- **Four libraries, one runner** — brand cards in `console/cards/`, general engineering in `prompts/`, Claim Audit in `claim-audit/`, and Illustrative Examples in `examples/`; selectable with `--dir`.
+- **Run state is atomic and local** — completed steps write atomically to `console/runs/`; resume retries only the incomplete stage; prompts are hashed to detect drift.
+- **Checkers are deterministic** — `claim-audit/check.mjs` and `examples/check.mjs` evaluate packs mechanically without model calls, catching structural flaws, unallowed values, and missing disclosures.
+- **Extensions stay bounded** — no public hosting, intake, payments, or D2/D3 confidential data. Output is labeled untrusted until independently verified.
 
 ## Project Status Snapshot
-- Exemplary Examples (Local Edition): Done
-- Prompt library / console: Active
-- Hugo doc site wrapper: Complete
+- Exemplary Examples (Local Edition): Complete
+- Console & prompt runner: Active & hardened
+- Claim Audit extension: v1 built & synthetically verified (real-asset runs pending exit criteria)
+- Illustrative Examples extension: v1 built & synthetically verified
+- Hugo doc site wrapper: Complete (tested across all generated routes)
 - Company/commercial roadmap: Paused (archived in [`../ROADMAP.md`](../ROADMAP.md))
 
 ## How to Resume
 ```bash
 cd /Users/ryanjohnson/Projects/nonsense/exemplary-examples
-node --test tests/*.test.js                 # all pass (14)
-git status -sb                              # expect: ahead of origin by 1
 
-# run the prompt libraries (needs OPENROUTER_API_KEY in .env)
-node console/console.mjs --dir prompts --list
-node console/console.mjs --list             # brand cards
-node console/console.mjs --selftest         # offline
+# run all contract tests (offline, deterministic)
+node --test tests/*.test.js
+
+# run offline self-tests
+node console/console.mjs --selftest
+node scripts/llm.mjs --selftest
+
+# preview documentation & training site
+hugo server
+
+# dry-run extension chains (offline)
+node console/console.mjs --dir claim-audit --all --dry-run --idea "draft copy"
+node console/console.mjs --dir examples --all --dry-run --idea "brief"
+
+# check git status
+git status -sb
 ```
 Full local walkthrough: [`happy-path.md`](happy-path.md). Console/card docs: [`../console/README.md`](../console/README.md).

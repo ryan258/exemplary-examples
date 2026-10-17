@@ -1,6 +1,6 @@
 # Exemplary Examples™ Strategist Certification
 
-This directory contains the validated Local Edition training system. It prepares simulated consultants and strategists for synthetic Exemplary Examples™ engagements; it does not issue a public credential or authorize real client work.
+This directory contains the complete authored Local Edition training system (one minimum viable synthetic route demonstrated in a controlled run; see the run report for what remains unvalidated). It prepares simulated consultants and strategists for synthetic Exemplary Examples™ engagements; it does not issue a public credential or authorize real client work.
 
 The program is competency-paced. Learners advance by producing evidence, not by completing a fixed number of hours.
 
@@ -50,7 +50,7 @@ Every certification record includes the curriculum version. Material changes to 
 
 ## Pilot status
 
-**Release:** EE-TRAINING-2026.07 — initial validated training system.
+**Release:** EE-TRAINING-2026.07 — initial authored training system.
 
 The minimum viable composite route passed controlled run `2026-07-13-ee-mvq-01-r1` with isolated candidate and assessor sessions, frozen evidence, written-event accessibility practice, no critical failure, and assessor agreement within tolerance. The fixture was revised to EE-MVQ-01.1 from observed timing, auditability, and calibration findings.
 

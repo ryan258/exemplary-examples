@@ -4,6 +4,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const crypto = require("node:crypto");
+const { execFileSync } = require("node:child_process");
 
 const root = path.resolve(__dirname, "..");
 
@@ -11,11 +12,25 @@ function sha256(file) {
   return crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
 }
 
+// Tracked and untracked-but-not-ignored Markdown, so tool folders git ignores (like .gitnexus)
+// cannot change the result between a laptop and CI. Falls back to walking the tree without git.
 function markdownFiles(directory = root) {
+  if (directory === root) {
+    try {
+      const listed = execFileSync("git", ["ls-files", "-co", "--exclude-standard", "--", "*.md"], { cwd: root, encoding: "utf8" });
+      return listed.split("\n").filter(Boolean).map((f) => path.join(root, f)).filter((f) => fs.existsSync(f));
+    } catch {
+      // not a git checkout: walk below
+    }
+  }
+  return walkMarkdown(directory);
+}
+
+function walkMarkdown(directory) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     if (entry.name === ".git") return [];
     const location = path.join(directory, entry.name);
-    if (entry.isDirectory()) return markdownFiles(location);
+    if (entry.isDirectory()) return walkMarkdown(location);
     return entry.name.endsWith(".md") ? [location] : [];
   });
 }
@@ -185,4 +200,32 @@ test("the frozen run's recorded hashes still match its files", () => {
     if (actual !== recorded[1]) mismatched.push(`${path.relative(root, file)}: ${recorded[1]} -> ${actual}`);
   }
   assert.deepEqual(mismatched, [], "frozen evidence no longer matches its manifest");
+});
+
+test("the accepted Claim Audit extension is bounded and reflected in the governing documents", () => {
+  const read = (...p) => fs.readFileSync(path.join(root, ...p), "utf8");
+  const decision = read("SCOPE-DECISION-CLAIM-AUDIT.md");
+  const policy = read("operations", "AI-DATA-POLICY.md");
+
+  assert.match(decision, /\*\*Status:\*\* Accepted/);
+  assert.match(decision, /Approved by: .+2026-10-17/);
+  // The exclusions that must survive the extension.
+  for (const kept of [/Public hosting, deployment, payments/i, /Paid client work/i, /Confidential \(D2\) or restricted \(D3\)/i]) {
+    assert.match(decision, kept);
+  }
+  for (const doc of ["LOCAL-EDITION.md", "README.md", "STATUS.md"]) {
+    assert.match(read(doc), /SCOPE-DECISION-CLAIM-AUDIT\.md/, `${doc} must point to the accepted decision`);
+  }
+  // Accepting the scope does not approve a tool: real drafts stay blocked until the register has a row.
+  assert.match(policy, /Claim Audit extension/);
+  // Accepting the scope is not approval, so the register must name exactly what was approved and what is unknown.
+  const row = policy.split("\n").find((l) => l.startsWith("| OpenRouter"));
+  assert.ok(row, "the register has the owner's OpenRouter row");
+  assert.match(row, /`tencent\/hy3`/);
+  assert.match(row, /\| D1 \|/);
+  assert.match(row, /not verified/i);
+  assert.match(row, /unknown/i);
+  assert.doesNotMatch(policy, /None approved yet/);
+  assert.match(policy, /The row above is the only approval\. It covers D0 and D1 only/);
+  assert.match(policy, /free-tier models are not covered/);
 });

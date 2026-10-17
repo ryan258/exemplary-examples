@@ -44,6 +44,10 @@ The website is not a commercial offer. The Executive Retainer is a simulated ope
 5. Automatic GitHub Pages deployment is removed.
 6. Real-world safeguards are not discarded. They become conditional requirements if external scope is ever reopened.
 
+## Amendment — 2026-10-17
+
+[`SCOPE-DECISION-CLAIM-AUDIT.md`](SCOPE-DECISION-CLAIM-AUDIT.md) (Accepted) opens one narrow exception: a local **Claim Audit** workflow run on the owner's own drafts and on up to five volunteers' non-confidential (D0/D1) drafts. Hosting, payments, intake, paid client work, and confidential or restricted data stay excluded. That decision lists the exact limits; where it is silent, this document applies.
+
 ## Reopening external scope
 
 External commercialization requires a new written decision that supersedes this one. Before any public offer, external participant, real data, or client work, restore and satisfy the applicable governance, privacy, authorization, accessibility, professional-review, and deployment gates preserved in the archived roadmap.

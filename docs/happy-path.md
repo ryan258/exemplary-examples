@@ -29,7 +29,7 @@ hugo server
 
 Open <http://localhost:1313/> and walk the five exhibits:
 
-- **Home / Premise / Practice / Method / Pilot** are all reachable from the nav.
+- **Premise / Practice / Method / Status / Training** are all reachable from the nav, and the wordmark returns Home.
 - On a skim you can tell it's an **openly satirical brand** *and* a **real professional method** — without mistaking fiction for a real client claim.
 - The **Proof** section shows methodology and the six-class truth standard, not fictional testimonials.
 - **Contact** is a closed state: no form, no email link, no data collection.
@@ -46,14 +46,25 @@ Training content: the nav's **Training** link reaches the rendered Markdown; eve
 
 Stop the server with `Ctrl+C`.
 
-## 3. Exercise the LLM caller (optional — needs a key)
+## 3. Exercise the card runner and caller (optional — needs a key for live calls)
 
-The machine's one piece of live tooling is a zero-dependency OpenRouter caller, [`../scripts/llm.mjs`](../scripts/llm.mjs).
+The machine's tooling includes a zero-dependency OpenRouter caller ([`../scripts/llm.mjs`](../scripts/llm.mjs)) and the card runner engine ([`../console/console.mjs`](../console/console.mjs)).
 
-Offline check (no key or network needed):
+Offline checks (no key or network needed):
 
 ```bash
-node scripts/llm.mjs --selftest      # prints: selftest ok
+node scripts/llm.mjs --selftest         # prints: selftest ok
+node console/console.mjs --selftest     # prints: selftest ok (3 cards: ...)
+```
+
+Dry-run extension chains (offline preview without model calls):
+
+```bash
+# Claim Audit chain plan
+node console/console.mjs --dir claim-audit --all --dry-run --idea "Sample text"
+
+# Illustrative Examples chain plan
+node console/console.mjs --dir examples --all --dry-run --idea "Sample brief"
 ```
 
 Live call:
@@ -64,7 +75,7 @@ cp -n .env.example .env              # -n: never clobber an existing .env
 node --env-file=.env scripts/llm.mjs "In one sentence, what is Exemplary Examples?"
 ```
 
-**Expect:** the offline self-test prints `selftest ok`; the live call prints a one-line completion. Change the model in `.env` (`OPENROUTER_MODEL`) or per call with `--model <slug>`.
+**Expect:** offline self-tests print ok; dry runs display ordered card plans without making requests; live calls print a one-line completion. Change the model in `.env` (`OPENROUTER_MODEL`) or per call with `--model <slug>`.
 
 ## 4. Read the training system (optional)
 
@@ -95,6 +106,6 @@ CHROMIUM_PATH=/path/to/chrome-headless-shell node tests/browser-audit.cjs
 
 - [ ] `node --test tests/*.test.js` → all pass.
 - [ ] The site previews locally; the satire-and-real-method premise is clear; Contact is closed.
-- [ ] The 404 route renders the branded page.
-- [ ] `node scripts/llm.mjs --selftest` prints `selftest ok` (and a live call works if you set a key).
+- [ ] `node scripts/llm.mjs --selftest` and `node console/console.mjs --selftest` print ok.
+- [ ] Extension dry-runs (`--dir claim-audit` and `--dir examples`) output execution plans without error.
 - [ ] The training run's frozen hash verifies and its certification boundary reads "Not yet."

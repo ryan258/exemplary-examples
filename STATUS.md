@@ -1,13 +1,18 @@
 # Local Edition Status
 
-**As of:** 2026-07-13  
-**State:** Complete
+**As of:** 2026-10-17  
+**State:** Content complete · card runner in progress
+
+- **Content** (site, method, training, simulations) was completed 2026-07-13 and is unchanged in substance.
+- **Card runner** ([`console/`](console/), [`prompts/`](prompts/)) is a working proof of concept under active hardening; see [`CHANGELOG.md`](CHANGELOG.md).
+- **Claim Audit** is an accepted, narrow extension ([`SCOPE-DECISION-CLAIM-AUDIT.md`](SCOPE-DECISION-CLAIM-AUDIT.md)). **v1 is built** ([`claim-audit/`](claim-audit/): four cards, a pack checker, usage reporting) and tested on fictional drafts only. Its exit criteria (three real assets, honestly scored) are not met, and one own-use provider row (OpenRouter, D0/D1, retention unknowns stated) is recorded in the AI-DATA-POLICY register. A second accepted workflow, labeled **illustrative examples** for small businesses ([`examples/`](examples/)), is built and tested on fictional briefs only. Everything else below is unchanged, including that there is no hosting, intake, payment, or confidential data.
+
 
 **Operating mode:** Personal, local-only project
 **Active external work:** None
 ## Completion decision
 
-Exemplary Examples™ is complete as a Local Edition: an openly satirical website, validated training series, synthetic operating simulation, and reference library intended to run only on the owner’s machine.
+Exemplary Examples™ is complete as a Local Edition: an openly satirical website, authored training series (one minimum viable route demonstrated), synthetic operating simulation, and reference library intended to run only on the owner’s machine.
 
 No commercial launch, public deployment, customer discovery, application system, client work, Accountable Principal appointment, production tool approval, or external agent certification is required for this completion state.
 

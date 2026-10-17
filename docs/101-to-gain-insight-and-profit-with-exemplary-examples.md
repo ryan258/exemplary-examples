@@ -15,7 +15,7 @@ Three assets, in descending order of how much they will matter to you.
 | Asset | What it is | Where |
 | --- | --- | --- |
 | **The evidence method** | A six-class scheme for labeling every claim, plus the review habits around it. Portable to any work you do, with or without this repo. | [`../README.md`](../README.md), [`../training/`](../training/) |
-| **The card runner** | A ~200-line CLI that chains Markdown prompt files through a model, letting you edit between steps. | [`../console/README.md`](../console/README.md) |
+| **The card runner** | A small zero-dependency CLI (about 550 lines across two files) that chains Markdown prompt files through a model, letting you edit between steps. | [`../console/README.md`](../console/README.md) |
 | **The prompt library** | 14 task-shaped system prompts for technical work — review, architecture, debugging, research, testing. | [`../prompts/README.md`](../prompts/README.md) |
 
 The satirical consultancy wrapped around all of this is a container, not the product. The method is the product.
@@ -64,13 +64,25 @@ Every material claim in a professional artifact belongs to exactly one class, an
 | Class | What you owe the reader |
 | --- | --- |
 | Sourced fact | A retrievable source, its context, and the date you accessed it |
-| Supplied fact | Attribution to whoever supplied it |
+| Client-provided fact | Attribution to whoever supplied it |
 | Calculation | Reproducible inputs, the formula, and units |
 | Inference | The supporting facts, and your reasoning exposed |
 | Modeled scenario | Assumptions, method, sensitivities, and limitations |
 | Satirical fiction | Clear placement inside the fictional frame |
 
 > If a reasonable audience could mistake constructed material for verified real-world fact, change the labeling, sourcing, design, or artifact.
+
+### Three separate questions
+
+The class says where a claim comes from. It does not say whether the claim has been checked, and it does not say what to do about it. Keep those apart:
+
+| Question | Answers with | Examples |
+| --- | --- | --- |
+| **Class** — where does this claim come from? | Exactly one of the six classes above | Sourced fact, Inference |
+| **Verification status** — has it been checked, and how far? | Proposed, Verified, Limited, or Excluded (the Evidence Register's status column) | "Verified by execution", "Limited: one provider tested" |
+| **Recommendation** — what should be done? | Not a claim, so not a class. Its supporting claims are classified; the advice itself is a judgment | "Return a structured result object" |
+
+A class label never certifies truth: an Inference can be Verified, and a Sourced fact can still be Limited or Excluded. A statement about code behavior is an Inference from the code that execution can promote to Verified. It does not need a seventh class.
 
 ### Why this earns its keep
 
@@ -195,12 +207,12 @@ node --env-file=.env console/console.mjs --dir prompts \
 
 **Now apply section 3 to the review itself:**
 
-| The review says | Class | What you owe |
-| --- | --- | --- |
-| "`finish_reason` is never read" | Sourced fact | Read the four lines. It is either there or it is not. Thirty seconds. |
-| "A truncated response returns as success" | Calculation-like — it is a claim about behavior | **Run it.** Mock a response with `finish_reason: "length"` and see what comes back. |
-| "This will corrupt downstream chain steps" | Inference | Depends on a premise: that some caller feeds the result onward. Check whether one does. |
-| "You should return a structured result object" | Modeled scenario | A design proposal with assumptions. Reasonable; not established by anything above. |
+| The review says | Class | Verification | What you owe |
+| --- | --- | --- | --- |
+| "`finish_reason` is never read" | Sourced fact (the code you opened) | Check by reading | Read the four lines. It is either there or it is not. Thirty seconds. |
+| "A truncated response returns as success" | Inference — a claim about behavior, drawn from the code | **Check by execution** | Mock a response with `finish_reason: "length"` and see what comes back. The observed output then supports it as Verified. |
+| "This will corrupt downstream chain steps" | Inference | Depends on a premise: that some caller feeds the result onward | Check whether one does. |
+| "You should return a structured result object" | Recommendation, not a claim | Nothing above supports it | A design proposal. Classify the claims it rests on (for example, that callers need more than text); the advice itself is your judgment call. |
 
 Row two is the important one. The claim is checkable by execution, so check it by execution:
 
@@ -214,7 +226,7 @@ console.log(await chat({ model: "m", prompt: "p", env }));
 
 Before the fix, that prints `TRUNCATED` as a successful return. After, it throws. That eight-line script is worth more than any amount of agreement from a second model, and it is the entire difference between "the review sounds right" and "the review is right."
 
-Row four is where people lose time: the model's design proposal is not wrong, but nothing above it established that a structured result object was needed. The minimal fix — check `finish_reason`, throw on a bad one — is four lines and closes the actual defect.
+Row four is where people lose time: the model's recommendation is not wrong, but nothing above it established that a structured result object was needed. The minimal fix — check `finish_reason`, throw on a bad one — is four lines and closes the actual defect.
 
 **Transfer lesson:** the review's value was concentrated in one checkable claim. Find that claim, execute it, and treat everything around it as unverified until it earns better.
 
@@ -261,10 +273,10 @@ One honesty note carried over from the existing cards: if you add a self-check i
 Stated plainly, because the card names oversell the runner:
 
 - **The runner has no tools.** No file reading, no retrieval, no code execution, no network beyond the one model call. A card named "Code Review" reviews the text you paste. It cannot open your repository or run your tests. "Multi-Agent Orchestration" produces a *design* for agents; it does not instantiate any.
-- **There is no saved run state.** An interrupted chain starts over. Long or expensive chains are best run in pieces you keep yourself.
-- **Unanswered clarifying questions flow downstream.** Several cards open by asking questions. In `--no-edit` mode, a card that responds with a question has that question passed to the next card as though it were finished work. Watch for it.
+- **Run state is local and per request.** Every completed request is saved under `console/runs/`; `--resume` continues the last run, retrying only the stage that failed or asked a question. Nothing is retried automatically, and a stage whose request may have completed at the provider (a timeout, say) can still be billed twice if you resume it.
+- **Clarifying questions stop the run.** Several cards open by asking questions. The runner requires a `STATUS:` first line; `NEEDS_INPUT` saves the run and waits for your answer, and a reply without a valid status line is a failed stage. The status line is a format check, not a quality check: a `COMPLETE` reply can still be wrong.
 - **One provider.** OpenRouter, one chat-completions call, no streaming.
-- **The training material is a validated *design*, not a credential.** The controlled run in [`../training/dry-runs/2026-07-13-ee-mvq-01-r1/08-DRY-RUN-REPORT.md`](../training/dry-runs/2026-07-13-ee-mvq-01-r1/08-DRY-RUN-REPORT.md) proves the assessment system can execute. It certifies nothing about the outside world, and the record deliberately says "Not Yet."
+- **The training material is an authored *design*, not a credential.** One controlled synthetic run in [`../training/dry-runs/2026-07-13-ee-mvq-01-r1/08-DRY-RUN-REPORT.md`](../training/dry-runs/2026-07-13-ee-mvq-01-r1/08-DRY-RUN-REPORT.md) shows the minimum viable route can execute once; full-system validation, standalone workshop timing, rendered exhibits, supervised practice, and certification remain separate gates. It certifies nothing about the outside world, and the record deliberately says "Not Yet."
 - **The discovery research is synthetic.** Six fabricated interviews. They establish no demand and no willingness to pay, and must never be cited as market evidence.
 
 ---

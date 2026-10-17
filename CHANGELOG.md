@@ -2,6 +2,26 @@
 
 Completed work, moved out of [`ROADMAP.md`](ROADMAP.md) as it finishes. The roadmap holds only remaining work; this file is the record of what shipped.
 
+## 2026-10-17
+
+### Review corrections
+
+- `scripts/llm.mjs` and the console share one strict option parser: unknown flags, missing values, and flags consumed as values fail before any provider request; `--` ends options.
+- Card sections match headings exactly (no `## Prompt injection` for `## Prompt`), ignore fenced headings, and reject duplicates; the card-contract test uses the runtime parser.
+- The console saves every completed request to `console/runs/`, requires a `STATUS:` line so a question stops the run instead of flowing downstream, and adds `--resume`, `--run`, and `--answer`.
+- `404.html` is now a Hugo layout with root-relative URLs; focus rings are two-tone; the mobile header no longer sticks; quoted exhibit headings no longer add H1s to the generated site.
+- New tests: `tests/console.test.js` (argument rejection against a local fake provider, stage transitions, resume) and `tests/site-generated.test.js` (audits every generated route when `hugo` is installed).
+- Training wording narrowed to "authored; one minimum viable route demonstrated"; the 101 guide separates claim class, verification status, and recommendation; prompt-card changelog entries say "instruction revision", not "optimized".
+- The Lighthouse workflow now audits a Hugo build of a chosen revision instead of the historical public URL.
+- Follow-up fixes: an editor that returns text unchanged (or empty) no longer advances a run silently, and GUI editors get their wait flag; flag names like `constructor` are prompt text, not inherited keys; array-style provider content is joined instead of crashing; run records hash each card prompt and `--resume` warns on drift; run ids are validated; edit drafts are deleted after a successful edit.
+- Accepted: [`SCOPE-DECISION-CLAIM-AUDIT.md`](SCOPE-DECISION-CLAIM-AUDIT.md), a narrow Claim Audit extension of the Local Edition. `LOCAL-EDITION.md`, `README.md`, `STATUS.md`, `index.html`, `operations/AI-DATA-POLICY.md`, and the scope tests were updated to match.
+- Added `claim-audit/`: four cards (extract, classify, evidence needs, safe rewrite), `--all` and `--profile` runner flags, and fully fictional samples. Tested offline against a fake provider; no real model output has been evaluated, and no provider is approved for real drafts.
+- AI-DATA-POLICY register: first row recorded 2026-10-17 (OpenRouter, `tencent/hy3` paid only, D1, owner's own use; training-routing block set by the owner; OpenRouter and upstream retention stated as unknown). The "none approved" wording in the policy, scope decision, status, and READMEs was updated to match.
+- Illustrative examples for small businesses (`examples/`): three cards (frame, write, challenge), a mechanical checker (label line, SUPPLIED/ASSUMED marks, no quotations, no invented business terms, structure), fictional samples, and tests. The cards were revised once after a trial that invented a business term. Scope amendment recorded in `SCOPE-DECISION-CLAIM-AUDIT.md`.
+- Claim Audit v1: the four cards got six instruction revisions from three synthetic trials (see each card's changelog); `claim-audit/check.mjs` checks a finished pack mechanically (sections, allowed values, summary counts, High cap, never-Low, internal notes in copy, strong wording absent from sources, new numbers, dropped sentences); recorded model output serves as test fixtures. Both fictional drafts were re-run once after the last revisions; results are in the Known gaps section.
+- Runner: per-stage token and provider-reported cost tracking with a one-line summary, and the model-call deadline raised from 120s to 300s after a Claim Audit stage timed out.
+- Repository: `package.json` (no dependencies; Node 20.6+), a test-only GitHub workflow (`.github/workflows/test.yml`, not yet run on GitHub), the Markdown contract test now reads `git ls-files` so ignored tool folders cannot change results, `.claude/settings.local.json` is gitignored, and `CLAUDE.md`/`AGENTS.md` start with project rules.
+
 ## 2026-07-13
 
 ### Local Edition — completed
@@ -12,9 +32,9 @@ Completed work, moved out of [`ROADMAP.md`](ROADMAP.md) as it finishes. The road
 - Published EE-TRAINING-2026.07 after a successful controlled run with isolated assessment and calibration.
 - Preserved company-launch, governance, and discovery materials as an optional simulation/reference system rather than an active backlog.
 
-### Website — built, verified, and deployment-ready
+### Website — built and verified (historical: superseded by the Local Edition decision above)
 
-Release candidate configured for <https://ryan258.github.io/exemplary-examples/> as a closed-formal-application pilot site. Publication remains pending in [`STATUS.md`](STATUS.md). Verification record: [`operations/WEBSITE-VERIFICATION-2026-07-13.md`](operations/WEBSITE-VERIFICATION-2026-07-13.md).
+This entry records the earlier deployment-and-inquiry plan. The Local Edition decision removed the public URL, inquiry form, and automatic deployment; the site is now local-only (see [`STATUS.md`](STATUS.md)). Verification record: [`operations/WEBSITE-VERIFICATION-2026-07-13.md`](operations/WEBSITE-VERIFICATION-2026-07-13.md).
 
 - **Task 0.1 — Format & premise alignment.** Single-page, five-section site; obsolete tiers and "precedent" language removed; Executive Retainer is the only real offer.
 - **Task 0.2 — Content & exhibit map.** Explicit brand-level satire framing; the Proof section shows methodology, not fictional testimonials; no named real firms or people.
@@ -26,7 +46,7 @@ Release candidate configured for <https://ryan258.github.io/exemplary-examples/>
 - **Task 3.1 — Verification suite.** `node --test tests/*.test.js` (site + documentation contracts) plus the repeatable `tests/browser-audit.cjs`.
 - **Task 3.2 — Performance budget.** Production Lighthouse (via the `Lighthouse (production)` workflow): Performance 91, Accessibility 100, SEO 100 all meet target; Best Practices 79 accepted as a documented exception (a `mailto:` Lighthouse quirk, not a real vulnerability). See [`operations/WEBSITE-VERIFICATION-2026-07-13.md`](operations/WEBSITE-VERIFICATION-2026-07-13.md).
 - **Task 3.3 — Release candidate prepared.** GitHub Pages Actions workflow (site-only artifact, tests-gated), branded `404.html`, and deploy/rollback docs; publication is not yet recorded as complete.
-- **Pilot inquiry path.** A short form prepares a structured email in the visitor's own mail app. No third-party form processor or site-side submission storage is introduced; formal applications remain gated by Checkpoint P.
+- **Pilot inquiry path (later removed).** A short form prepares a structured email in the visitor's own mail app. No third-party form processor or site-side submission storage is introduced; formal applications remain gated by Checkpoint P.
 
 ### Foundations & governance (scaffolded)
 
@@ -43,4 +63,4 @@ Release candidate configured for <https://ryan258.github.io/exemplary-examples/>
 
 - Zero-dependency OpenRouter LLM caller with `.env` config ([`scripts/llm.mjs`](scripts/llm.mjs)).
 
-> **Still open (in the roadmap):** the pilot application build (Tasks 1.3a–e), the outsider comprehension/trust review (Task 3.4), and the entire company track — real interviews, the human Accountable Principal plus legal/insurance/tax sign-off, candidate certification, and the retainer simulation.
+> **Superseded, not pursued:** these items were open before the Local Edition decision and are archived in [`ROADMAP.md`](ROADMAP.md). Previously listed: the pilot application build (Tasks 1.3a–e), the outsider comprehension/trust review (Task 3.4), and the entire company track — real interviews, the human Accountable Principal plus legal/insurance/tax sign-off, candidate certification, and the retainer simulation.
