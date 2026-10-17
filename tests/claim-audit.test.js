@@ -175,3 +175,26 @@ test("the evidence card requires a baseline for every comparison", async () => {
   assert.match(evidence, /exact baseline it is measured against/);
   assert.match(evidence, /not like for like/);
 });
+
+test("each checker refuses a run that came from the other library instead of reporting nonsense", () => {
+  const { spawnSync } = require("node:child_process");
+  const os = require("node:os");
+  const dir = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), "ee-wronglib-")));
+  try {
+    for (const d of ["console/runs", "scripts", "claim-audit", "examples"]) fs.mkdirSync(path.join(dir, d), { recursive: true });
+    for (const f of ["console/console.mjs", "scripts/llm.mjs", "claim-audit/check.mjs", "examples/check.mjs"]) fs.copyFileSync(path.join(root, f), path.join(dir, f));
+    const save = (id, last) => fs.writeFileSync(path.join(dir, "console", "runs", `${id}.json`), JSON.stringify({
+      version: 1, id, brief: "x", stages: [{ id: last, status: "complete", result: "## Summary\nx" }],
+    }));
+    save("an-example", "challenge-example");
+    save("an-audit", "safe-rewrite");
+    let r = spawnSync(process.execPath, [path.join(dir, "claim-audit/check.mjs"), "--run", "an-example"], { encoding: "utf8" });
+    assert.equal(r.status, 1);
+    assert.match(r.stderr, /not a Claim Audit pack/);
+    r = spawnSync(process.execPath, [path.join(dir, "examples/check.mjs"), "--run", "an-audit"], { encoding: "utf8" });
+    assert.equal(r.status, 1);
+    assert.match(r.stderr, /not an Illustrative Examples run/);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});

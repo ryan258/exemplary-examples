@@ -128,7 +128,7 @@ const replies = ${JSON.stringify(replies)};
 globalThis.fetch = async (_u, o) => { appendFileSync(${JSON.stringify(path.join(dir, "calls.jsonl"))}, o.body + "\\n");
   return { ok: true, json: async () => ({ usage: { total_tokens: 1 }, choices: [{ finish_reason: "stop", message: { content: replies.shift() } }] }) }; };
 `);
-    const env = { PATH: process.env.PATH, OPENROUTER_API_KEY: "offline", OPENROUTER_MODEL: "fixture/model" };
+    const env = { PATH: process.env.PATH, OPENROUTER_API_KEY: "offline", OPENROUTER_MODEL: "tencent/hy3" };
     let r = spawnSync(process.execPath, ["--import", preload, path.join(dir, "console/console.mjs"), "--dir", lib, "--all", "--no-edit",
       "--profile", path.join(lib, "_samples", "profile-01.example.md"), "--idea-file", path.join(lib, "_samples", "brief-01.md")], { env, encoding: "utf8", input: "\n" });
     assert.equal(r.status, 0, r.stderr);

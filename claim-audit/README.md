@@ -4,7 +4,7 @@ Paste a marketing or business draft; get every claim classified under the six-cl
 
 **v1 status:** built and tested on fictional drafts only. It has not been used on a real asset, so the scope decision's exit criteria (three real assets, honestly scored) are **not met**.
 
-> **Before you use a real draft:** only your own D0/D1 drafts, only through the provider row in the [policy register](../operations/AI-DATA-POLICY.md) (OpenRouter, `tencent/hy3`). Its retention terms are unknown, so use text you would be comfortable seeing public. Anyone else's draft needs the volunteer notice first.
+> **Before you use a real draft:** only your own D0/D1 drafts, only through the provider row in the [policy register](../operations/AI-DATA-POLICY.md) (OpenRouter, `tencent/hy3`). Its retention terms are unknown, so use text you would be comfortable seeing public. Anyone else's draft is out of scope.
 
 ## Run it
 
@@ -15,7 +15,7 @@ node --env-file=.env console/console.mjs --dir claim-audit --all \
   --idea-file claim-audit/_samples/synthetic-draft-01.md
 
 # 2. Check the result mechanically and save the pack
-node claim-audit/check.mjs --out pack.md
+node claim-audit/check.mjs --out pack.md   # written to console/runs/pack.md (gitignored)
 ```
 
 Preview the plan with no credentials or cost: `node console/console.mjs --dir claim-audit --all --dry-run --idea "x"`.

@@ -15,7 +15,7 @@ Scope: [`../SCOPE-DECISION-CLAIM-AUDIT.md`](../SCOPE-DECISION-CLAIM-AUDIT.md#ame
 node --env-file=.env console/console.mjs --dir examples --all \
   --profile examples/_samples/profile-01.example.md \
   --idea-file examples/_samples/brief-01.md
-node examples/check.mjs --out my-example.md
+node examples/check.mjs --out my-example.md   # written to console/runs/my-example.md (gitignored)
 ```
 
 About one cent and a minute or two per example on the model used in testing. Preview without cost: add `--dry-run` to the first command.

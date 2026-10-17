@@ -7,11 +7,12 @@
 //   node claim-audit/check.mjs                      # check the most recent saved run
 //   node claim-audit/check.mjs --run <id>           # a specific run in console/runs/
 //   node claim-audit/check.mjs --out pack.md        # also write the pack with the findings appended
+//                                                   # (a relative name lands in console/runs/, which git ignores)
 //
 // Exit code 1 when any ERROR is found (the pack breaks a card rule); WARN means "look at this".
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { loadRun } from "../console/console.mjs";
+import { loadRun, outPath } from "../console/console.mjs";
 import { parseOptions } from "../scripts/llm.mjs";
 
 const SECTIONS = ["Summary", "Claim register", "Open verification tasks", "Rewritten draft", "Limits"];
@@ -121,12 +122,14 @@ function main() {
   const state = loadRun(run);
   const last = state.stages.at(-1);
   if (last.status !== "complete") throw new Error(`Run ${state.id} has not finished (last stage is ${last.status}); resume it first.`);
+  if (last.id !== "safe-rewrite") throw new Error(`Run ${state.id} ends with "${last.id}", not "safe-rewrite", so it is not a Claim Audit pack. Pass --run <id> for a Claim Audit run.`);
   const findings = checkPack(last.result, state.brief, state.profile || "");
   const text = report(findings);
   console.log(`Run ${state.id}\n${text}`);
   if (out) {
-    writeFileSync(out, `${last.result}\n\n## Automated checks\n\n${findings.length ? findings.map((x) => `- ${x.level} [${x.rule}] ${x.message}`).join("\n") : text}\n`);
-    console.log(`Wrote ${out}`);
+    const file = outPath(out);
+    writeFileSync(file, `${last.result}\n\n## Automated checks\n\n${findings.length ? findings.map((x) => `- ${x.level} [${x.rule}] ${x.message}`).join("\n") : text}\n`);
+    console.log(`Wrote ${file}`);
   }
   process.exitCode = findings.some((x) => x.level === "ERROR") ? 1 : 0;
 }

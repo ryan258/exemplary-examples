@@ -5,11 +5,12 @@
 //   node examples/check.mjs                 # check the most recent saved run
 //   node examples/check.mjs --run <id>      # a specific run
 //   node examples/check.mjs --out ex.md     # also write the final example with the findings appended
+//                                           # (a relative name lands in console/runs/, which git ignores)
 //
 // Exit code 1 on any ERROR. WARN means "look at this".
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { loadRun } from "../console/console.mjs";
+import { loadRun, outPath } from "../console/console.mjs";
 import { parseOptions } from "../scripts/llm.mjs";
 import { sections } from "../claim-audit/check.mjs";
 import { INTERNAL, STRONG, numbers } from "../claim-audit/check.mjs";
@@ -69,11 +70,13 @@ function main() {
   const state = loadRun(run);
   const last = state.stages.at(-1);
   if (last.status !== "complete") throw new Error(`Run ${state.id} has not finished (last stage is ${last.status}); resume it first.`);
+  if (last.id !== "challenge-example") throw new Error(`Run ${state.id} ends with "${last.id}", not "challenge-example", so it is not an Illustrative Examples run. Pass --run <id> for an examples run.`);
   const findings = checkExample(last.result, state.brief, state.profile || "", state.stages[0]?.result || "");
   console.log(`Run ${state.id}\n${report(findings)}`);
   if (out) {
-    writeFileSync(out, `${last.result}\n\n## Automated checks\n\n${findings.length ? findings.map((x) => `- ${x.level} [${x.rule}] ${x.message}`).join("\n") : report(findings)}\n`);
-    console.log(`Wrote ${out}`);
+    const file = outPath(out);
+    writeFileSync(file, `${last.result}\n\n## Automated checks\n\n${findings.length ? findings.map((x) => `- ${x.level} [${x.rule}] ${x.message}`).join("\n") : report(findings)}\n`);
+    console.log(`Wrote ${file}`);
   }
   process.exitCode = findings.some((x) => x.level === "ERROR") ? 1 : 0;
 }
