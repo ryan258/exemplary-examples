@@ -40,7 +40,7 @@ When a run finishes or stops for input (not when a request fails), the runner pr
 
 ## Saved runs and stage outcomes
 
-Every completed request is written atomically to `console/runs/<id>.json` (gitignored): the brief, each stage's input and output, your edits, and what happens next. The runner appends a short response-format contract to each card's prompt, and a reply is accepted only if its first line is exactly one of:
+Every completed request is written atomically to `console/runs/<id>.json` (gitignored): the brief, each stage's input and output, your edits, and what happens next. The runner appends a short response-format contract to each card's prompt, and a reply is accepted only if its first line is exactly one of these (bold or backtick marks and letter case are forgiven; extra words or a code fence are not):
 
 - `STATUS: COMPLETE` — the deliverable follows and moves on to the next card.
 - `STATUS: NEEDS_INPUT` — the run stops and shows the questions. `--resume` asks for your answer (or takes `--answer`) and re-runs **the same stage** with the questions and answers appended.
@@ -69,6 +69,7 @@ Before a card enters the library: it has worked for its task a few times, its ou
 | Flag | Meaning |
 | --- | --- |
 | `--dir <path>` | Run a different card library (default `console/cards`), e.g. `--dir prompts`. |
+| `--allow-unregistered-model` | Send a model with no row in the [policy register](../operations/AI-DATA-POLICY.md). Without it, anything but `tencent/hy3` (including `:free` variants) is refused before a request or run record. Synthetic text only. |
 | `--list` | List cards (with model tier) and exit. |
 | `--cards a,b` | Pick the chain non-interactively (indices or ids). |
 | `--all` | Run every card in the library, in order (not with `--cards`). |

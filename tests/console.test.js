@@ -55,7 +55,7 @@ fs.writeFileSync(process.argv[2], "A revised");
         CONSOLE_TEST_EDITS: editsFile,
         CONSOLE_TEST_REPLIES: JSON.stringify(replies),
       };
-      if (credentials) Object.assign(env, { OPENROUTER_API_KEY: "offline-test-key", OPENROUTER_MODEL: "fixture/model" });
+      if (credentials) Object.assign(env, { OPENROUTER_API_KEY: "offline-test-key", OPENROUTER_MODEL: "tencent/hy3" });
       const pending = run(process.execPath, ["--import", preload, path.join(consoleDir, "console.mjs"), ...args], { env, timeout: 5000 });
       pending.child.stdin.end("\n");
       try {
@@ -85,7 +85,7 @@ async function fakeProvider(content = "ok") {
 }
 
 async function callLlm(args, provider) {
-  const env = { PATH: process.env.PATH, OPENROUTER_API_KEY: "k", OPENROUTER_MODEL: "fallback/model", OPENROUTER_BASE_URL: provider.url };
+  const env = { PATH: process.env.PATH, OPENROUTER_API_KEY: "k", OPENROUTER_MODEL: "tencent/hy3", OPENROUTER_BASE_URL: provider.url };
   try {
     const { stdout } = await run("node", [llm, ...args], { env });
     return { code: 0, stdout };
@@ -103,7 +103,7 @@ test("invalid llm arguments fail before any provider request", async () => {
     }
     assert.equal(provider.seen.length, 0, "no request may be sent for a rejected invocation");
 
-    const ok = await callLlm(["--model", "chosen/model", "--", "--looks-like-a-flag"], provider);
+    const ok = await callLlm(["--allow-unregistered-model", "--model", "chosen/model", "--", "--looks-like-a-flag"], provider);
     assert.equal(ok.code, 0);
     assert.equal(provider.seen.length, 1);
     assert.equal(provider.seen[0].model, "chosen/model");
@@ -394,7 +394,7 @@ test("legacy runs infer no-edit when completed stages precede an untouched stage
   ];
   try {
     fs.writeFileSync(path.join(fixture.cardsDir, "c.md"), "# C\n\n## Prompt\nDo c.\n");
-    const legacy = newRun({ dir: fixture.cardsDir, model: "m", brief: "the brief", chain, id: "legacy-policy" });
+    const legacy = newRun({ dir: fixture.cardsDir, model: "tencent/hy3", brief: "the brief", chain, id: "legacy-policy" });
     delete legacy.noEdit;
     Object.assign(legacy.stages[0], { status: "complete", output: "A original", result: "A original", edited: false });
     Object.assign(legacy.stages[1], {
@@ -578,5 +578,71 @@ test("chat reports provider usage and defaults to a 300 second deadline", async 
     assert.ok(signal instanceof AbortSignal);
   } finally {
     globalThis.fetch = real;
+  }
+});
+
+test("the models the code will send match the register row, and a :free variant is never one of them", async () => {
+  const { REGISTERED_MODELS } = await load("scripts/llm.mjs");
+  const policy = fs.readFileSync(path.join(root, "operations", "AI-DATA-POLICY.md"), "utf8");
+  const row = policy.split("\n").find((l) => l.startsWith("| OpenRouter"));
+  assert.ok(row, "the register has the OpenRouter row");
+  assert.deepEqual(REGISTERED_MODELS.filter((m) => !row.includes(`\`${m}\``)), [], "every model in code must be named in the register row");
+  assert.ok(REGISTERED_MODELS.every((m) => !m.endsWith(":free")));
+});
+
+test("an unregistered or :free model is refused before any request, in both CLIs, unless explicitly allowed", async () => {
+  const provider = await fakeProvider();
+  try {
+    for (const model of ["tencent/hy3:free", "openai/gpt-4o-mini"]) {
+      const refused = await callLlm(["--model", model, "hi"], provider);
+      assert.equal(refused.code, 1, model);
+      assert.match(refused.stderr, /no row in the AI-DATA-POLICY register/);
+    }
+    assert.equal(provider.seen.length, 0, "no request may reach the provider");
+    assert.equal((await callLlm(["--model", "tencent/hy3", "hi"], provider)).code, 0);
+    assert.equal((await callLlm(["--allow-unregistered-model", "--model", "tencent/hy3:free", "hi"], provider)).code, 0);
+    assert.equal(provider.seen.length, 2);
+  } finally {
+    provider.close();
+  }
+
+  const fixture = consoleFixture();
+  try {
+    const refused = await fixture.invoke(["--cards", "a", "--idea", "x", "--no-edit", "--model", "tencent/hy3:free"]);
+    assert.equal(refused.code, 1);
+    assert.match(refused.stderr, /no row in the AI-DATA-POLICY register/);
+    assert.deepEqual(fixture.calls(), []);
+    assert.deepEqual(fs.readdirSync(fixture.runsDir), [], "a refused model must not leave a run record");
+    const allowed = await fixture.invoke(["--cards", "a", "--idea", "x", "--no-edit", "--model", "tencent/hy3:free", "--allow-unregistered-model"], {
+      replies: ["STATUS: COMPLETE\nok"],
+    });
+    assert.equal(allowed.code, 0, allowed.stderr);
+  } finally {
+    fixture.close();
+  }
+});
+
+test("a checker's --out lands in the runs folder unless given an absolute path, and cannot climb out", async () => {
+  const { outPath } = await load("console/console.mjs");
+  const runs = path.join(fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), "ee-out-"))), "runs");
+  try {
+    assert.equal(outPath("pack.md", runs), path.join(runs, "pack.md"));
+    assert.ok(fs.existsSync(runs), "the runs folder is created on demand");
+    assert.equal(outPath("/somewhere/else.md", runs), "/somewhere/else.md");
+    assert.throws(() => outPath("../pack.md", runs), /leaves/);
+    assert.throws(() => outPath("a/../../pack.md", runs), /leaves/);
+  } finally {
+    fs.rmSync(path.dirname(runs), { recursive: true, force: true });
+  }
+});
+
+test("a bolded, backticked, or differently cased STATUS line is accepted; anything else on that line is not", async () => {
+  const { parseStage } = await load("console/console.mjs");
+  for (const first of ["**STATUS: COMPLETE**", "`STATUS: COMPLETE`", "**STATUS:** COMPLETE", "status: complete", "Status: Complete  "]) {
+    assert.deepEqual(parseStage(`${first}\nbody`), { status: "complete", body: "body" }, first);
+  }
+  assert.equal(parseStage("**STATUS: BLOCKED**\r\nwhy").status, "blocked");
+  for (const bad of ["STATUS: COMPLETE — done\nbody", "```\nSTATUS: COMPLETE\nbody\n```", "Here you go.\nSTATUS: COMPLETE\nbody", "**STATUS: COMPLETE**\n", "STATUS: DONE\nbody"]) {
+    assert.equal(parseStage(bad), null, bad);
   }
 });

@@ -15,13 +15,13 @@
 // Env: OPENROUTER_API_KEY, OPENROUTER_MODEL (see ../.env.example). Editor: $EDITOR (default vi).
 import { readFileSync, readdirSync, writeFileSync, mkdtempSync, mkdirSync, renameSync, existsSync, rmSync, statSync } from "node:fs";
 import { createHash, randomUUID } from "node:crypto";
-import { join, dirname, basename, relative, resolve, sep } from "node:path";
+import { join, dirname, basename, relative, resolve, sep, isAbsolute } from "node:path";
 import { fileURLToPath } from "node:url";
 import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
 import { createInterface } from "node:readline/promises";
 import { strict as assert } from "node:assert";
-import { chat, parseOptions } from "../scripts/llm.mjs";
+import { chat, parseOptions, assertRegisteredModel } from "../scripts/llm.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const CARDS_DIR = join(HERE, "cards");
@@ -102,12 +102,12 @@ export function resolveChain(tokens, cards) {
     });
 }
 
-const FLAGS = { "--list": "list", "--dry-run": "dryRun", "--no-edit": "noEdit", "--selftest": "selftest", "--resume": "resume", "--all": "all", "--help": "help", "-h": "help" };
+const FLAGS = { "--list": "list", "--dry-run": "dryRun", "--no-edit": "noEdit", "--selftest": "selftest", "--resume": "resume", "--all": "all", "--allow-unregistered-model": "allowUnregistered", "--help": "help", "-h": "help" };
 const OPTS = { "--dir": "dir", "--cards": "cards", "--idea": "idea", "--idea-file": "ideaFile", "--model": "model", "--run": "run", "--answer": "answer", "--profile": "profileFile" };
 
 export function parseArgs(argv) {
   const parsed = parseOptions(argv, { flags: FLAGS, opts: OPTS });
-  const out = { cards: null, idea: null, model: null, dir: null, run: null, answer: null, profile: null, all: false, list: false, dryRun: false, noEdit: false, selftest: false, resume: false, help: false, ...parsed };
+  const out = { cards: null, idea: null, model: null, dir: null, run: null, answer: null, profile: null, all: false, allowUnregistered: false, list: false, dryRun: false, noEdit: false, selftest: false, resume: false, help: false, ...parsed };
   delete out.rest;
   delete out.ideaFile;
   delete out.profileFile;
@@ -166,6 +166,9 @@ const HELP = `Console mode — run an idea through a chain of cards, editing bet
   node --env-file=.env console/console.mjs --resume [--run <id>] [--answer "..."]
   node console/console.mjs --list | --dry-run | --selftest
 
+Only models in the AI-DATA-POLICY register are sent (":free" variants are not). For synthetic text
+only, add --allow-unregistered-model.
+
 Cards live in console/cards/ by default; --dir runs another library (e.g. --dir prompts).
 --all runs every card in the library in order. --profile <file> adds your brand/audience context to every card.
 One .md per card; only its "## Prompt" section is sent to the model.
@@ -210,10 +213,12 @@ export function withContext(prompt, profile) {
 }
 
 // Returns { status: "complete"|"needs_input"|"blocked", body } or null when the reply breaks the protocol.
+// The first line must still be the status and nothing else; only emphasis marks (* _ `) and case are
+// forgiven, because chat models bold it. Extra words, a code fence, or a missing line stay failures.
 export function parseStage(reply) {
-  const m = reply.match(/^\s*STATUS:[ \t]*(COMPLETE|NEEDS_INPUT|BLOCKED)[ \t]*\r?\n([\s\S]*)$/);
+  const m = reply.match(/^\s*[*_`]*STATUS[*_`]*:[*_`]*[ \t]*[*_`]*(COMPLETE|NEEDS_INPUT|BLOCKED)[*_`]*[ \t]*\r?\n([\s\S]*)$/i);
   const body = m?.[2].trim();
-  return body ? { status: m[1].toLowerCase(), body } : null;
+  return body ? { status: m[1].toLowerCase(), body } : null; // m[1] may be any case
 }
 
 export function newRun({ dir, model, brief, chain, profile = null, noEdit = false, id = `${new Date().toISOString().replace(/[-:.]/g, "")}-${randomUUID()}` }) {
@@ -231,6 +236,16 @@ function hashPrompt(prompt) {
 // Stage ids whose card prompt differs from the one the run recorded. Runs saved before hashing are not judged.
 export function promptDrift(state, chain) {
   return state.stages.flatMap((s, i) => (s.promptHash && s.promptHash !== hashPrompt(chain[i]?.prompt) ? [s.id] : []));
+}
+
+// Where a checker's --out file goes. It holds the draft's content, so a relative name lands in
+// console/runs/ (gitignored) and may not climb out of it; an absolute path is taken as given.
+export function outPath(out, runsDir = RUNS_DIR) {
+  if (isAbsolute(out)) return out;
+  const file = resolve(runsDir, out);
+  if (relative(runsDir, file).startsWith("..")) throw new Error(`--out "${out}" leaves ${runsDir}. Give an absolute path to write elsewhere.`);
+  mkdirSync(runsDir, { recursive: true });
+  return file;
 }
 
 // Atomic: a crash mid-write leaves the previous record intact.
@@ -375,6 +390,9 @@ function selftest() {
   assert.equal(parseStage("STATUS: NEEDS_INPUT\nWhich language?").status, "needs_input");
   assert.equal(parseStage("Which language should I use?"), null);
   assert.equal(parseStage("STATUS: COMPLETE\n"), null);
+  assert.equal(parseStage("**STATUS: COMPLETE**\nbody").status, "complete");
+  assert.equal(parseStage("Status: needs_input\nWhich?").status, "needs_input");
+  assert.equal(parseStage("STATUS: COMPLETE — done\nbody"), null);
   console.log(`selftest ok (${cards.length} cards: ${cards.map((c) => c.id).join(", ")})`);
 }
 
@@ -421,6 +439,7 @@ async function main() {
     if (!process.env.OPENROUTER_API_KEY) throw new Error("Missing OPENROUTER_API_KEY. Run with --env-file=.env, or use --dry-run.");
     const model = args.model || state.model || process.env.OPENROUTER_MODEL;
     if (!model) throw new Error("No model. Set OPENROUTER_MODEL in .env or pass --model <slug>.");
+    assertRegisteredModel(model, args.allowUnregistered);
     state.model = model;
     state.noEdit = args.noEdit || state.noEdit;
     saveRun(state);

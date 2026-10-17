@@ -13,6 +13,15 @@
 import { strict as assert } from "node:assert";
 import { fileURLToPath } from "node:url";
 
+// Models with a row in the approved-tool register (operations/AI-DATA-POLICY.md). A test keeps this
+// in step with that row. ":free" variants are different routes and are not covered.
+export const REGISTERED_MODELS = ["tencent/hy3"];
+
+export function assertRegisteredModel(model, allow = false) {
+  if (allow || REGISTERED_MODELS.includes(model)) return;
+  throw new Error(`Model "${model}" has no row in the AI-DATA-POLICY register (approved: ${REGISTERED_MODELS.join(", ")}; ":free" variants are not covered). Use an approved model, or add --allow-unregistered-model for synthetic text only.`);
+}
+
 export function buildPayload(model, prompt, system) {
   const messages = [];
   if (system) messages.push({ role: "system", content: system });
@@ -92,11 +101,11 @@ export function parseOptions(argv, { flags = {}, opts = {}, positional = false }
 
 export function parseArgs(argv) {
   const { rest, ...out } = parseOptions(argv, {
-    flags: { "--selftest": "selftest", "--help": "help", "-h": "help" },
+    flags: { "--selftest": "selftest", "--help": "help", "-h": "help", "--allow-unregistered-model": "allowUnregistered" },
     opts: { "--model": "model", "--system": "system" },
     positional: true,
   });
-  return { model: null, system: null, selftest: false, help: false, ...out, prompt: rest.length ? rest.join(" ") : null };
+  return { model: null, system: null, selftest: false, help: false, allowUnregistered: false, ...out, prompt: rest.length ? rest.join(" ") : null };
 }
 
 async function readStdin() {
@@ -112,6 +121,9 @@ const HELP = `Call an OpenRouter model.
   node --env-file=.env scripts/llm.mjs [--model <slug>] [--system <text>] [--] "your prompt"
   echo "prompt" | node --env-file=.env scripts/llm.mjs
   node scripts/llm.mjs --selftest
+
+Only models in the AI-DATA-POLICY register are sent (":free" variants are not). For synthetic text
+only, add --allow-unregistered-model.
 
 Unknown options and options missing a value are errors. Use --opt=<value> for a value starting
 with "-", and -- before a prompt that starts with "-".
@@ -140,6 +152,10 @@ function selftest() {
   assert.throws(() => parseArgs(["--constructor", "x"]), /Unknown option/);
   assert.equal(textOf([{ type: "text", text: "a" }, { type: "text", text: "b" }]), "ab");
   assert.equal(textOf(null), "");
+  assertRegisteredModel("tencent/hy3");
+  assert.throws(() => assertRegisteredModel("tencent/hy3:free"), /no row in the AI-DATA-POLICY register/);
+  assert.throws(() => assertRegisteredModel("openai/gpt-4o-mini"), /no row/);
+  assertRegisteredModel("openai/gpt-4o-mini", true);
   console.log("selftest ok");
 }
 
@@ -162,6 +178,12 @@ async function main() {
   const model = args.model || process.env.OPENROUTER_MODEL;
   if (!model) {
     console.error("No model. Set OPENROUTER_MODEL in .env or pass --model <slug>.");
+    process.exit(1);
+  }
+  try {
+    assertRegisteredModel(model, args.allowUnregistered);
+  } catch (error) {
+    console.error(error.message);
     process.exit(1);
   }
   const prompt = args.prompt || (await readStdin());
