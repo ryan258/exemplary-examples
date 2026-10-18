@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Short owner commands. Only audit, example, and resume can dispatch model requests.
 import { existsSync, readdirSync, statSync, readFileSync, unlinkSync, lstatSync } from "node:fs";
-import { dirname, join, resolve, basename } from "node:path";
+import { dirname, join, resolve, basename, extname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { loadRun, usageLine } from "../console/console.mjs";
@@ -48,15 +48,26 @@ export function listRuns(runsDir = RUNS) {
     .sort((a, b) => b.time - a.time || b.id.localeCompare(a.id));
 }
 
-// Delete only explicit local records and exports carrying that exact run marker. Never follow symlinks.
+// Delete only explicit local records and regular exports carrying that exact run marker.
+// Visit real nested directories, never symlink files/directories, and keep unrelated contents.
 export function finishRun(id, runsDir = RUNS) {
   if (!id || id === "latest") throw new Error("finish needs the explicit run id shown by list; latest is not a deletion target.");
   const state = loadRun(id, runsDir);
-  const files = [join(runsDir, `${state.id}.json`)];
-  for (const name of readdirSync(runsDir).filter((f) => f.endsWith(".md"))) {
-    const file = join(runsDir, name);
-    if (lstatSync(file).isFile() && readFileSync(file, "utf8").startsWith(`<!-- EE run: ${state.id} -->\n`)) files.push(file);
-  }
+  const record = join(runsDir, `${state.id}.json`);
+  if (!lstatSync(record).isFile()) throw new Error(`Refusing to delete a non-regular run file: ${record}`);
+  const files = [];
+  const marker = `<!-- EE run: ${state.id} -->\n`;
+  const collect = (directory) => {
+    for (const name of readdirSync(directory)) {
+      const file = join(directory, name);
+      const info = lstatSync(file);
+      if (info.isDirectory()) collect(file);
+      else if (info.isFile() && extname(name).toLowerCase() === ".md" && readFileSync(file, "utf8").startsWith(marker)) files.push(file);
+    }
+  };
+  collect(runsDir);
+  // Keep the record until exports are removed, so a failed cleanup remains resumable.
+  files.push(record);
   for (const file of files) {
     if (!lstatSync(file).isFile()) throw new Error(`Refusing to delete a non-regular run file: ${file}`);
   }

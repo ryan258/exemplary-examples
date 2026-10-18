@@ -62,7 +62,7 @@ Each stage keeps its initial prompt hash and the hash/model most recently used; 
 
 Run records and exports contain plaintext drafts and full request history. Delete completed data using `node scripts/ee.mjs finish <explicit-id>` after keeping any approved result you need. It removes that JSON record and marked Markdown exports in `console/runs/`; absolute exports outside that directory require separate cleanup. It refuses `latest` as a deletion target. See [`../docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md) for the local data flow and [`../operations/AI-DATA-POLICY.md`](../operations/AI-DATA-POLICY.md) for retention limits.
 
-Checker exports require a `.md` filename. A `.json` export would collide with saved-run discovery and could overwrite the record needed for resumption, so it is refused.
+Checker exports require a `.md` filename. A `.json` export would collide with saved-run discovery and could overwrite the record needed for resumption, so it is refused. Relative paths stay within `console/runs/`, including when a parent directory is a symlink; an absolute path explicitly selects another directory. The selected parent directory must already exist. Symlink destinations are refused, and exports replace regular files atomically with private permissions, preserving any other file hard-linked to an old export. A failed write leaves the previous export intact.
 
 `--resume --dry-run` (or `--run <id> --dry-run`) previews the chain without credentials, provider requests, editing, or changes to the saved record.
 

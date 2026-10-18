@@ -69,3 +69,36 @@ test("owner status and show handle first use offline from another directory", ()
     assert.equal(fs.existsSync(path.join(dir, "console/runs")), false, "inspection must not create state");
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
+
+test("finish removes nested marked exports while preserving unrelated files and symlink subtrees", async () => {
+  const { finishRun } = await load();
+  const { newRun, saveRun } = await import(path.join(root, "console/console.mjs"));
+  const runs = fs.mkdtempSync(path.join(os.tmpdir(), "ee-finish-nested-"));
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), "ee-finish-outside-"));
+  try {
+    saveRun(newRun({ dir: root, model: "m", brief: "x", chain: [], id: "one" }), runs);
+    saveRun(newRun({ dir: root, model: "m", brief: "x", chain: [], id: "two" }), runs);
+    const nested = path.join(runs, "nested", "deeper");
+    fs.mkdirSync(nested, { recursive: true });
+    fs.writeFileSync(path.join(nested, "one.md"), "<!-- EE run: one -->\nPrivate export");
+    fs.writeFileSync(path.join(nested, "upper.MD"), "<!-- EE run: one -->\nUppercase Markdown export");
+    fs.writeFileSync(path.join(nested, "two.md"), "<!-- EE run: two -->\nOther run");
+    fs.writeFileSync(path.join(nested, "unmarked.md"), "Keep this file");
+    const external = path.join(outside, "one.md");
+    fs.writeFileSync(external, "<!-- EE run: one -->\nOutside export");
+    fs.symlinkSync(outside, path.join(runs, "external"), "dir");
+    fs.symlinkSync(external, path.join(nested, "linked.md"));
+
+    assert.equal(finishRun("one", runs).length, 3);
+    for (const file of ["one.json", "nested/deeper/one.md", "nested/deeper/upper.MD"]) assert.equal(fs.existsSync(path.join(runs, file)), false);
+    assert.equal(fs.existsSync(path.join(runs, "two.json")), true);
+    assert.equal(fs.readFileSync(path.join(nested, "two.md"), "utf8"), "<!-- EE run: two -->\nOther run");
+    assert.equal(fs.readFileSync(path.join(nested, "unmarked.md"), "utf8"), "Keep this file");
+    assert.equal(fs.readFileSync(external, "utf8"), "<!-- EE run: one -->\nOutside export");
+    assert.ok(fs.lstatSync(path.join(runs, "external")).isSymbolicLink());
+    assert.ok(fs.lstatSync(path.join(nested, "linked.md")).isSymbolicLink());
+  } finally {
+    fs.rmSync(runs, { recursive: true, force: true });
+    fs.rmSync(outside, { recursive: true, force: true });
+  }
+});

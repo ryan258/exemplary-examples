@@ -13,7 +13,7 @@
 // Every completed request is saved to console/runs/<id>.json (gitignored), so an interrupted,
 // failed, or question-stopped run resumes at the stage that needs it instead of starting over.
 // Env: OPENROUTER_API_KEY, OPENROUTER_MODEL (see ../.env.example). Editor: $EDITOR (default vi).
-import { readFileSync, readdirSync, writeFileSync, mkdtempSync, mkdirSync, renameSync, existsSync, rmSync, statSync } from "node:fs";
+import { readFileSync, readdirSync, writeFileSync, mkdtempSync, mkdirSync, renameSync, existsSync, rmSync, statSync, lstatSync, realpathSync, openSync, closeSync } from "node:fs";
 import { createHash, randomUUID } from "node:crypto";
 import { join, dirname, basename, relative, resolve, sep, isAbsolute, extname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -257,14 +257,55 @@ export function promptDrift(state, chain) {
 }
 
 // Where a checker's --out file goes. It holds the draft's content, so a relative name lands in
-// console/runs/ (gitignored) and may not climb out of it; an absolute path is taken as given.
+// console/runs/ (gitignored) and may not climb out of it, including through a directory symlink.
+// An absolute path explicitly selects another directory. Neither form may target a symlink.
 export function outPath(out, runsDir = RUNS_DIR) {
   if (extname(out).toLowerCase() !== ".md") throw new Error("--out needs a .md file name. Saved JSON run records are not export targets.");
-  if (isAbsolute(out)) return out;
   const file = resolve(runsDir, out);
-  if (relative(runsDir, file).startsWith("..")) throw new Error(`--out "${out}" leaves ${runsDir}. Give an absolute path to write elsewhere.`);
-  mkdirSync(runsDir, { recursive: true });
+  if (!isAbsolute(out)) {
+    const escapes = (root, target) => {
+      const rel = relative(root, target);
+      return rel === ".." || rel.startsWith(`..${sep}`) || isAbsolute(rel);
+    };
+    const refuse = () => { throw new Error(`--out "${out}" leaves ${runsDir}. Give an absolute path to write elsewhere.`); };
+    if (escapes(resolve(runsDir), file)) refuse();
+    mkdirSync(runsDir, { recursive: true });
+    // Parents need not exist yet. Check the nearest existing ancestor; the writer still requires
+    // its selected parent directory to exist and never creates directories through a symlink.
+    let ancestor = dirname(file);
+    while (true) {
+      try {
+        if (escapes(realpathSync(runsDir), realpathSync(ancestor))) refuse();
+        break;
+      } catch (error) {
+        if (error.code !== "ENOENT" || ancestor === dirname(ancestor)) throw error;
+        ancestor = dirname(ancestor);
+      }
+    }
+  }
+  try {
+    if (!lstatSync(file).isFile()) throw new Error(`--out "${out}" must name a regular Markdown file, not a symlink or directory.`);
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+  }
   return file;
+}
+
+// Replace exports atomically with private permissions. Replacing the directory entry instead of
+// truncating the destination also preserves any other file hard-linked to an old export.
+export function writePack(out, contents, runsDir = RUNS_DIR) {
+  const file = outPath(out, runsDir);
+  const temporary = `${file}.${randomUUID()}.tmp`;
+  let created = false;
+  try {
+    const fd = openSync(temporary, "wx", 0o600);
+    created = true;
+    try { writeFileSync(fd, contents); } finally { closeSync(fd); }
+    renameSync(temporary, file);
+    return file;
+  } finally {
+    if (created) rmSync(temporary, { force: true });
+  }
 }
 
 // Atomic: a crash mid-write leaves the previous record intact.
