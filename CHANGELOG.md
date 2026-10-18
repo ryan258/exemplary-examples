@@ -11,6 +11,9 @@ Local changes and historical work. Entries do not imply a commit, deployment, pu
 - Numeric provenance compares equivalent decimal spellings without floating-point conversion. Written-number support accepts complete zero-to-ninety-nine quantities and does not approve fragments of unsupported larger or fractional expressions. Literal arithmetic operators survive presentation normalization, and UNVERIFIED annotations balance their outer brackets independently of quoted source brackets.
 - Clarified explicit saved owner-answer provenance in each extension card, with dated instruction-revision entries and corresponding contract assertions. Frame Example now states the single-value/unit and escaped-pipe table contract. These instruction revisions have no fresh model measurement.
 - Corrected the plaintext-record retention policy to require explicit owner cleanup and prohibit tracking private draft text. The homepage names both accepted owner-only workflows, and table-of-contents links have explicit target sizing consistent with the optional browser audit.
+- Aligned the Claim Audit rewrite card instructions to require `- Claim N` markdown bullets for verification tasks and explicit `Claim N` naming for flagged claims in the summary. Added contract tests guarding against task paragraph regressions.
+- Added `docs/full-copy-and-paste-guide-to-getting-the-most-out-of-this-tool.md` providing an end-to-end literal command walkthrough covering setup, fictional rehearsals, owner draft workflow, review habits, and cleanup.
+- Synchronized GitNexus code intelligence index and agent skill definitions.
 - Verification is limited to targeted checker, export, runner-history, owner-command, documentation, and generated-site tests. Frozen training evidence and recorded model samples remain unchanged. No full suite, live model call, browser/assistive-technology acceptance, or three-own-asset evaluation is claimed.
 
 ## 2026-10-17

@@ -1,6 +1,6 @@
 # Continue — owner pickup point
 
-For daily use, open [Start or return](START.md). Current scope and maturity live in `STATUS.md`, `LOCAL-EDITION.md`, and `SCOPE-DECISION-CLAIM-AUDIT.md`; run `git status -sb` for the actual Git state. This note does not assert that local changes are committed, pushed, published or accepted.
+For daily use, open [Start or return](START.md) or the [Full copy-and-paste guide](full-copy-and-paste-guide-to-getting-the-most-out-of-this-tool.md). Current scope and maturity live in `STATUS.md`, `LOCAL-EDITION.md`, and `SCOPE-DECISION-CLAIM-AUDIT.md`; run `git status -sb` for the actual Git state. This note does not assert that local changes are committed, pushed, published or accepted.
 
 ## Current shape
 

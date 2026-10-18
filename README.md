@@ -119,6 +119,7 @@ The prior real-browser verification record remains at [`operations/WEBSITE-VERIF
 | [`LOCAL-EDITION.md`](LOCAL-EDITION.md) | Governing scope and completion decision |
 | [`STATUS.md`](STATUS.md) | Current maturity and unresolved evidence gates |
 | [`docs/START.md`](docs/START.md) | Owner landing page and short local commands |
+| [`docs/full-copy-and-paste-guide-to-getting-the-most-out-of-this-tool.md`](docs/full-copy-and-paste-guide-to-getting-the-most-out-of-this-tool.md) | Full copy-and-paste walkthrough for setup, workflows, and review |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Components, data flow, provenance, and maintenance boundaries |
 | [`docs/EVALUATION.md`](docs/EVALUATION.md) | Bounded owner evaluation and synthetic trial record |
 | [`index.html`](index.html) | Current Local Edition experience |

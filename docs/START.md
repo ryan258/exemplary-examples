@@ -2,6 +2,8 @@
 
 Exemplary Examples is your local reference and drafting tool: a satirical website, an evidence method, and two owner-only workflows. The original content is authored. Claim Audit and Illustrative Examples are built and tested on fictional material; real-asset usefulness is still unmeasured.
 
+Every command below, plus setup, templates and troubleshooting, ready to paste: repository file `docs/full-copy-and-paste-guide-to-getting-the-most-out-of-this-tool.md`.
+
 ## Pick up where you left off
 
 Run these from the repository root. They inspect local state without contacting a model:
