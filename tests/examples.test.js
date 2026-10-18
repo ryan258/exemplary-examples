@@ -38,6 +38,10 @@ test("the cards carry the honesty rules that keep an example from posing as a re
   assert.match(challenge, /faithfully quoted phrases/);
   assert.match(challenge, /preserve the accepted table rather than silently replacing it/);
   assert.match(challenge, /not independent verification/);
+  for (const prompt of [frame, write, challenge]) assert.match(prompt, /saved owner answers/);
+  assert.match(frame, /Each Value holds one numeric value and its unit/);
+  assert.match(frame, /split ranges or multiple values into separately labeled rows/);
+  assert.match(frame, /Escape a literal pipe inside a cell/);
 });
 
 test("the sample is fictional and carries the facts the checks rely on", () => {
@@ -210,6 +214,19 @@ test("each figure has a traceable basis and derived results show their formula",
   const laundered = GOOD.replace("$24 — SUPPLIED", "$99 — SUPPLIED");
   assert.ok((await run(laundered, "$99 SUPPLIED")).some((f) => f.rule === "number-basis" && /absent/.test(f.message)));
   assert.ok((await run(GOOD.replace(" — DERIVED — 4 × $7 = $28", " — DERIVED"))).some((f) => /explicit arithmetic formula/.test(f.message)));
+});
+
+test("equivalent decimal spellings retain provenance, while larger written fragments cannot supply figures", async () => {
+  const { checkExample, LABEL } = await load("examples/check.mjs");
+  const decimalNotes = FRAMING.replace("| $7 |", "| $7.00 |");
+  const decimalPack = await pack(GOOD.replaceAll("$7", "$7.00"), {}, decimalNotes);
+  assert.deepEqual(checkExample(decimalPack, read("_samples", "brief-01.md"), read("_samples", "profile-01.example.md"), decimalNotes).filter((f) => f.level === "ERROR"), []);
+  for (const [value, quote] of [["1", "There are one hundred jobs."], ["20", "There are twenty thousand jobs."], ["5", "The quantity is twenty point five."]]) {
+    const notes = `| Item | Value | Basis | Source or working |\n|---|---|---|---|\n| Quantity | ${value} jobs | SUPPLIED | Brief: "${quote}" |`;
+    const text = `${LABEL}\nHeadline: A quantity\nAlt: Quantity\nAlt: Another quantity\nThe numbers\n- Quantity: ${value} — SUPPLIED\nWhat would change this\n- A different workload.\nNext step: Ask about the workload.`;
+    const found = checkExample(await pack(text, {}, notes), quote, "", notes);
+    assert.ok(found.some((f) => f.rule === "source-notes" && /absent from owner input/.test(f.message)), quote);
+  }
 });
 
 test("the challenge has exactly seven named outcomes with reasons and Fail blocks readiness", async () => {

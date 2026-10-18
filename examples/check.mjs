@@ -8,9 +8,8 @@
 //                                           # (a relative name lands in console/runs/, which git ignores)
 //
 // Exit code 1 on any ERROR. WARN means "look at this".
-import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { loadRun, outPath, ownerContext } from "../console/console.mjs";
+import { loadRun, writePack, ownerContext } from "../console/console.mjs";
 import { parseOptions } from "../scripts/llm.mjs";
 import { INTERNAL, STRONG, numbers, sourceNumbers, checkedSections, plain, normalized, parseTable, splitSourceNotes } from "../scripts/pack-checks.mjs";
 
@@ -163,6 +162,7 @@ Examples run against its framing, brief, and numeric rules.`);
   }
   const state = loadRun(run);
   const last = state.stages.at(-1);
+  if (!last) throw new Error(`Run ${state.id} has no stages, so it has no Illustrative Example pack to check.`);
   if (last.status !== "complete") throw new Error(`Run ${state.id} has not finished (last stage is ${last.status}); resume it first.`);
   if (last.id !== "challenge-example") throw new Error(`Run ${state.id} ends with "${last.id}", not "challenge-example", so it is not an Illustrative Examples run. Pass --run <id> for an examples run.`);
   const framing = authoritativeFraming(state.stages);
@@ -170,8 +170,7 @@ Examples run against its framing, brief, and numeric rules.`);
   const findings = checkExample(last.result, ownerContext(state), state.profile || "", framing);
   console.log(`Run ${state.id}\n${report(findings)}`);
   if (out) {
-    const file = outPath(out);
-    writeFileSync(file, `<!-- EE run: ${state.id} -->\n${last.result}\n\n## Automated checks\n\n${findings.length ? findings.map((x) => `- ${x.level} [${x.rule}] ${x.message}`).join("\n") : report(findings)}\n`, { mode: 0o600 });
+    const file = writePack(out, `<!-- EE run: ${state.id} -->\n${last.result}\n\n## Automated checks\n\n${findings.length ? findings.map((x) => `- ${x.level} [${x.rule}] ${x.message}`).join("\n") : report(findings)}\n`);
     console.log(`Wrote ${file}`);
   }
   process.exitCode = findings.some((x) => x.level === "ERROR") ? 1 : 0;

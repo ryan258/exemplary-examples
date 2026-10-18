@@ -2,21 +2,49 @@
 // a malformed boundary must never make copy disappear from the safety checks.
 export const INTERNAL = /\b(on file|per the profile|supplied copy|billing export|membership export|price sheet|client-provided|client-supplied)\b|\bowner:/gi;
 export const STRONG = /\b(guarantee[ds]?|proven|clinically|cures?|cured|best|awards?|winner|certified|risk-free|leading)\b|#1/gi;
-export const plain = (s) => s.replace(/[*`]/g, "").trim();
+// Strip paired presentation marks, never literal operators such as 2*3. Code
+// spans are opaque to emphasis parsing, so `*literal*` retains its asterisks.
+export function plain(s) {
+  let marker = "\0";
+  while (s.includes(marker)) marker += "\0";
+  const code = [];
+  let text = s.replace(/(?<![\\`])(`+)(?!`)([\s\S]*?)(?<!`)\1(?!`)/g, (_match, _ticks, body) => `${marker}[${code.push(body) - 1}]${marker}`);
+  const emphasis = /(^|[^\p{L}\p{N}\\])(\*\*|__|\*|_)(?=\S)([\s\S]*?\S)(?<!\\)\2(?=$|[^\p{L}\p{N}])/gu;
+  let before;
+  do {
+    before = text;
+    text = text.replace(emphasis, "$1$3");
+  } while (text !== before);
+  text = text.replace(/\\([\\`*_{}\[\]()#+\-.!|>])/g, "$1");
+  return text.replace(new RegExp(`${marker}\\[(\\d+)\\]${marker}`, "g"), (_match, index) => code[Number(index)]).trim();
+}
 export const normalized = (s) => plain(s).replace(/\s+/g, " ").trim();
-export const numberValues = (s) => [...s.matchAll(/\$?\d[\d,]*(?:\.\d+)?/g)].map((m) => ({
-  value: m[0].replace(/[$,]/g, ""), text: m[0], index: m.index,
-}));
+export const numberValues = (s) => [...s.matchAll(/\$?(?:\d[\d,]*(?:\.\d+)?|\.\d+)/g)].map((m) => {
+  const [integer, decimal = ""] = m[0].replace(/[$,]/g, "").split(".");
+  const whole = integer.replace(/^0+(?=\d)/, "") || "0";
+  const fraction = decimal.replace(/0+$/, "");
+  return { value: fraction ? `${whole}.${fraction}` : whole, text: m[0], index: m.index };
+});
 export const numbers = (s) => new Set(numberValues(s).map((n) => n.value));
 
 // A source may write "four" where a numeric entry uses 4. This narrow conversion
 // is for provenance only; prose number words do not become extra output figures.
 const SMALL = "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen".split(" ");
 const TENS = { twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60, seventy: 70, eighty: 80, ninety: 90 };
+const COMPLEX = ["hundred", "thousand", "million", "billion", "trillion", "half", "halves", "quarter", "quarters", "point", "dozen", "dozens", "score"];
 export function sourceNumbers(text) {
   const result = numbers(text);
-  const pattern = new RegExp(`\\b(${Object.keys(TENS).join("|")})(?:[- ](${SMALL.slice(1, 10).join("|")}))?\\b|\\b(${SMALL.join("|")})\\b`, "gi");
-  for (const match of text.matchAll(pattern)) result.add(String(match[1] ? TENS[match[1].toLowerCase()] + (match[2] ? SMALL.indexOf(match[2].toLowerCase()) : 0) : SMALL.indexOf(match[3].toLowerCase())));
+  const atom = [...SMALL, ...Object.keys(TENS), ...COMPLEX].join("|");
+  const connector = `and(?=[\\s-]+(?:(?:${atom})\\b|a[\\s-]+(?:half|quarter)\\b))|a(?=[\\s-]+(?:half|quarter)\\b)`;
+  const pattern = new RegExp(`\\b(?:${atom})(?:[\\s-]+(?:${atom}|${connector}))*\\b`, "gi");
+  for (const match of text.matchAll(pattern)) {
+    const words = match[0].toLowerCase().split(/[\s-]+/);
+    // Recognize only an entire supported quantity, not pieces of "one hundred",
+    // "twenty point five", or another larger/fractional written expression.
+    if (words.length === 1 && SMALL.includes(words[0])) result.add(String(SMALL.indexOf(words[0])));
+    else if (words.length === 1 && words[0] in TENS) result.add(String(TENS[words[0]]));
+    else if (words.length === 2 && words[0] in TENS && SMALL.indexOf(words[1]) > 0 && SMALL.indexOf(words[1]) < 10) result.add(String(TENS[words[0]] + SMALL.indexOf(words[1])));
+  }
   return result;
 }
 

@@ -12,6 +12,8 @@ Medium–high.
 ## Prompt
 You are two readers at once: a skeptical customer who has been burned by marketing, and a careful advertising reviewer. You are given a drafted illustrative example. Find every place where it could mislead, fix it, and report what you did.
 
+Explicit saved owner answers included in the PROFILE are supplied context, subject to their exact wording and limits. Check SUPPLIED quotations against that owner text as well as the original brief/profile; model questions and earlier generated text are not supplied facts. Owner clarification does not permit silently revising an accepted source table: report any needed table correction for an owner edit.
+
 Look for:
 - A reasonable reader taking it for a real customer or a real result.
 - A number that is not in the preserved framing or does not follow from it, or arithmetic that is wrong. Recompute every figure. Check SUPPLIED values against the original brief/PROFILE, never merely against an earlier model output; preserve ASSUMED values as assumptions. A DERIVED result needs a formula using listed inputs and units.
@@ -47,3 +49,4 @@ A corrected example with preserved framing/source notes, a change list, and a se
 - 2026-10-17: Instruction revision after the first synthetic trial: the challenge looks for invented business facts and a missing break-even; the checklist has seven items. Not yet re-measured.
 - 2026-10-17: Instruction revision: retain framing, check original provenance, trace every numeric value including DERIVED calculations, require all seven checks, and distinguish model self-check from owner acceptance. Not yet re-measured.
 - 2026-10-17: Instruction revision: retain the exact nested Source notes table, preserve accepted owner corrections, and check customer wording separately from faithful provenance quotations. Not yet re-measured.
+- 2026-10-18: Instruction revision: recognize explicit owner-answer provenance and preserve the owner-edit gate for accepted table corrections. Not yet re-measured.

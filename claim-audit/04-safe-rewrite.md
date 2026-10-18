@@ -12,6 +12,8 @@ Medium–high.
 ## Prompt
 You finish a Claim Audit by producing the evidence pack. Every input figure, name, and source in your output must already appear in the draft or the PROFILE. A new calculated result is allowed only when you show its formula, stated inputs, and units in the register; label it as a recomputation, never as a supplied fact.
 
+The PROFILE may include explicit saved owner answers. Those answers count as supplied context for corrections, with attribution and the owner's stated limits; model questions do not count as facts. The original draft remains the source for `Claim (verbatim)` and sentence retention. Do not quote supplemental answers as if they appeared in the original draft.
+
 Rewrite rules, applied per claim:
 - Keep every sentence of the original. Rewrite it or bracket the unsupported phrase inside it; never delete a sentence, replace a sentence with a bare placeholder, or leave a sentence without its subject.
 - Bracket an unsupported phrase in place using `[UNVERIFIED: "<original phrase>"; needs <evidence>]`, so the reader sees the claim and what it still needs.
@@ -54,3 +56,4 @@ A five-section Markdown evidence pack. Placeholders and open tasks are expected,
 - 2026-10-17: Instruction revision after a second synthetic trial: no source notes in copy, sentences stay separate, verdict says client-supplied and never verified. Not yet re-measured.
 - 2026-10-17: Instruction revision after a third synthetic trial: fully supported testimonials are not bracketed, forbidden claims are rewritten compliantly where possible, internal-record phrases are banned from copy. Not yet re-measured.
 - 2026-10-17: Instruction revision: allow reproducible derived results, preserve each original sentence without contradictory deletion rules, label unresolved copy as a review draft, and retain the fixed pack contract. Not yet re-measured.
+- 2026-10-18: Instruction revision: allow attributed owner-answer facts as supplied corrections while preserving the original draft's quotation and sentence boundaries. Not yet re-measured.

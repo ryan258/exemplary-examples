@@ -10,9 +10,8 @@
 //                                                   # (a relative name lands in console/runs/, which git ignores)
 //
 // Exit code 1 when any ERROR is found (the pack breaks a card rule); WARN means "look at this".
-import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { loadRun, outPath, ownerContext } from "../console/console.mjs";
+import { loadRun, writePack, ownerContext } from "../console/console.mjs";
 import { parseOptions } from "../scripts/llm.mjs";
 import { INTERNAL, STRONG, normalized, numbers, sections, checkedSections, parseTable } from "../scripts/pack-checks.mjs";
 export { INTERNAL, STRONG, numbers, sections } from "../scripts/pack-checks.mjs";
@@ -35,6 +34,32 @@ export function authoritativeRegisters(stages) {
   const previous = stages.slice(0, -1).filter((stage) => stage.status === "complete");
   const edited = previous.findLastIndex((stage) => stage.edited === true);
   return previous.slice(edited < 0 ? 0 : edited).map((stage) => stage.result);
+}
+
+// Find the outer annotation boundary, ignoring literal brackets inside its
+// quoted source phrase and balancing any nested brackets in the needs text.
+function unverifiedAnnotations(text) {
+  const annotations = [], issues = [];
+  const start = /\[UNVERIFIED:/gi;
+  let match;
+  while ((match = start.exec(text))) {
+    let depth = 1, quote = null, end = null;
+    for (let i = start.lastIndex; i < text.length; i++) {
+      const char = text[i];
+      if (char === "\\" && /[\\\[\]"“”]/.test(text[i + 1] || "")) { i++; continue; }
+      if (quote) {
+        if (char === quote) quote = null;
+        continue;
+      }
+      if (char === '"' || char === "“") quote = char === "“" ? "”" : '"';
+      else if (char === "[") depth++;
+      else if (char === "]" && --depth === 0) { end = i + 1; break; }
+    }
+    if (end == null) { issues.push("an UNVERIFIED annotation is not closed (including its quoted phrase)"); break; }
+    annotations.push({ start: match.index, end, raw: text.slice(match.index, end), content: text.slice(start.lastIndex, end - 1).trim() });
+    start.lastIndex = end;
+  }
+  return { annotations, issues };
 }
 
 export function checkPack(pack, draft, profile = "", { priorRegisters = [], supplied = draft } = {}) {
@@ -142,16 +167,22 @@ export function checkPack(pack, draft, profile = "", { priorRegisters = [], supp
   const had = new Set((source.match(STRONG) || []).map((w) => w.toLowerCase()));
   const strong = [...new Set((copy.match(STRONG) || []).map((w) => w.toLowerCase()))].filter((w) => !had.has(w));
   if (strong.length) add("ERROR", "new-strong-words", `rewritten draft uses strong wording absent from the draft and profile: ${strong.join(", ")}`);
-  const activeCopy = copy.replace(/\[UNVERIFIED:[^\]]*\]/gi, "");
+  const { annotations, issues: annotationIssues } = unverifiedAnnotations(copy);
+  for (const issue of annotationIssues) add("ERROR", "bracket-task", issue);
+  let activeCopy = "", offset = 0;
+  for (const annotation of annotations) {
+    activeCopy += copy.slice(offset, annotation.start);
+    offset = annotation.end;
+  }
+  activeCopy += copy.slice(offset);
   if (STRONG.test(activeCopy)) add("WARN", "strong-wording-review", "strong wording remains outside an UNVERIFIED annotation; compare the exact claim with its evidence, even if the same word appeared elsewhere in the supplied text");
   STRONG.lastIndex = 0;
 
-  for (const bracket of copy.matchAll(/\[UNVERIFIED:\s*([^\]]*)\]/gi)) {
-    const key = (bracket[1].match(/^["“]([^"”]+)["”]/)?.[1] || bracket[1].split(";")[0]).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+  for (const annotation of annotations) {
+    const key = (annotation.content.match(/^["“]((?:\\.|[^"”])*)["”]/)?.[1] || annotation.content.split(";")[0]).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
     const matching = rows.filter((r) => [r["Claim (verbatim)"], r["Safe rewrite"]].some((cell) => (cell || "").toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").includes(key)));
-    if (!key || !matching.some((r) => taskIds.has(r["#"]))) add("ERROR", "bracket-task", `UNVERIFIED annotation has no matching register row and referenced task: ${bracket[0]}`);
+    if (!key || !matching.some((r) => taskIds.has(r["#"]))) add("ERROR", "bracket-task", `UNVERIFIED annotation has no matching register row and referenced task: ${annotation.raw}`);
   }
-  if ((copy.match(/\[UNVERIFIED:/gi) || []).length !== [...copy.matchAll(/\[UNVERIFIED:[^\]]*\]/gi)].length) add("ERROR", "bracket-task", "an UNVERIFIED annotation is not closed");
 
   // Every sentence of the draft should still be visible in the rewrite, rewritten or quoted in a bracket.
   const copyWords = words(copy);
@@ -187,14 +218,14 @@ its mechanical rules, draft, and supplied context.`);
   }
   const state = loadRun(run);
   const last = state.stages.at(-1);
+  if (!last) throw new Error(`Run ${state.id} has no stages, so it has no Claim Audit pack to check.`);
   if (last.status !== "complete") throw new Error(`Run ${state.id} has not finished (last stage is ${last.status}); resume it first.`);
   if (last.id !== "safe-rewrite") throw new Error(`Run ${state.id} ends with "${last.id}", not "safe-rewrite", so it is not a Claim Audit pack. Pass --run <id> for a Claim Audit run.`);
   const findings = checkPack(last.result, state.brief, state.profile || "", { supplied: ownerContext(state), priorRegisters: authoritativeRegisters(state.stages) });
   const text = report(findings);
   console.log(`Run ${state.id}\n${text}`);
   if (out) {
-    const file = outPath(out);
-    writeFileSync(file, `<!-- EE run: ${state.id} -->\n${last.result}\n\n## Automated checks\n\n${findings.length ? findings.map((x) => `- ${x.level} [${x.rule}] ${x.message}`).join("\n") : text}\n`, { mode: 0o600 });
+    const file = writePack(out, `<!-- EE run: ${state.id} -->\n${last.result}\n\n## Automated checks\n\n${findings.length ? findings.map((x) => `- ${x.level} [${x.rule}] ${x.message}`).join("\n") : text}\n`);
     console.log(`Wrote ${file}`);
   }
   process.exitCode = findings.some((x) => x.level === "ERROR") ? 1 : 0;

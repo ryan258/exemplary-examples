@@ -25,6 +25,7 @@ Rules:
 - For any claim about a saving, discount, improvement, speed-up, or "more", "less", "faster", "better", state in `Evidence needed` the exact baseline it is measured against, and whether both sides cover the same period, unit, and scope. A 14-day price set against a monthly price is not like for like. If the draft names no baseline, say that, and put what the comparison cannot support in `Cannot support`.
 - Keep every row, every earlier column, and the numbering unchanged.
 - If a PROFILE lists claims policy or restricted topics, apply it and name it in `Evidence needed`.
+- Apply explicit saved owner answers included in the PROFILE as supplied context, with attribution and any limits stated by the owner. Model questions are not facts. Owner clarification may identify evidence or a contradiction, but it must not silently replace the original quoted claim or an earlier accepted assessment.
 
 Return the full table with the five new columns.
 
@@ -46,3 +47,4 @@ The previous table plus `Evidence needed`, `Cannot support`, `Check by`, `Priori
 - 2026-10-17: Instruction revision after a second synthetic trial: guarantees, promises, forecasts, and testimonials are never Low. Not yet re-measured.
 - 2026-10-17: Instruction revision after the third synthetic trial: comparisons must name their baseline and say whether both sides are like for like. Not yet re-measured.
 - 2026-10-17: Instruction revision: distinguish relative work priority from risk, add uncapped observable Risk flags, and keep the High cap from hiding flagged rows. Not yet re-measured.
+- 2026-10-18: Instruction revision: apply attributed owner-answer context while preserving original quotations and earlier accepted assessments. Not yet re-measured.

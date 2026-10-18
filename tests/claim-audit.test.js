@@ -308,6 +308,59 @@ test("revised cards pin exact quoted spans, uncapped flags, and reproducible rev
   assert.match(rewrite, /never silently delete it/);
   assert.match(rewrite, /Start each with `Claim N`/);
   assert.match(rewrite, /Risk flags: none/);
+  for (const prompt of [extract, classify, evidence, rewrite]) assert.match(prompt, /owner answers/);
+  assert.match(extract, /must still quote the original draft itself/);
+  assert.match(rewrite, /Do not quote supplemental answers as if they appeared in the original draft/);
+});
+
+test("numeric comparison preserves exact decimal values without spelling or precision artifacts", async () => {
+  const { numbers, numberValues } = await import(path.join(root, "scripts", "pack-checks.mjs"));
+  assert.deepEqual([...numbers("$7 $7.00 007.000 $.50 $0.500 9007199254740993.00")], ["7", "0.5", "9007199254740993"]);
+  assert.equal(numberValues("A fee of $7.00.")[0].text, "$7.00", "the original displayed spelling remains available");
+  assert.deepEqual([...numbers("0.00010 0.0001 100.01 100.010")], ["0.0001", "100.01"]);
+});
+
+test("written source quantities never supply unsupported fragments or absorb prose conjunctions", async () => {
+  const { sourceNumbers } = await import(path.join(root, "scripts", "pack-checks.mjs"));
+  for (const phrase of ["one hundred dollars", "twenty thousand jobs", "one hundred and twenty-three", "twenty point five", "one half", "one and a quarter", "two dozen", "one and two"]) assert.deepEqual([...sourceNumbers(phrase)], [], phrase);
+  assert.deepEqual([...sourceNumbers("four and under; twenty-three and available; forty two loaves; zero fees")], ["4", "23", "42", "0"]);
+  assert.deepEqual([...sourceNumbers("One hundred (100) jobs")], ["100"], "explicit owner digits remain usable");
+});
+
+function singleClaimPack(claim, copy = claim) {
+  return `## Summary\nUNPLACED: 1. Low: 1.\nRisk flags: none\n## Claim register\n| # | Claim (verbatim) | Kind | Class | Why | Evidence needed | Cannot support | Check by | Priority | Risk flags | Safe rewrite |\n|---|---|---|---|---|---|---|---|---|---|---|\n| 1 | ${claim} | factual-description | UNPLACED | Missing support. | Ask the owner. | Broader claims. | ask-owner | Low | none | Check owner wording. |\n## Open verification tasks\n- Claim 1: ask-owner for evidence.\n## Rewritten draft\n${copy}\n## Limits\nUntrusted model reading, not legal or compliance advice.`;
+}
+
+test("verbatim source and preservation checks retain literal arithmetic and code-span content", async () => {
+  const { checkPack } = await checker();
+  const { plain, normalized, parseTable } = await import(path.join(root, "scripts", "pack-checks.mjs"));
+  assert.equal(plain("**2*3**"), "2*3");
+  assert.equal(plain("`*literal*`"), "*literal*");
+  assert.equal(plain("**`*literal*`**"), "*literal*");
+  assert.equal(plain("\\*literal\\*"), "*literal*");
+  assert.notEqual(normalized("2*3 dollars"), normalized("23 dollars"));
+  const draft = "The price is 2*3 dollars.";
+  const original = singleClaimPack(draft);
+  const changed = singleClaimPack("The price is 23 dollars.", draft);
+  assert.deepEqual(checkPack(singleClaimPack(`**${draft}**`, draft), draft).filter((f) => f.level === "ERROR"), []);
+  const prior = parseTable(original.split("## Claim register\n")[1].split("## Open verification tasks")[0]);
+  assert.equal(prior.rows[0]["Claim (verbatim)"], draft);
+  const previous = original.split("## Claim register\n")[1].split("## Open verification tasks")[0];
+  const found = checkPack(changed, draft, "", { priorRegisters: [previous] });
+  assert.ok(found.some((f) => f.rule === "verbatim"));
+  assert.ok(found.some((f) => f.rule === "row-preservation"));
+});
+
+test("UNVERIFIED annotations balance outer brackets while preserving brackets in quoted source", async () => {
+  const { checkPack } = await checker();
+  const draft = "Top [premium] flour is guaranteed.";
+  const bracket = `[UNVERIFIED: "${draft}"; needs [supporting evidence]]`;
+  const valid = checkPack(singleClaimPack(draft, bracket), draft);
+  assert.deepEqual(valid.filter((f) => f.level === "ERROR"), []);
+  assert.ok(!valid.some((f) => f.rule === "strong-wording-review"), "a complete bracket is excluded from active copy as a whole");
+  for (const bad of [bracket.slice(0, -1), `[UNVERIFIED: "${draft}"; needs evidence`, `[UNVERIFIED: "${draft}; needs evidence]`]) assert.ok(checkPack(singleClaimPack(draft, bad), draft).some((f) => f.rule === "bracket-task" && /not closed/.test(f.message)));
+  const literal = "Top [premium flour.";
+  assert.deepEqual(checkPack(singleClaimPack(literal, `[UNVERIFIED: "${literal}"; needs evidence]`), literal).filter((f) => f.level === "ERROR"), [], "literal unmatched source brackets inside a quote do not close the annotation");
 });
 
 test("claim tables preserve escaped pipes and reject malformed delimiters", async () => {
