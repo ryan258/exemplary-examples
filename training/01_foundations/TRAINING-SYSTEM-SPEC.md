@@ -2,7 +2,7 @@
 
 ## Status
 
-Initial validated release **EE-TRAINING-2026.07**, published 2026-07-13 after controlled run `2026-07-13-ee-mvq-01-r1`. The run passed the minimum viable composite route with no critical failure and assessor agreement within tolerance. This release validates the training system; it does not certify a candidate or authorize real client work.
+Initial authored release **EE-TRAINING-2026.07**, recorded 2026-07-13 after controlled run `2026-07-13-ee-mvq-01-r1`. One minimum viable composite synthetic route was demonstrated with no observed critical failure and assessor agreement within tolerance. Full-system validation, standalone workshop timing, rendered exhibits, supervised practice, and candidate certification remain unproved. This specification is a Local Edition simulation/reference design; it grants no real client authority. The frozen run record preserves its historical wording unchanged.
 
 ## Objective
 

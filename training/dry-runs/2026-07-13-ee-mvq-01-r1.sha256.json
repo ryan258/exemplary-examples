@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "runDirectory": "training/dry-runs/2026-07-13-ee-mvq-01-r1",
+  "baselineCommit": "64d10e6da913d601d38b5fdd3b17f723022481b6",
+  "description": "Complete byte and file-set baseline captured from the existing committed frozen run; supplements its historical selective manifest without editing it.",
+  "files": {
+    "00-RUN-MANIFEST.md": "101e4d213eea04ed7d99d670a85f148b1902bb6026d0c8cc99dce97aa4eff588",
+    "01-CANDIDATE-BRIEF.md": "068e01212348b53ab45756f48b892129d6d6a9d1b6bcb84a8d23440ccb76de68",
+    "02-CANDIDATE-OUTPUT.md": "9a1eced8ae89ccf3a1d7ef185851694484eaed24dfb02d342cef461b20cce2e8",
+    "03-FACILITATOR-OBSERVATION.md": "71c8e916fc5bff867a5229b0d360102d482adf5796e058332683b3b340d8149e",
+    "04-VERITY-SCORE.md": "7b68d9c63015b377dfa74cf241928cc4b219fdc8b251ede7bfbd9aab23ce3828",
+    "05-COUNTERPOINT-SCORE.md": "4650ba9a331990b25f32205f1bed8e6fe41f81acfefe431a979a6fa6fddcabef",
+    "06-CALIBRATION.md": "c584a4361ba4dcddd5e9a86b762cdcb25f0d0a30cea4d10e8c966edd2d03ea67",
+    "07-CERTIFICATION-RECORD.md": "d7aad2c5cd55b181a0bd039c7acaaefbf3080008a00219e8326e1a9915d5d994",
+    "08-DRY-RUN-REPORT.md": "1de89357a89141bcaff58807a582f633c6c606a1eb6f7cc6e66fe890e30aed38",
+    "fixture/01-CANDIDATE-PACKET.md": "45139901c870cb68f58d5946accbc5ce55136a87fe78c4d1bb170b0a20cacba5",
+    "fixture/02-FACILITATOR-PACKET.md": "4ff8ea7c65bd00301ffebc46b4064ca5f968bec2a4ef450739f491f4a31831c4",
+    "fixture/03-ASSESSOR-KEY.md": "c1150de57a39e71d8ac7c7ddcebc50dee5bb444e80b9700d0135ed407a6a0abd",
+    "fixture/README.md": "102b8f5871451baf1b1f596d20ad23037bcdd10d2609a64109b721fe52715729"
+  }
+}

@@ -2,6 +2,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
+const os = require("node:os");
 
 const crypto = require("node:crypto");
 const { execFileSync } = require("node:child_process");
@@ -10,6 +11,27 @@ const root = path.resolve(__dirname, "..");
 
 function sha256(file) {
   return crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
+}
+
+function assertFrozenInventory(directory, expected) {
+  const files = [];
+  const visit = (current, relative = "") => {
+    for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
+      const name = relative ? `${relative}/${entry.name}` : entry.name;
+      const location = path.join(current, entry.name);
+      if (entry.isDirectory()) visit(location, name);
+      else {
+        assert.ok(entry.isFile(), `unexpected non-file in frozen evidence: ${name}`);
+        files.push(name);
+      }
+    }
+  };
+  visit(directory);
+  assert.deepEqual(files.sort(), Object.keys(expected).sort(), "frozen file inventory changed");
+  for (const name of files) {
+    assert.match(expected[name], /^[0-9a-f]{64}$/, `invalid recorded hash: ${name}`);
+    assert.equal(sha256(path.join(directory, name)), expected[name], `frozen content changed: ${name}`);
+  }
 }
 
 // Tracked and untracked-but-not-ignored Markdown, so tool folders git ignores (like .gitnexus)
@@ -130,7 +152,7 @@ test("the minimum viable qualification run has an executable, isolated fixture",
   }
 });
 
-test("the validated training release retains its run evidence and certification boundary", () => {
+test("the authored training release retains its bounded run evidence and certification boundary", () => {
   const runRoot = path.join(root, "training", "dry-runs", "2026-07-13-ee-mvq-01-r1");
   const requiredRecords = [
     "00-RUN-MANIFEST.md",
@@ -159,7 +181,10 @@ test("the validated training release retains its run evidence and certification 
     "utf8",
   );
 
-  assert.match(specification, /initial validated release \*\*EE-TRAINING-2026\.07\*\*/i);
+  assert.match(specification, /initial authored release \*\*EE-TRAINING-2026\.07\*\*/i);
+  assert.match(specification, /one minimum viable composite synthetic route was demonstrated/i);
+  assert.match(specification, /Full-system validation.+remain unproved/i);
+  assert.doesNotMatch(specification, /This release validates the training system/i);
   assert.match(report, /\[x\] Complete and successful/i);
   assert.match(report, /P0\.2 acceptance criteria satisfied:\*\* Yes/i);
   assert.match(report, /does not itself certify Keystone/i);
@@ -200,6 +225,62 @@ test("the frozen run's recorded hashes still match its files", () => {
     if (actual !== recorded[1]) mismatched.push(`${path.relative(root, file)}: ${recorded[1]} -> ${actual}`);
   }
   assert.deepEqual(mismatched, [], "frozen evidence no longer matches its manifest");
+});
+
+test("the complete external frozen inventory covers every file including the historical manifest", () => {
+  const runDirectory = "training/dry-runs/2026-07-13-ee-mvq-01-r1";
+  const inventory = JSON.parse(fs.readFileSync(path.join(root, `${runDirectory}.sha256.json`), "utf8"));
+  assert.equal(inventory.schemaVersion, 1);
+  assert.equal(inventory.runDirectory, runDirectory);
+  assert.match(inventory.baselineCommit, /^[0-9a-f]{40}$/);
+  for (const file of ["00-RUN-MANIFEST.md", "01-CANDIDATE-BRIEF.md", "03-FACILITATOR-OBSERVATION.md", "fixture/README.md"]) {
+    assert.ok(inventory.files[file], `complete inventory must include ${file}`);
+  }
+  assertFrozenInventory(path.join(root, runDirectory), inventory.files);
+});
+
+test("frozen inventory detects changed, missing, added and non-regular files", () => {
+  const temporary = fs.mkdtempSync(path.join(os.tmpdir(), "ee-frozen-inventory-"));
+  try {
+    fs.mkdirSync(path.join(temporary, "fixture"));
+    fs.writeFileSync(path.join(temporary, "record.md"), "frozen record\n");
+    fs.writeFileSync(path.join(temporary, "fixture", "key.md"), "frozen key\n");
+    const expected = {
+      "record.md": sha256(path.join(temporary, "record.md")),
+      "fixture/key.md": sha256(path.join(temporary, "fixture", "key.md")),
+    };
+    assertFrozenInventory(temporary, expected);
+    fs.writeFileSync(path.join(temporary, "record.md"), "changed\n");
+    assert.throws(() => assertFrozenInventory(temporary, expected), /frozen content changed/);
+    fs.writeFileSync(path.join(temporary, "record.md"), "frozen record\n");
+    fs.unlinkSync(path.join(temporary, "fixture", "key.md"));
+    assert.throws(() => assertFrozenInventory(temporary, expected), /frozen file inventory changed/);
+    fs.writeFileSync(path.join(temporary, "fixture", "key.md"), "frozen key\n");
+    fs.writeFileSync(path.join(temporary, "extra.md"), "unexpected\n");
+    assert.throws(() => assertFrozenInventory(temporary, expected), /frozen file inventory changed/);
+    fs.unlinkSync(path.join(temporary, "extra.md"));
+    fs.symlinkSync(path.join(temporary, "record.md"), path.join(temporary, "alias.md"));
+    assert.throws(() => assertFrozenInventory(temporary, expected), /unexpected non-file/);
+  } finally {
+    fs.rmSync(temporary, { recursive: true, force: true });
+  }
+});
+
+test("owner entry points agree on scope, provenance and unmeasured model usefulness", () => {
+  for (const file of ["README.md", "STATUS.md", "LOCAL-EDITION.md", "docs/START.md"]) {
+    const source = fs.readFileSync(path.join(root, file), "utf8");
+    assert.match(source, /Claim Audit/);
+    assert.match(source, /Illustrative Examples/i);
+    assert.match(source, /owner|your own/i);
+  }
+  const course = fs.readFileSync(path.join(root, "training/02_instruction/COURSE-MODULES.md"), "utf8");
+  assert.match(course, /This is provenance, not proof/);
+  assert.match(course, /Record verification separately/);
+  assert.doesNotMatch(course, /A \*\*sourced fact\*\* is externally retrievable and verified/);
+  const start = fs.readFileSync(path.join(root, "docs/START.md"), "utf8");
+  assert.match(start, /real-asset usefulness is still unmeasured/);
+  assert.match(start, /Anyone else's drafts/);
+  assert.match(start, /ee finish RUN_ID/);
 });
 
 test("the accepted Claim Audit extension is bounded and reflected in the governing documents", () => {

@@ -4,6 +4,8 @@ This directory contains the complete authored Local Edition training system (one
 
 The program is competency-paced. Learners advance by producing evidence, not by completing a fixed number of hours.
 
+Use this as an owner reference archive. The rendered site includes facilitator material and assessor keys; it is not a candidate-isolated bundle. Any future synthetic candidate run must use the allowlisted packet protocol in `dry-runs/P0.2-RUN-PLAN.md`. Frozen history remains unchanged; the adjacent `.sha256.json` inventory adds complete byte/file checks without rewriting that history.
+
 ## Start here
 
 1. Read the [training system specification](01_foundations/TRAINING-SYSTEM-SPEC.md).

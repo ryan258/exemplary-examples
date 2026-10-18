@@ -78,7 +78,7 @@ By the end of this module, you can:
 
 A presentation usually mixes different relationships to reality. Problems occur when the audience cannot tell which is which.
 
-- A **sourced fact** is externally retrievable and verified.
+- A **sourced fact** has a named, retrievable external source. This is provenance, not proof that the source has been opened or the claim checked. Record verification separately as Proposed, Verified, Limited, or Excluded; a named source remains an unverified lead until reviewed.
 - A **client-provided fact** is attributable to a client source but not automatically independently verified.
 - A **calculation** follows reproducibly from stated inputs.
 - An **inference** interprets facts and must expose its reasoning.
