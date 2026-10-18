@@ -18,11 +18,11 @@ The project targets a mechanism rather than a person or real firm: decisions mad
 
 ## Complete system
 
-- A restrained institutional visual identity using navy, cream, brass, Fraunces, Inter, and IBM Plex Mono.
+- A restrained institutional visual identity using navy, cream, brass, and offline system serif, sans-serif and monospace font stacks.
 - A five-exhibit responsive website with explicit Local Edition disclosure.
 - A six-class truth standard and repeatable decision-to-exhibit workflow.
 - Ten disclosed AI staff agents used as simulation roles.
-- A validated C1–C10 training curriculum with workshops, simulations, assessment, supervision, and facilitation.
+- An authored C1–C10 training curriculum with workshops, simulations, assessment, supervision, and facilitation; one minimum viable synthetic route demonstrated, with full-system validation unproved.
 - A frozen controlled training run with independent assessor calibration.
 - Synthetic customer-discovery and company-governance reference materials.
 
@@ -46,4 +46,4 @@ The project targets a mechanism rather than a person or real firm: decisions mad
 
 The project sits alongside HUSTLE CHURCH™, WHAT REMAINS™, GRIND PHARMA™, and RIP Tequila as a Sandbox parody brand. Its distinct subject is manufactured proof: the business example that fits because it was built backward from the desired conclusion.
 
-The original [`exemplary-examples.html`](exemplary-examples.html) remains the initial parody artifact. The current [`index.html`](index.html) and validated [`training/`](training/) system form the completed Local Edition.
+The original [`exemplary-examples.html`](exemplary-examples.html) remains the initial parody artifact. The current [`index.html`](index.html) and authored [`training/`](training/) system form the completed Local Edition. The accepted owner-only Claim Audit and Illustrative Examples extensions add local draft workflows under [`SCOPE-DECISION-CLAIM-AUDIT.md`](SCOPE-DECISION-CLAIM-AUDIT.md); neither has real-asset validation. Start with [`docs/START.md`](docs/START.md).

@@ -1,111 +1,85 @@
-# Happy Path — testing this machine locally
+# Happy path — use and check the local project
 
-A five-minute walkthrough to confirm the Exemplary Examples™ **Local Edition** works end to end on your machine. This is the golden path, not exhaustive QA. Everything here is local and synthetic — see [`../LOCAL-EDITION.md`](../LOCAL-EDITION.md) for scope.
+This walkthrough separates offline plumbing, paid owner workflows, and an optional human browser pass. It does not assert fresh model usefulness, browser acceptance, or full training validation. For fewer commands, start with [Start or return](START.md).
 
 ## Prerequisites
 
-- **Node** 20.6+ (`--env-file` landed in 20.6.0; global `fetch` in 18). Tested on 22.
-- **Hugo** (extended; tested on 0.166) for the preview server.
-- A **browser**.
-- Optional: an **OpenRouter API key** (for the LLM caller) and a **Chromium** binary (for the browser audit).
+- Node 20.6+ for `--env-file` support; the provider caller uses built-in fetch.
+- Hugo for local site preview/build.
+- An existing OpenRouter key only if you choose a paid workflow; see `.env.example`.
+- An installed browser only if you choose to inspect the site; optional audit prerequisites are below.
 
-Run everything from the repo root.
+Run from the repository root. Use `node scripts/ee.mjs` wherever the short `ee` alias has not been set.
 
-## 1. Run the automated contracts (fastest signal)
+## Inspect without a model call
+
+```bash
+node scripts/ee.mjs status
+node scripts/ee.mjs list
+node console/console.mjs --selftest
+node scripts/llm.mjs --selftest
+node console/console.mjs --dir claim-audit --all --dry-run --idea "fictional sample"
+node console/console.mjs --dir examples --all --dry-run --idea "fictional sample"
+```
+
+Expect selftests to report success and dry runs to print the ordered plan. None contacts a provider. A saved run's `STATUS: COMPLETE` only means the model returned a valid stage status; use its checker and owner review separately.
+
+## Use one approved owner workflow
+
+Read `operations/AI-DATA-POLICY.md` before invoking a live call. The only real-draft approval is your own D0/D1 material through your OpenRouter account with paid `tencent/hy3`, for Claim Audit and Illustrative Examples. Retention remains unknown. Anyone else's drafts, D2/D3 data, and private engineering drafts remain outside that approval.
+
+```bash
+# These commands make paid model calls when you invoke them.
+node scripts/ee.mjs audit /path/to/your-draft.md /path/to/your-profile.md
+node scripts/ee.mjs example /path/to/your-brief.md
+
+# Inspect, resume deliberately, then check a particular run.
+node scripts/ee.mjs show RUN_ID
+node scripts/ee.mjs resume RUN_ID "answer to the pending question"
+node scripts/ee.mjs check RUN_ID pack.md
+```
+
+The helper loads an existing `.env`, uses the registered model and skips between-card editing. For editing, use the direct runner and its documented editor wait behavior in `console/README.md`. Failed/interrupted calls are not automatically retried; a deliberate resume can be billed again. Request attempts preserve the actual model/prompt/input and reported usage, including failed attempts where reported cost exists. Unreported cost stays unknown.
+
+Read the result before using it. Resolve every UNVERIFIED annotation, open needed sources, independently recompute calculations, and review all Risk flags and claim rows rather than just the capped High priorities. Examples retain their label, framing and numeric provenance; a model's seven Pass checks are not independent verification. Record a chosen usefulness trial with [the evaluation worksheet](EVALUATION.md).
+
+When finished, `node scripts/ee.mjs finish RUN_ID` explicitly removes that run and its marked exports within `console/runs/`. It does not remove your source inputs or outside exports. Keep private text out of Git.
+
+## Preview the local site
+
+```bash
+node scripts/ee.mjs preview
+# Open http://localhost:1313/ yourself; stop with Ctrl+C.
+```
+
+The server binds to loopback and serves generated output, not the repository root. Do not serve the repo root with a generic static server: `.env` and `.git/` may become reachable. For an exported build, choose a fresh empty destination outside the repository, such as `hugo --destination /tmp/ee-export-UNIQUE`; an old `public/` tree may contain stale files and is not release evidence.
+
+Manually check navigation, the skip link, keyboard focus, a narrow layout, reduced motion, and a missing route. The home page has a closed contact state, the owner start page is at `/start/`, and training remains an owner archive containing assessor material. No remote font request is needed.
+
+## Optional focused browser audit
+
+Only run this when you choose a browser pass:
+
+```bash
+node scripts/audit-site.cjs
+```
+
+The script uses an installed Playwright module and installed browser. `PLAYWRIGHT_MODULE_PATH` and `CHROMIUM_PATH` can point to existing installations; missing prerequisites produce an actionable error, with no download/install. It builds a fresh temporary site, starts its own loopback server, checks representative templates, and retains a report/screenshots under `AUDIT_DIR` or the reported temporary directory. It cleans its own build/server afterward. No manually maintained preview server is required.
+
+## Deterministic contracts and frozen evidence
+
+For a documentation change, use the relevant contract only:
+
+```bash
+node --test tests/documentation-contract.test.js
+```
+
+For a card/checker change, run `tests/claim-audit.test.js`, `tests/examples.test.js`, or `tests/cards-contract.test.js` as appropriate. These checks are offline. They prove rules, structure and plumbing, not model judgment. The documentation contract verifies the original recorded hashes plus the full frozen inventory in `training/dry-runs/2026-07-13-ee-mvq-01-r1.sha256.json`; it must detect changed, missing and added files without editing the frozen run.
+
+If you want the entire offline suite at the end of a wider review, run this locally and retain its result:
 
 ```bash
 node --test tests/*.test.js
 ```
 
-**Expect:** `# fail 0` (the pass count grows as contracts are added). This checks the site's semantics, positioning, single-offer integrity, closed-state safety, and metadata; that every relative Markdown link resolves; and that the training run keeps its evidence and its "not a certification" boundary.
-
-## 2. Preview the website
-
-```bash
-hugo server
-```
-
-`hugo server` binds to `127.0.0.1` and serves only the generated site from memory — the repository directory is never a document root, so `.env` and `.git/` are not reachable. Don't serve the repo root with a generic static server; that does expose them.
-
-Open <http://localhost:1313/> and walk the five exhibits:
-
-- **Premise / Practice / Method / Status / Training** are all reachable from the nav, and the wordmark returns Home.
-- On a skim you can tell it's an **openly satirical brand** *and* a **real professional method** — without mistaking fiction for a real client claim.
-- The **Proof** section shows methodology and the six-class truth standard, not fictional testimonials.
-- **Contact** is a closed state: no form, no email link, no data collection.
-
-Keyboard check: press `Tab` from the top — the first stop is **"Skip to main content"**; `Enter` jumps focus into the page.
-
-404 check: open <http://localhost:1313/nope> → the branded **"This exhibit isn't on file."** page.
-
-Isolation check: <http://localhost:1313/.env> and <http://localhost:1313/.git/HEAD> both return 404.
-
-Training content: the nav's **Training** link reaches the rendered Markdown; every section page lists its own documents.
-
-**Expect:** no console errors (DevTools → Console), no horizontal scrollbar, legible at narrow widths.
-
-Stop the server with `Ctrl+C`.
-
-## 3. Exercise the card runner and caller (optional — needs a key for live calls)
-
-The machine's tooling includes a zero-dependency OpenRouter caller ([`../scripts/llm.mjs`](../scripts/llm.mjs)) and the card runner engine ([`../console/console.mjs`](../console/console.mjs)).
-
-Offline checks (no key or network needed):
-
-```bash
-node scripts/llm.mjs --selftest         # prints: selftest ok
-node console/console.mjs --selftest     # prints: selftest ok (3 cards: ...)
-```
-
-Dry-run extension chains (offline preview without model calls):
-
-```bash
-# Claim Audit chain plan
-node console/console.mjs --dir claim-audit --all --dry-run --idea "Sample text"
-
-# Illustrative Examples chain plan
-node console/console.mjs --dir examples --all --dry-run --idea "Sample brief"
-```
-
-Live call:
-
-```bash
-cp -n .env.example .env              # -n: never clobber an existing .env
-                                     #   OPENROUTER_API_KEY=sk-or-...
-node --env-file=.env scripts/llm.mjs "In one sentence, what is Exemplary Examples?"
-```
-
-**Expect:** offline self-tests print ok; dry runs display ordered card plans without making requests; live calls print a one-line completion. Change the model in `.env` (`OPENROUTER_MODEL`) or per call with `--model <slug>`.
-
-## 4. Read the training system (optional)
-
-Start at [`../training/README.md`](../training/README.md) and follow "Start here." To see the machine's proof-of-work, open the frozen validation run:
-
-```
-training/dry-runs/2026-07-13-ee-mvq-01-r1/
-```
-
-`00-RUN-MANIFEST.md` records isolated candidate/assessor sessions and SHA-256 hashes of every frozen artifact. Verify one holds:
-
-```bash
-cd training/dry-runs/2026-07-13-ee-mvq-01-r1
-shasum -a 256 02-CANDIDATE-OUTPUT.md   # matches the hash listed in 00-RUN-MANIFEST.md
-```
-
-**Expect:** the hash matches, and `07-CERTIFICATION-RECORD.md` reads **"Not yet — no external authority granted"** (training validation is not a credential).
-
-## 5. Real-browser audit (optional — needs Chromium)
-
-```bash
-CHROMIUM_PATH=/path/to/chrome-headless-shell node tests/browser-audit.cjs
-```
-
-**Expect:** JSON report with `"failures": []` across 320–1440px (skip link, landmarks, no overflow, no console errors, reduced-motion honored).
-
-## You know it works when
-
-- [ ] `node --test tests/*.test.js` → all pass.
-- [ ] The site previews locally; the satire-and-real-method premise is clear; Contact is closed.
-- [ ] `node scripts/llm.mjs --selftest` and `node console/console.mjs --selftest` print ok.
-- [ ] Extension dry-runs (`--dir claim-audit` and `--dir examples`) output execution plans without error.
-- [ ] The training run's frozen hash verifies and its certification boundary reads "Not yet."
+A passing suite does not demonstrate a new model trial, browser session, full curriculum validation, or real-world certification. The archived candidate record remains Not Yet.

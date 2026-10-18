@@ -1,6 +1,6 @@
 # Exemplary Examples™ Roadmap
 
-> **Archived external-expansion plan.** The Local Edition is a complete local-only project (amended 2026-10-17 by [`SCOPE-DECISION-CLAIM-AUDIT.md`](SCOPE-DECISION-CLAIM-AUDIT.md) for local Claim Audit and Illustrative Examples extensions). Unchecked items below are not active work or completion blockers. This document is retained as design archaeology and becomes relevant only if [`LOCAL-EDITION.md`](LOCAL-EDITION.md) is explicitly superseded. For the current local workflow, Hugo site wrapper, console card runner tooling, and extensions, see [`README.md`](README.md), [`docs/happy-path.md`](docs/happy-path.md), and [`docs/continue.md`](docs/continue.md).
+> **Archived external-expansion plan.** The Local Edition is a complete local-only project (amended 2026-10-17 by [`SCOPE-DECISION-CLAIM-AUDIT.md`](SCOPE-DECISION-CLAIM-AUDIT.md) for local Claim Audit and Illustrative Examples extensions). Unchecked items below are not active work or completion blockers. This document is retained as design archaeology and becomes relevant only if [`LOCAL-EDITION.md`](LOCAL-EDITION.md) is explicitly superseded. For the current local workflow, Hugo site wrapper, console card runner tooling, and extensions, see [`docs/START.md`](docs/START.md), [`README.md`](README.md), [`docs/happy-path.md`](docs/happy-path.md), and [`docs/continue.md`](docs/continue.md).
 
 ## Purpose
 

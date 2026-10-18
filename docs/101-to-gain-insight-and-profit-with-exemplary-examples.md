@@ -1,6 +1,6 @@
 # 101 — Gaining Insight and Profit with Exemplary Examples™
 
-A working guide to getting real value out of this repository.
+A working guide to getting value out of this repository. For the shortest owner workflow, start with [`START.md`](START.md).
 
 **On the word "profit":** there is no commercial offer here, no intake, and nothing to buy or sell — see [`../LOCAL-EDITION.md`](../LOCAL-EDITION.md). Profit in this guide means *leverage on your own real work*: better output from models, and claims you can defend when someone pushes back. If you came looking for the consultancy, it is fiction, and deliberately so.
 
@@ -15,7 +15,7 @@ Three assets, in descending order of how much they will matter to you.
 | Asset | What it is | Where |
 | --- | --- | --- |
 | **The evidence method** | A six-class scheme for labeling every claim, plus the review habits around it. Portable to any work you do, with or without this repo. | [`../README.md`](../README.md), [`../training/`](../training/) |
-| **The card runner** | A small zero-dependency CLI (about 550 lines across two files) that chains Markdown prompt files through a model, letting you edit between steps. | [`../console/README.md`](../console/README.md) |
+| **The card runner** | A zero-dependency CLI that chains Markdown prompt files through a model, letting you edit between steps. | [`../console/README.md`](../console/README.md) |
 | **The prompt library** | 14 task-shaped system prompts for technical work — review, architecture, debugging, research, testing. | [`../prompts/README.md`](../prompts/README.md) |
 
 The satirical consultancy wrapped around all of this is a container, not the product. The method is the product.
@@ -29,7 +29,7 @@ Two paths. Pick based on whether you want to read or to run.
 ### Reading only — no key, no cost
 
 ```bash
-hugo server          # → http://localhost:1313/
+node scripts/ee.mjs preview  # → http://localhost:1313/
 ```
 
 Serves the generated site on loopback only. The repository directory is never a document root, so `.env` and `.git/` are not reachable. **Do not** substitute a generic static server on the repo root — that publishes your credentials to anything that can reach the port.
@@ -42,7 +42,7 @@ You also do not need Hugo at all: every document is Markdown in the repository a
 cp -n .env.example .env     # -n never clobbers an existing .env
 ```
 
-Put an [OpenRouter](https://openrouter.ai/) key in `.env` as `OPENROUTER_API_KEY`, and a model slug as `OPENROUTER_MODEL`. See [`../.env.example`](../.env.example).
+Put an OpenRouter key in `.env` as `OPENROUTER_API_KEY`, using [`../.env.example`](../.env.example). The registered model is `tencent/hy3`, for the owner's own D0/D1 Claim Audit and Illustrative Examples only; retention remains unknown. See `operations/AI-DATA-POLICY.md`. Other card libraries use public or purpose-built synthetic text; the presence of a registered model does not approve private engineering drafts or another purpose. Never submit anyone else's draft or D2/D3 data.
 
 Verify without spending anything:
 
@@ -95,7 +95,7 @@ Applied to a paragraph of model output, the exercise is mechanical:
 3. For every **sourced fact**, go get the source. Not "it sounds right." The source.
 4. For every **calculation**, recompute it yourself.
 5. For every **inference**, ask what would have to be true, and whether it is.
-6. Anything you cannot place in a class is not a claim yet. Cut it or downgrade it.
+6. A factual assertion with no provenance is still a claim: mark it UNPLACED, identify the evidence it needs, and remove or qualify it before use.
 
 Most of the value shows up at step 3, and it is uncomfortable the first few times.
 
@@ -110,7 +110,9 @@ Four more, drawn from the training material:
 
 ---
 
-## 4. The profit half: running the library on real work
+## 4. The profit half: running the text library
+
+Use the engineering library examples below with public or synthetic text only. For your own approved non-confidential marketing drafts, use the short Claim Audit or Examples commands in [`START.md`](START.md). The runner does not infer a data class or approve a purpose from a filename.
 
 ### The mental model
 
@@ -140,7 +142,7 @@ Fourteen cards in seven categories: `agent-workflows`, `architecture`, `coding`,
 
 ```bash
 node --env-file=.env console/console.mjs --dir prompts \
-  --cards code-review --idea-file /path/to/your.diff
+  --cards code-review --idea-file /path/to/public-or-synthetic.diff
 ```
 
 ### Chain cards
@@ -275,7 +277,7 @@ Stated plainly, because the card names oversell the runner:
 - **The runner has no tools.** No file reading, no retrieval, no code execution, no network beyond the one model call. A card named "Code Review" reviews the text you paste. It cannot open your repository or run your tests. "Multi-Agent Orchestration" produces a *design* for agents; it does not instantiate any.
 - **Run state is local and per request.** Every completed request is saved under `console/runs/`; `--resume` continues the last run, retrying only the stage that failed or asked a question. Nothing is retried automatically, and a stage whose request may have completed at the provider (a timeout, say) can still be billed twice if you resume it.
 - **Clarifying questions stop the run.** Several cards open by asking questions. The runner requires a `STATUS:` first line; `NEEDS_INPUT` saves the run and waits for your answer, and a reply without a valid status line is a failed stage. The status line is a format check, not a quality check: a `COMPLETE` reply can still be wrong.
-- **One provider.** OpenRouter, one chat-completions call, no streaming.
+- **One provider.** OpenRouter, one chat-completions request at a time, no streaming. One model is registered for the two owner-only extensions; model registration does not approve every input or purpose.
 - **The training material is an authored *design*, not a credential.** One controlled synthetic run in [`../training/dry-runs/2026-07-13-ee-mvq-01-r1/08-DRY-RUN-REPORT.md`](../training/dry-runs/2026-07-13-ee-mvq-01-r1/08-DRY-RUN-REPORT.md) shows the minimum viable route can execute once; full-system validation, standalone workshop timing, rendered exhibits, supervised practice, and certification remain separate gates. It certifies nothing about the outside world, and the record deliberately says "Not Yet."
 - **The discovery research is synthetic.** Six fabricated interviews. They establish no demand and no willingness to pay, and must never be cited as market evidence.
 
@@ -285,7 +287,10 @@ Stated plainly, because the card names oversell the runner:
 
 | You want | Read |
 | --- | --- |
+| To return quickly or use short commands | [`START.md`](START.md) |
 | To confirm the machine works | [`happy-path.md`](happy-path.md) |
+| Architecture and trust boundaries | [`ARCHITECTURE.md`](ARCHITECTURE.md) |
+| Bounded evaluation and recording real limits | [`EVALUATION.md`](EVALUATION.md) |
 | The full method and its curriculum | [`../training/README.md`](../training/README.md), then [`../training/01_foundations/CURRICULUM.md`](../training/01_foundations/CURRICULUM.md) |
 | The prompt library's format and quality bar | [`../prompts/README.md`](../prompts/README.md) |
 | The runner's own documentation | [`../console/README.md`](../console/README.md) |

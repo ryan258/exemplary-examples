@@ -5,6 +5,8 @@
 **Decision owner:** Repository owner
 **Effect:** amends [`LOCAL-EDITION.md`](LOCAL-EDITION.md); supersedes its "Intentionally excluded" list only for the items named under "Scope opened". Everything else in the Local Edition stands.
 
+**Current consolidated scope:** the owner alone may run Claim Audit and Illustrative Examples locally on their own D0/D1 drafts through the registered model/provider for those purposes. The amendments below add the second workflow and withdraw the historical volunteer allowance. Anyone else's drafts, real customer results, D2/D3 data, hosting, intake, and paid work remain excluded. This is a personal reference and drafting tool, not a service for small businesses.
+
 ## Context
 
 The Local Edition closed the project as a satirical, local-only artifact. Its one reusable asset is the six-class truth standard, plus a card runner that can chain prompts. A review on 2026-10-17 found that marketing and business professionals have a real need this asset fits: showing which claims in their own copy, decks and case studies are sourced, calculated, inferred or modeled. Serving that need requires real user material, which the Local Edition forbids.
@@ -48,6 +50,8 @@ Add one workflow, **Claim Audit**, and nothing else.
 
 - Claim Audit run on at least 3 real assets, with claims found, claims wrongly classified, and time saved written down honestly.
 - If it caught nothing the author had not already seen, stop and return to the Local Edition.
+
+Record these bounded trials with [`docs/EVALUATION.md`](docs/EVALUATION.md). Mechanical tests and model self-checks do not satisfy this usefulness gate. Do not replace the historical fictional fixtures with real owner drafts; keep plaintext run records private and delete them when finished.
 
 ## Consequences
 

@@ -1,6 +1,6 @@
 # Initial AI and Data Policy
 
-> **Local Edition status:** This is a reference policy for synthetic/local exercises. No real applicant, prospect, client, or restricted data is in scope; unratified external fields are intentionally dormant. The one exception is the Claim Audit extension (see the section below).
+> **Local Edition status:** This is a reference policy for synthetic/local exercises. No real applicant, prospect, client, or restricted data is in scope; unratified external fields are intentionally dormant. The accepted exceptions are the owner-only Claim Audit and Illustrative Examples workflows on the owner's own D0/D1 drafts (see the section below); other real material remains excluded.
 
 **Status:** Draft for P0.1 approval  
 **Owner:** EE-09 Steward (proposed controls); Accountable Principal ratification pending
@@ -54,7 +54,7 @@ No tool is approved by brand name alone. Approval applies to a specific account,
 
 The row above is the only approval. It covers D0 and D1 only, for the owner's own use, with that one model. Any other tool, model (free-tier models are not covered), or data class falls back to this rule: use AI only with D0 public information or purpose-built synthetic training material through systems already authorized by the owner for that use. Its unknowns are accepted by the owner for text they would be comfortable seeing public; they are not resolved.
 
-## Claim Audit extension
+## Claim Audit extension and Illustrative Examples
 
 Accepted in [`SCOPE-DECISION-CLAIM-AUDIT.md`](../SCOPE-DECISION-CLAIM-AUDIT.md) on 2026-10-17.
 

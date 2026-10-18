@@ -1,8 +1,22 @@
 # Changelog
 
-Completed work, moved out of [`ROADMAP.md`](ROADMAP.md) as it finishes. The roadmap holds only remaining work; this file is the record of what shipped.
+Local changes and historical work. Entries do not imply a commit, deployment, publication, or model-performance measurement. [`ROADMAP.md`](ROADMAP.md) is the archived commercial expansion plan, not the active Local Edition backlog.
 
 ## 2026-10-17
+
+### Harmony repair pass — local, uncommitted
+
+- Closed checker false-pass paths: empty required sections/cells, duplicate/unexpected headings and unchecked preambles, hidden fenced content, malformed or escaped-pipe tables, unstable claim IDs/earlier columns, missing task references, and unmatched review annotations. Parsing and common rules now live in `scripts/pack-checks.mjs`.
+- Kept owner-supplied evidence separate from generated framing. Examples require the exact first-line disclosure, a basis-marked entry for every numeric value, explicit DERIVED working, and seven named Pass/Fail checks. Claim Audit carries uncapped Risk flags independently of relative Priority, with matching counts, claim IDs, and task references.
+- Examples keep their accepted provenance table under an explicit nested Source notes boundary; customer-facing wording checks do not misclassify quoted source notes as advertising. Owner edits establish an accepted baseline while later unedited model changes remain checkable. Markdown-only exports cannot overwrite or masquerade as saved JSON run records.
+- Preserved all recorded model-output fixtures unchanged. They predate the stricter contracts and can now correctly fail them; clearly identified test-only derivatives and hand-authored synthetic packs test current success paths. No fresh model behavior or improved rewrite performance is claimed.
+- Runner history records each request attempt's exact messages, requested model, instruction hashes, timing, raw reply/error, and reported usage. Clarifications survive legacy migration, retries, and downstream stages. Usage includes retries and failed/clarification requests; missing usage and interrupted outcomes remain explicitly unknown. Version-1 records stay readable with clearer validation/recovery errors.
+- Added short owner commands in `scripts/ee.mjs` for inspection, audit/example, resume, checking/export, preview, and explicit per-run cleanup. They preserve registered-model restrictions, use an existing `.env` only for chosen provider workflows, and skip editing by default for the two short workflow commands. The setup template now selects the registered model.
+- Revised cards one at a time with instruction-revision changelogs: source spans versus implied meaning, derived figures versus invented inputs, review drafts versus publishable copy, sentence retention, customization limits, source/framing carrythrough, and priority versus risk. The brand visual-style card now matches offline system typography. Revisions are not yet re-measured on fresh model output.
+- Aligned governing scope, data-purpose guidance, and training maturity/verification definitions. Added `docs/START.md`, `docs/ARCHITECTURE.md`, and an empty bounded `docs/EVALUATION.md`; simplified the local walkthrough and continuation note.
+- Improved local reference navigation with grouped, uniquely labeled archive links, page tables of contents, a persistent simulation boundary, and an owner Start route. Removed remote font requests. The optional human-invoked browser helper manages its own clean build/server and captures transport failures by template; its imports and deterministic tests never launch a browser. Lighthouse verifies the Hugo download checksum.
+- Added a complete external 13-file SHA-256 inventory captured from committed frozen evidence. The historical run directory and its original manifest remain unchanged. Targeted contracts cover added, missing, modified, and non-regular files; generated-site checks guard excluded repository content and offline resources.
+- Deterministic verification uses targeted subsystem checks and socket-free provider/audit-handler fixtures. No full-suite run, live model trial, browser session, certification, or public operation is asserted by this repair pass.
 
 ### Review corrections
 

@@ -10,7 +10,7 @@ Exemplary Examples™ is an openly satirical brand, a five-exhibit local website
 
 The project answers that joke with a serious method for decision framing, evidence classification, transparent modeling, exhibit craft, adversarial review, and AI-agent training. It is not a real consultancy, active service, application program, or public certification provider.
 
-The governing scope decision is recorded in [`LOCAL-EDITION.md`](LOCAL-EDITION.md).
+Start or return with [`docs/START.md`](docs/START.md): read the method, inspect a saved run, audit your own draft, or make a labeled example with short commands. The governing scope decision is recorded in [`LOCAL-EDITION.md`](LOCAL-EDITION.md); [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) explains the implementation and its limits.
 
 ## What is complete
 
@@ -29,7 +29,7 @@ The governing scope decision is recorded in [`LOCAL-EDITION.md`](LOCAL-EDITION.m
 - The runner has no tools, retrieval, or code execution. A card named "Code Review" produces a review written from the text you give it — it cannot open a repository or run tests. Read card names as tasks the model is asked to perform, not capabilities the runner has.
 - The Hugo site renders every Markdown file in `training/`, assessor keys and facilitator material included. That is fine as an owner's reference archive; it is not a candidate-isolated evaluation bundle.
 
-## Extensions (accepted; v1 built, synthetic drafts only)
+## Extensions (accepted; v1 built, tested on synthetic drafts only)
 
 [`SCOPE-DECISION-CLAIM-AUDIT.md`](SCOPE-DECISION-CLAIM-AUDIT.md) opens two bounded workflows under the same limits:
 
@@ -86,7 +86,7 @@ Start with [`training/README.md`](training/README.md) or read the completed [`dr
 The site is a Hugo wrapper over the Markdown already in the repository; no other dependency or install step is required.
 
 ```bash
-hugo server
+node scripts/ee.mjs preview
 ```
 
 Open:
@@ -97,7 +97,7 @@ http://localhost:1313/
 
 `hugo server` serves only generated output, bound to `127.0.0.1`. Do not preview by serving the repository root with a generic static server — that publishes `.env` and `.git/` to anything that can reach the port.
 
-The page contains no form, inquiry handoff, analytics, backend, storage, or automatic publishing mechanism. Google Fonts are the only remote browser resources; the content and functionality are otherwise static.
+The page contains no form, inquiry handoff, analytics, backend, storage, or automatic publishing mechanism. Fonts use local system stacks; the generated site makes no remote font requests. Content and functionality are static and available offline.
 
 ## Verify
 
@@ -116,7 +116,10 @@ The prior real-browser verification record remains at [`operations/WEBSITE-VERIF
 | Path | Purpose |
 | --- | --- |
 | [`LOCAL-EDITION.md`](LOCAL-EDITION.md) | Governing scope and completion decision |
-| [`STATUS.md`](STATUS.md) | Final project status |
+| [`STATUS.md`](STATUS.md) | Current maturity and unresolved evidence gates |
+| [`docs/START.md`](docs/START.md) | Owner landing page and short local commands |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Components, data flow, provenance, and maintenance boundaries |
+| [`docs/EVALUATION.md`](docs/EVALUATION.md) | Bounded owner evaluation and synthetic trial record |
 | [`index.html`](index.html) | Current Local Edition experience |
 | [`assets/`](assets/) | Styles and visual identity assets |
 | [`training/`](training/) | Authored educational and assessment series |
@@ -134,7 +137,7 @@ The prior real-browser verification record remains at [`operations/WEBSITE-VERIF
 
 ## Safe use
 
-- Use synthetic or deliberately public material. The only exception is Claim Audit on non-confidential (D0/D1) drafts, and only through a provider with a row in the AI-DATA-POLICY register (currently one, for the owner's own use).
+- Use synthetic or deliberately public material. Claim Audit and Illustrative Examples additionally allow the owner's own non-confidential (D0/D1) drafts through the exact provider/model/purpose in the AI-DATA-POLICY register. Anyone else's drafts and D2/D3 material remain excluded.
 - Do not treat fictional organizations, results, roles, or certifications as real.
 - Keep generated citations and factual claims untrusted until independently verified.
 - Do not add personal, applicant, prospect, or client data.
@@ -142,4 +145,4 @@ The prior real-browser verification record remains at [`operations/WEBSITE-VERIF
 
 ## Definition of complete
 
-The Local Edition's *content* is complete: its website, method, training curriculum, simulations, assessment system, controlled validation run, and reference operating materials all exist and pass their local contracts. The card runner listed under "What is still moving" is deliberately outside that claim. Nothing requires a customer, Accountable Principal, commercial entity, public deployment, or real-world certification unless the owner explicitly reopens external commercialization through a new scope decision.
+The Local Edition's *content* is authored: its website, method, training curriculum, simulations, assessment system, controlled synthetic run, and reference operating materials exist. Local contracts check their structure and frozen evidence; they do not prove the whole curriculum works or that model output is correct. The card runner listed under "What is still moving" is deliberately outside that claim. Nothing requires a customer, Accountable Principal, commercial entity, public deployment, or real-world certification unless the owner explicitly reopens external commercialization through a new scope decision.
