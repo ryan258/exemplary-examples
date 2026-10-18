@@ -85,3 +85,34 @@ test("the 404 page uses root-relative URLs so it works at any missing depth", op
   assert.match(page.html, /href="\/assets\/styles\.css"/);
   assert.match(page.html, /href="\/">Return to the Local Edition/);
 });
+
+test("generated output excludes repository secrets, saved runs, tooling, and historical prototypes", opts, () => {
+  build();
+  for (const entry of [".env", ".env.example", ".git", ".gitnexus", "console", "scripts", "prompts", "claim-audit", "examples", "operations", "discovery", "exemplary-examples.html"]) {
+    assert.equal(fs.existsSync(path.join(out, entry)), false, `${entry} must stay outside the site output`);
+  }
+});
+
+test("owner reference pages retain the Local Edition boundary and use offline resources", opts, () => {
+  for (const { route, html } of build()) {
+    assert.doesNotMatch(html, /<(?:link|script|img)\b[^>]*(?:href|src)="(?:https?:)?\/\//i, `${route}: remote browser resource`);
+    if (route !== "/index.html" && route !== "/404.html") {
+      assert.match(html, /aria-label="Local Edition boundary"/, `${route}: missing simulation boundary`);
+      assert.match(html, /href="\/start\/">Start or resume/);
+    }
+  }
+  assert.doesNotMatch(fs.readFileSync(path.join(root, "assets", "styles.css"), "utf8"), /@import\b|url\(\s*["']?https?:/i);
+});
+
+test("the training archive groups every document and distinguishes repeated record titles", opts, () => {
+  const all = build();
+  const archive = all.find((page) => page.route === "/training/index.html").html;
+  const index = archive.split('<section class="archive-index"')[1].split("</section>")[0];
+  const links = [...index.matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)];
+  const routes = all.filter((page) => page.route.startsWith("/training/") && page.route !== "/training/index.html");
+  assert.equal(links.length, routes.length, "every training document belongs in one archive group");
+  assert.equal(new Set(links.map((match) => match[1])).size, links.length, "no duplicate document entries");
+  assert.equal(new Set(links.map((match) => match[2])).size, links.length, "link names must distinguish templates, reusable fixtures, and frozen records");
+  for (const heading of ["Curriculum and practice", "Working templates", "Reusable qualification fixture", "Run plans and blank records", "Frozen evidence"]) assert.ok(index.includes(heading));
+  assert.match(all.find((page) => page.route === "/training/02_instruction/course-modules/index.html").html, /<details class="doc-toc" open>/);
+});

@@ -19,8 +19,21 @@ disableKinds = ["taxonomy", "term", "rss", "sitemap"]
     source = "training/README.md"
     target = "content/training/_index.md"
   [[module.mounts]]
+    source = "docs/START.md"
+    target = "content/start/_index.md"
+  [[module.mounts]]
+    source = "docs/ARCHITECTURE.md"
+    target = "content/docs/architecture.md"
+  [[module.mounts]]
+    source = "docs/EVALUATION.md"
+    target = "content/docs/evaluation.md"
+  [[module.mounts]]
     source = "assets"
     target = "static/assets"
 
 [markup.goldmark.renderer]
   unsafe = true # training docs may embed raw HTML tables
+
+[markup.tableOfContents]
+  startLevel = 2
+  endLevel = 3

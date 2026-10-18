@@ -2,7 +2,13 @@
 {{- $u := urls.Parse .Destination -}}
 {{- $dest := .Destination -}}
 {{- if and (not $u.IsAbs) (strings.HasSuffix $u.Path ".md") -}}
-  {{- with .Page.GetPage $u.Path -}}
+  {{- $target := .Page.GetPage $u.Path -}}
+  {{- /* These repository files are mounted under friendly owner-reference routes. */ -}}
+  {{- if strings.HasSuffix $u.Path "START.md" -}}{{- $target = site.GetPage "/start" -}}{{- end -}}
+  {{- if strings.HasSuffix $u.Path "ARCHITECTURE.md" -}}{{- $target = site.GetPage "/docs/architecture" -}}{{- end -}}
+  {{- if strings.HasSuffix $u.Path "EVALUATION.md" -}}{{- $target = site.GetPage "/docs/evaluation" -}}{{- end -}}
+  {{- if strings.HasSuffix $u.Path "training/README.md" -}}{{- $target = site.GetPage "/training" -}}{{- end -}}
+  {{- with $target -}}
     {{- $q := cond (ne $u.RawQuery "") (printf "?%s" $u.RawQuery) "" -}}
     {{- $f := cond (ne $u.Fragment "") (printf "#%s" $u.Fragment) "" -}}
     {{- $dest = printf "%s%s%s" .RelPermalink $q $f -}}

@@ -1,0 +1,16 @@
+{{- $title := partial "title.html" . -}}
+{{- with .File -}}
+  {{- $path := .Path -}}
+  {{- if strings.Contains $path "/templates/" -}}
+    {{- $title = printf "%s — blank template" $title -}}
+  {{- else if strings.Contains $path "dry-runs/2026-07-13-ee-mvq-01-r1/" -}}
+    {{- if strings.Contains $path "04-VERITY" -}}{{- $title = printf "%s — Verity" $title -}}{{- end -}}
+    {{- if strings.Contains $path "05-COUNTERPOINT" -}}{{- $title = printf "%s — Counterpoint" $title -}}{{- end -}}
+    {{- $title = printf "%s — frozen 2026-07-13 run" $title -}}
+  {{- else if strings.Contains $path "dry-runs/fixtures/" -}}
+    {{- $title = printf "%s — reusable EE-MVQ-01.1 fixture" $title -}}
+  {{- else if strings.Contains $path "-TEMPLATE.md" -}}
+    {{- $title = printf "%s — blank run template" $title -}}
+  {{- end -}}
+{{- end -}}
+{{- return $title -}}

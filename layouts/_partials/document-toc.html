@@ -1,0 +1,6 @@
+{{- if ge (len (findRE `<h[2-6][\s>]` .Content)) 6 -}}
+<details class="doc-toc" open>
+  <summary>On this page</summary>
+  {{ .TableOfContents }}
+</details>
+{{- end -}}

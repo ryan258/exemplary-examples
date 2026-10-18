@@ -2,9 +2,31 @@
 <p class="doc-crumbs">
   {{ range .Ancestors.Reverse }}{{ if not .IsHome }}<a href="{{ .RelPermalink }}">{{ partial "title.html" . }}</a> / {{ end }}{{ end }}{{ partial "title.html" . }}
 </p>
+{{ partial "document-toc.html" . }}
 {{ if not .Content }}<h1>{{ partial "title.html" . }}</h1>{{ else }}{{ .Content }}{{ end }}
-{{/* Always list what this section holds: a curated README never links every page. */}}
-<h2>Everything in this section</h2>
+{{ if eq .Section "training" }}
+{{/* Group without adding _index files to the frozen source tree. */}}
+<section class="archive-index" aria-labelledby="archive-index-title">
+<h2 id="archive-index-title">Browse the training archive</h2>
+{{ $pages := .RegularPages }}
+{{ range slice
+  (dict "name" "Curriculum and practice" "pattern" `^training/0[1-6]_`)
+  (dict "name" "Working templates" "pattern" `^training/templates/`)
+  (dict "name" "Reusable qualification fixture" "pattern" `^training/dry-runs/fixtures/`)
+  (dict "name" "Run plans and blank records" "pattern" `^training/dry-runs/[^/]+\.md$`)
+  (dict "name" "Frozen evidence — 2026-07-13" "pattern" `^training/dry-runs/2026-07-13-ee-mvq-01-r1/`)
+}}
+<h3>{{ .name }}</h3>
+<ul>
+  {{ $pattern := .pattern }}
+  {{ range $pages }}
+    {{ if findRE $pattern .File.Path }}<li><a href="{{ .RelPermalink }}">{{ partial "archive-label.html" . }}</a></li>{{ end }}
+  {{ end }}
+</ul>
+{{ end }}
+</section>
+{{ else if or .Sections .RegularPages }}
+<h2>More in this section</h2>
 <ul>
   {{ range .Sections }}
     <li><a href="{{ .RelPermalink }}">{{ partial "title.html" . }}/</a></li>
@@ -13,4 +35,5 @@
     <li><a href="{{ .RelPermalink }}">{{ partial "title.html" . }}</a></li>
   {{ end }}
 </ul>
+{{ end }}
 {{ end }}

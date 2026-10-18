@@ -2,5 +2,6 @@
 <p class="doc-crumbs">
   {{ range .Ancestors.Reverse }}{{ if not .IsHome }}<a href="{{ .RelPermalink }}">{{ partial "title.html" . }}</a> / {{ end }}{{ end }}{{ partial "title.html" . }}
 </p>
+{{ partial "document-toc.html" . }}
 {{ .Content }}
 {{ end }}
