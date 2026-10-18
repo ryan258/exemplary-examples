@@ -32,3 +32,14 @@ test("every card in every library follows the standard entry format", async () =
     }
   }
 });
+
+test("visual direction preserves offline type and local reference constraints", async () => {
+  const { section } = await import(path.join(root, "console", "console.mjs"));
+  const card = fs.readFileSync(path.join(root, "console", "cards", "02-visual-style-guide.md"), "utf8");
+  const prompt = section(card, "Prompt");
+  assert.match(prompt, /local system serif fonts/);
+  assert.match(prompt, /without remote font requests or font downloads/);
+  assert.match(prompt, /when supplied/);
+  assert.doesNotMatch(prompt, /Fraunces|IBM Plex Mono|Google Fonts/);
+  assert.match(section(card, "Changelog"), /instruction revision/i);
+});

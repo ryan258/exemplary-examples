@@ -43,12 +43,13 @@ test("the samples are clearly synthetic and carry the planted defects", () => {
 test("the trial-driven rules are present in the cards", async () => {
   const { loadCards } = await import(path.join(root, "console", "console.mjs"));
   const [extract, classify, evidence, rewrite] = loadCards(library).map((c) => c.prompt);
-  assert.match(extract, /never carry "\(implied\)"/);
+  assert.match(extract, /exact triggering words in `Claim \(verbatim\)`/);
+  assert.match(extract, /separate `Implied meaning` column/);
   assert.match(classify, /full name, organization, and role/);
   assert.match(evidence, /at most one third of the rows/);
   assert.match(rewrite, /Keep every sentence of the original/);
   assert.match(rewrite, /state that fact in the PROFILE's own numbers/);
-  assert.match(rewrite, /every sentence of the original draft appears/);
+  assert.match(rewrite, /every original sentence has a corresponding rewritten or bracketed sentence/);
 });
 
 test("the second-trial rules are present in the cards", async () => {
@@ -94,13 +95,21 @@ test("the third-trial rules are present in the rewrite card", async () => {
 
 // ---- Deterministic pack checker ----------------------------------------------------------
 const checker = () => import(path.join(root, "claim-audit", "check.mjs"));
-const sample = (name) => read("_samples", name);
+// SYNTHETIC OUTPUT is repository metadata, outside the recorded model body.
+const sample = (name) => read("_samples", name).replace(/^SYNTHETIC OUTPUT:[^\n]*\n\n/, "");
+// Test-only structural derivative: no new claim assessment is asserted here.
+// Historical files stay untouched; the separate legacy test below pins their gaps.
+const currentPack = (name) => sample(name).replace("## Summary\n", "## Summary\nRisk flags: none\n").split("\n").map((line) => {
+  if (line.startsWith("| # |")) return line.replace("| Priority |", "| Priority | Risk flags |");
+  if (/^\|---/.test(line)) return `${line}---|`;
+  return line.replace(/\| (High|Medium|Low) \|/, "| $1 | none |");
+}).join("\n");
 const levels = (findings, level) => findings.filter((f) => f.level === level).map((f) => f.rule);
 
-test("the checker passes the recorded packs for errors and flags only what a person should look at", async () => {
+test("current-contract structural derivatives retain the recorded rewrite warnings", async () => {
   const { checkPack } = await checker();
-  const one = checkPack(sample("example-pack-01.md"), sample("synthetic-draft-01.md"), sample("profile.example.md"));
-  const two = checkPack(sample("example-pack-02.md"), sample("synthetic-draft-02.md"), sample("profile-02.example.md"));
+  const one = checkPack(currentPack("example-pack-01.md"), sample("synthetic-draft-01.md"), sample("profile.example.md"));
+  const two = checkPack(currentPack("example-pack-02.md"), sample("synthetic-draft-02.md"), sample("profile-02.example.md"));
   assert.deepEqual(levels(one, "ERROR"), []);
   assert.deepEqual(levels(two, "ERROR"), []);
   // Pack 1 replaced the "save $14,400" offer with a different sentence; pack 2 recomputed 44.9%.
@@ -110,7 +119,7 @@ test("the checker passes the recorded packs for errors and flags only what a per
 
 test("the checker catches internal notes in the copy, including the recorded leaky pack", async () => {
   const { checkPack } = await checker();
-  const found = checkPack(sample("example-pack-02-leaky.md"), sample("synthetic-draft-02.md"), sample("profile-02.example.md"));
+  const found = checkPack(currentPack("example-pack-02-leaky.md"), sample("synthetic-draft-02.md"), sample("profile-02.example.md"));
   const leak = found.find((f) => f.rule === "internal-notes");
   assert.ok(leak, "the leaky pack must fail");
   assert.match(leak.message, /supplied copy/);
@@ -121,7 +130,7 @@ test("the checker enforces the card contracts on a damaged pack", async () => {
   const { checkPack } = await checker();
   const draft = sample("synthetic-draft-02.md");
   const profile = sample("profile-02.example.md");
-  const good = sample("example-pack-02.md");
+  const good = currentPack("example-pack-02.md");
   const broken = (from, to) => { assert.ok(good.includes(from), `fixture lost "${from}"`); return checkPack(good.replace(from, to), draft, profile); };
   // Wrong summary count.
   assert.ok(broken("UNPLACED: 5", "UNPLACED: 9").some((f) => f.rule === "summary-counts"));
@@ -134,7 +143,7 @@ test("the checker enforces the card contracts on a damaged pack", async () => {
   assert.ok(broken("nothing has been checked by a person yet", "all claims are verified").some((f) => f.rule === "verdict-wording"));
   assert.ok(broken("## Rewritten draft\n", "## Rewritten draft\nOur certified, best-in-class plan.\n").some((f) => f.rule === "new-strong-words"));
   // A High-priority cap breach.
-  const allHigh = good.replace(/\| (Medium|Low) \| `/g, "| High | `");
+  const allHigh = good.replace(/\| (Medium|Low) \| none \|/g, "| High | none |");
   assert.ok(checkPack(allHigh, draft, profile).some((f) => f.rule === "high-cap"));
 });
 
@@ -146,17 +155,17 @@ test("the checker CLI reads a saved run, writes the pack with findings, and fail
     fs.mkdirSync(path.join(dir, "console", "runs"), { recursive: true });
     fs.mkdirSync(path.join(dir, "scripts"));
     fs.mkdirSync(path.join(dir, "claim-audit"));
-    for (const f of ["console/console.mjs", "scripts/llm.mjs", "claim-audit/check.mjs"]) fs.copyFileSync(path.join(root, f), path.join(dir, f));
+    for (const f of ["console/console.mjs", "scripts/llm.mjs", "scripts/pack-checks.mjs", "claim-audit/check.mjs"]) fs.copyFileSync(path.join(root, f), path.join(dir, f));
     const save = (id, pack) => fs.writeFileSync(path.join(dir, "console", "runs", `${id}.json`), JSON.stringify({
       version: 1, id, brief: sample("synthetic-draft-02.md"), profile: sample("profile-02.example.md"),
       stages: [{ id: "safe-rewrite", status: "complete", result: pack }],
     }));
-    save("clean", sample("example-pack-02.md"));
+    save("clean", currentPack("example-pack-02.md"));
     const out = path.join(dir, "pack.md");
     let r = spawnSync(process.execPath, [path.join(dir, "claim-audit/check.mjs"), "--run", "clean", "--out", out], { encoding: "utf8" });
     assert.equal(r.status, 0, r.stderr + r.stdout);
-    assert.match(fs.readFileSync(out, "utf8"), /## Automated checks[\s\S]*WARN \[new-numbers\]/);
-    save("leaky", sample("example-pack-02-leaky.md"));
+    assert.match(fs.readFileSync(out, "utf8"), /^<!-- EE run: clean -->\n[\s\S]*## Automated checks[\s\S]*WARN \[new-numbers\]/);
+    save("leaky", currentPack("example-pack-02-leaky.md"));
     r = spawnSync(process.execPath, [path.join(dir, "claim-audit/check.mjs"), "--run", "leaky"], { encoding: "utf8" });
     assert.equal(r.status, 1);
     assert.match(r.stdout, /ERROR \[internal-notes\]/);
@@ -164,6 +173,9 @@ test("the checker CLI reads a saved run, writes the pack with findings, and fail
     r = spawnSync(process.execPath, [path.join(dir, "claim-audit/check.mjs"), "--run", "half"], { encoding: "utf8" });
     assert.equal(r.status, 1);
     assert.match(r.stderr, /has not finished/);
+    r = spawnSync(process.execPath, [path.join(dir, "claim-audit/check.mjs"), "--help"], { encoding: "utf8" });
+    assert.equal(r.status, 0);
+    assert.match(r.stdout, /Check a Claim Audit run/);
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });
   }
@@ -182,7 +194,7 @@ test("each checker refuses a run that came from the other library instead of rep
   const dir = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), "ee-wronglib-")));
   try {
     for (const d of ["console/runs", "scripts", "claim-audit", "examples"]) fs.mkdirSync(path.join(dir, d), { recursive: true });
-    for (const f of ["console/console.mjs", "scripts/llm.mjs", "claim-audit/check.mjs", "examples/check.mjs"]) fs.copyFileSync(path.join(root, f), path.join(dir, f));
+    for (const f of ["console/console.mjs", "scripts/llm.mjs", "scripts/pack-checks.mjs", "claim-audit/check.mjs", "examples/check.mjs"]) fs.copyFileSync(path.join(root, f), path.join(dir, f));
     const save = (id, last) => fs.writeFileSync(path.join(dir, "console", "runs", `${id}.json`), JSON.stringify({
       version: 1, id, brief: "x", stages: [{ id: last, status: "complete", result: "## Summary\nx" }],
     }));
@@ -197,4 +209,116 @@ test("each checker refuses a run that came from the other library instead of rep
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });
   }
+});
+
+test("required pack content, register identity, and referenced tasks cannot silently disappear", async () => {
+  const { checkPack } = await checker();
+  const good = currentPack("example-pack-02.md");
+  const run = (pack, context) => checkPack(pack, sample("synthetic-draft-02.md"), sample("profile-02.example.md"), context);
+  for (const name of ["Summary", "Open verification tasks", "Rewritten draft", "Limits"]) {
+    const empty = good.replace(new RegExp(`(## ${name}\\n)[\\s\\S]*?(?=\\n## |$)`), "$1\n");
+    assert.ok(run(empty).some((f) => f.level === "ERROR" && f.rule === "sections"), name);
+  }
+  const blankCells = good.split("\n").map((line) => {
+    if (!/^\| \d+ \|/.test(line)) return line;
+    const cells = line.split("|");
+    for (const index of [1, 2, 5, 6, 7, 11]) cells[index] = " ";
+    return cells.join("|");
+  }).join("\n");
+  assert.ok(run(blankCells).some((f) => f.rule === "empty-cell"));
+  assert.ok(run(good.replace(/\| 2 \|/, "| 1 |")).some((f) => f.rule === "row-id"));
+  assert.ok(run(good.replace("Mossgrove's guided program is clinically proven to cure insomnia.", "A completely invented claim.")).some((f) => f.rule === "verbatim"));
+  const previous = good.match(/## Claim register\n([\s\S]*?)\n## Open verification tasks/)[1];
+  const dropped = good.split("\n").filter((line) => !/^\| 8 \|/.test(line)).join("\n");
+  assert.ok(run(dropped, { priorRegisters: [previous] }).some((f) => f.rule === "row-preservation"));
+  assert.ok(run(good.replace("factual-description | UNPLACED", "factual-description | Inference"), { priorRegisters: [previous] }).some((f) => f.rule === "row-preservation"));
+  assert.ok(run(good.replace("factual-description | UNPLACED", "statistic | UNPLACED"), { priorRegisters: [previous] }).some((f) => f.rule === "row-preservation"));
+  const noTask = good.replace(/^- Medium #2[^\n]*\n/m, "");
+  assert.ok(run(noTask).some((f) => f.rule === "tasks" && /claim 2/.test(f.message)));
+  assert.ok(run(noTask).some((f) => f.rule === "bracket-task"));
+});
+
+test("pack boundaries retain fenced text and reject duplicate or unexpected headings", async () => {
+  const { checkPack } = await checker();
+  const good = currentPack("example-pack-02.md");
+  const run = (pack) => checkPack(pack, sample("synthetic-draft-02.md"), sample("profile-02.example.md"));
+  const duplicate = `## Rewritten draft\nBilling export is on file.\n\n${good}`;
+  assert.ok(run(duplicate).some((f) => f.rule === "sections" && /duplicate/.test(f.message)));
+  assert.ok(run(duplicate).some((f) => f.rule === "internal-notes"));
+  const unexpected = good.replace("## Rewritten draft\n", "## Rewritten draft\n\n## Offer\nBilling export is on file.\n");
+  assert.ok(run(unexpected).some((f) => f.level === "ERROR" && /unexpected section: Offer/.test(f.message)));
+  const fenced = good.replace("## Rewritten draft\n", "## Rewritten draft\n````md\n```\n## Limits\nBilling export is on file.\n```\n````\n");
+  assert.ok(run(fenced).some((f) => f.rule === "internal-notes"));
+  assert.ok(!run(fenced).some((f) => f.rule === "sections"), "a fenced heading is body content");
+  assert.ok(run(`${good}\n~~~\n`).some((f) => /unclosed/.test(f.message)));
+  assert.ok(run(`Unchecked introductory claim.\n\n${good}`).some((f) => /before the first/.test(f.message)));
+});
+
+test("historical audit bodies lack the new uncapped risk flags without rewriting the evidence", async () => {
+  const { checkPack } = await checker();
+  const found = checkPack(sample("example-pack-02.md"), sample("synthetic-draft-02.md"), sample("profile-02.example.md"));
+  assert.ok(found.some((f) => f.rule === "columns" && /Risk flags/.test(f.message)));
+});
+
+test("risk flags remain visible outside the High cap and are counted and assigned tasks", async () => {
+  const { checkPack } = await checker();
+  const good = currentPack("example-pack-02.md");
+  const run = (pack) => checkPack(pack, sample("synthetic-draft-02.md"), sample("profile-02.example.md"));
+  const flagged = good.replaceAll("| none |", "| policy-conflict |")
+    .replace("Risk flags: none", "Risk flags: policy-conflict=8\nFlagged claims: #1 #2 #3 #4 #5 #6 #7 #8")
+    .replace(/(^- (?:High|Medium|Low) #\d+[^\n]*)/gm, "$1 Risk flags: policy-conflict.");
+  assert.deepEqual(run(flagged).filter((f) => f.level === "ERROR"), []);
+  assert.ok(run(flagged).some((f) => f.rule === "risk-flags-review" && /policy-conflict=8/.test(f.message)));
+  assert.ok(run(flagged.replace("policy-conflict=8", "policy-conflict=2")).some((f) => f.level === "ERROR" && f.rule === "risk-flags"));
+  assert.ok(run(flagged.replace("| policy-conflict |", "| arbitrary | ")).some((f) => f.level === "ERROR" && f.rule === "risk-flags"));
+  assert.ok(run(flagged.replace(/^- Medium #1[^\n]*\n/m, "")).some((f) => f.rule === "tasks" && /claim 1/.test(f.message)));
+  assert.ok(run(flagged.replace("Flagged claims: #1", "Flagged claims:")).some((f) => f.rule === "risk-flags" && /claim 1/.test(f.message)));
+});
+
+test("accepted owner table corrections reset older history but later unattended drift still fails", async () => {
+  const { checkPack, authoritativeRegisters } = await checker();
+  const original = currentPack("example-pack-02.md");
+  const corrected = original.replace("factual-description | UNPLACED", "factual-description | Inference").replace("UNPLACED: 5", "UNPLACED: 4; Inference: 1");
+  const table = (pack) => pack.match(/## Claim register\n([\s\S]*?)\n## Open verification tasks/)[1];
+  const stages = [
+    { id: "extract-claims", status: "complete", edited: false, result: table(original) },
+    { id: "classify-claims", status: "complete", edited: true, result: table(corrected) },
+    { id: "evidence-needs", status: "complete", edited: false, result: table(corrected) },
+    { id: "safe-rewrite", status: "complete", edited: false, result: corrected },
+  ];
+  const run = (pack) => checkPack(pack, sample("synthetic-draft-02.md"), sample("profile-02.example.md"), { priorRegisters: authoritativeRegisters(stages) });
+  assert.equal(authoritativeRegisters(stages).length, 2, "history starts at the last accepted owner edit");
+  assert.deepEqual(run(corrected).filter((f) => f.level === "ERROR"), []);
+  assert.ok(run(original).some((f) => f.rule === "row-preservation"));
+  stages[1].edited = false;
+  assert.equal(authoritativeRegisters(stages).length, 3);
+  assert.ok(run(corrected).some((f) => f.rule === "row-preservation"), "model changes do not reset accepted history");
+});
+
+test("revised cards pin exact quoted spans, uncapped flags, and reproducible review drafts", async () => {
+  const { loadCards } = await import(path.join(root, "console", "console.mjs"));
+  const [extract, classify, evidence, rewrite] = loadCards(library).map((c) => c.prompt);
+  assert.match(extract, /Escape any literal pipe/);
+  assert.match(classify, /Implied meaning/);
+  for (const flag of ["profile-contradiction", "policy-conflict", "unsupported-comparison", "unverified-result", "permission-missing"]) assert.ok(evidence.includes(flag));
+  assert.match(evidence, /There is no quota/);
+  assert.match(evidence, /not an absolute risk or safety rating/);
+  assert.match(rewrite, /review draft/);
+  assert.match(rewrite, /formula, stated inputs, and units/);
+  assert.match(rewrite, /never silently delete it/);
+  assert.match(rewrite, /Start each with `Claim N`/);
+  assert.match(rewrite, /Risk flags: none/);
+});
+
+test("claim tables preserve escaped pipes and reject malformed delimiters", async () => {
+  const { registerRows } = await checker();
+  const header = "| # | Claim (verbatim) | Kind |";
+  const row = "| 1 | Pick A \\| B, then \\\\ | factual-description |";
+  const parsed = registerRows(`${header}\n|---|---|---|\n${row}`);
+  assert.deepEqual(parsed.issues, []);
+  assert.equal(parsed.rows[0]["Claim (verbatim)"], "Pick A | B, then \\");
+  assert.equal(parsed.rows[0].Kind, "factual-description");
+  assert.ok(registerRows(`${header}\n${row}`).issues.some((issue) => /separator/.test(issue)));
+  assert.ok(registerRows(`${header}\n|---|---|---|\n|1|too|many|cells|`).issues.some((issue) => /4 cells/.test(issue)));
+  assert.ok(registerRows("| # | # |\n|---|---|\n|1|2|").issues.some((issue) => /duplicate column/.test(issue)));
 });
