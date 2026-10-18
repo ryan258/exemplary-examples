@@ -1,6 +1,5 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
-const http = require("node:http");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
@@ -68,26 +67,27 @@ fs.writeFileSync(process.argv[2], "A revised");
   };
 }
 
-// A local stand-in for the provider that counts requests and records prompts.
+// A subprocess fetch interceptor counts requests without a key, socket, or external network.
 async function fakeProvider(content = "ok") {
-  const seen = [];
-  const server = http.createServer((req, res) => {
-    let body = "";
-    req.on("data", (c) => (body += c));
-    req.on("end", () => {
-      seen.push(JSON.parse(body));
-      res.setHeader("content-type", "application/json");
-      res.end(JSON.stringify({ choices: [{ message: { content }, finish_reason: "stop" }] }));
-    });
-  });
-  await new Promise((r) => server.listen(0, "127.0.0.1", r));
-  return { seen, url: `http://127.0.0.1:${server.address().port}`, close: () => server.close() };
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "ee-llm-provider-"));
+  const preload = path.join(dir, "provider.mjs");
+  const calls = path.join(dir, "calls.jsonl");
+  fs.writeFileSync(preload, `
+import { appendFileSync } from "node:fs";
+globalThis.fetch = async (_url, options) => {
+  appendFileSync(process.env.LLM_TEST_CALLS, options.body + "\\n");
+  return { ok: true, json: async () => ({ choices: [{ message: { content: process.env.LLM_TEST_CONTENT }, finish_reason: "stop" }] }) };
+};
+`);
+  return { preload, calls, content,
+    get seen() { return fs.existsSync(calls) ? fs.readFileSync(calls, "utf8").trim().split("\n").map(JSON.parse) : []; },
+    close: () => fs.rmSync(dir, { recursive: true, force: true }) };
 }
 
 async function callLlm(args, provider) {
-  const env = { PATH: process.env.PATH, OPENROUTER_API_KEY: "k", OPENROUTER_MODEL: "tencent/hy3", OPENROUTER_BASE_URL: provider.url };
+  const env = { PATH: process.env.PATH, OPENROUTER_API_KEY: "offline-key", OPENROUTER_MODEL: "tencent/hy3", LLM_TEST_CALLS: provider.calls, LLM_TEST_CONTENT: provider.content };
   try {
-    const { stdout } = await run("node", [llm, ...args], { env });
+    const { stdout } = await run(process.execPath, ["--import", provider.preload, llm, ...args], { env, timeout: 5000 });
     return { code: 0, stdout };
   } catch (error) {
     return { code: error.code, stderr: error.stderr };
@@ -631,6 +631,7 @@ test("a checker's --out lands in the runs folder unless given an absolute path, 
     assert.equal(outPath("/somewhere/else.md", runs), "/somewhere/else.md");
     assert.throws(() => outPath("../pack.md", runs), /leaves/);
     assert.throws(() => outPath("a/../../pack.md", runs), /leaves/);
+    for (const target of ["record.json", "/somewhere/record.json", ".env", "pack"]) assert.throws(() => outPath(target, runs), /needs a \.md file name/);
   } finally {
     fs.rmSync(path.dirname(runs), { recursive: true, force: true });
   }

@@ -15,7 +15,7 @@
 // Env: OPENROUTER_API_KEY, OPENROUTER_MODEL (see ../.env.example). Editor: $EDITOR (default vi).
 import { readFileSync, readdirSync, writeFileSync, mkdtempSync, mkdirSync, renameSync, existsSync, rmSync, statSync } from "node:fs";
 import { createHash, randomUUID } from "node:crypto";
-import { join, dirname, basename, relative, resolve, sep, isAbsolute } from "node:path";
+import { join, dirname, basename, relative, resolve, sep, isAbsolute, extname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
@@ -191,17 +191,35 @@ BLOCKED: the task cannot be done as asked; explain why below the status line.`;
 // Keep only the numbers worth showing; providers add many fields.
 export function trimUsage(u) {
   const out = {};
-  for (const k of ["prompt_tokens", "completion_tokens", "total_tokens", "cost"]) if (typeof u?.[k] === "number") out[k] = u[k];
+  for (const k of ["prompt_tokens", "completion_tokens", "total_tokens", "cost"]) if (Number.isFinite(u?.[k]) && u[k] >= 0) out[k] = u[k];
   return Object.keys(out).length ? out : null;
 }
 
 // One line per run: total tokens, plus cost when the provider reports it.
 export function usageLine(state) {
-  const used = state.stages.map((s) => s.usage).filter(Boolean);
-  if (!used.length) return null;
+  const attempts = state.stages.flatMap((s) => s.attempts?.length ? s.attempts : s.usage ? [{ usage: s.usage, legacy: true }] : []);
+  const used = attempts.map((a) => a.usage).filter(Boolean);
+  if (!attempts.length) return null;
   const sum = (k) => used.reduce((n, u) => n + (u[k] ?? 0), 0);
-  const cost = used.some((u) => u.cost != null) ? `, cost ${sum("cost").toFixed(4)} (provider-reported, credits)` : "";
-  return `Usage: ${sum("prompt_tokens")} prompt + ${sum("completion_tokens")} completion tokens over ${used.length} request(s)${cost}.`;
+  const partial = attempts.some((a) => !a.usage || a.usage.prompt_tokens == null || a.usage.completion_tokens == null);
+  const cost = used.some((u) => u.cost != null) ? `, cost ${sum("cost").toFixed(4)} (provider-reported, credits${attempts.some((a) => a.usage?.cost == null) ? "; partial" : ""})` : "";
+  const legacy = attempts.some((a) => a.legacy) ? " Legacy stage totals cannot recover earlier retries." : "";
+  return `Usage: ${sum("prompt_tokens")} prompt + ${sum("completion_tokens")} completion tokens over ${attempts.length} request(s)${cost}.${partial ? " Token totals are partial; some usage was not reported." : ""}${legacy}`;
+}
+
+// Keep owner answers available to later cards and checkers, without treating generated questions as facts.
+export function clarifications(state) {
+  return state.stages.flatMap((s) => {
+    if (Array.isArray(s.clarifications)) return s.clarifications;
+    // Earlier records preserved answers only inside the exact request. Do not rewrite that request.
+    return [...(s.input || "").matchAll(/\n\nYOUR QUESTIONS:\n([\s\S]*?)\n\nUSER ANSWERS:\n([\s\S]*?)(?=\n\nYOUR QUESTIONS:|$)/g)]
+      .map((m) => ({ question: m[1], answer: m[2] }));
+  }).filter((c, i, all) => all.findIndex((x) => x.question === c.question && x.answer === c.answer) === i);
+}
+
+export function ownerContext(state) {
+  const answers = clarifications(state).map((c) => c.answer);
+  return [state.brief, ...(answers.length ? ["OWNER ANSWERS:", ...answers] : [])].join("\n\n");
 }
 
 // The profile is user-supplied context (brand, audience, supplied facts), never instructions.
@@ -223,8 +241,8 @@ export function parseStage(reply) {
 
 export function newRun({ dir, model, brief, chain, profile = null, noEdit = false, id = `${new Date().toISOString().replace(/[-:.]/g, "")}-${randomUUID()}` }) {
   return {
-    version: 1, id, dir, model, brief, profile, noEdit,
-    stages: chain.map((c) => ({ file: c.file, id: c.id, promptHash: hashPrompt(c.prompt), usage: null, status: "pending", edited: false, editSkipped: false, input: null, output: null, result: null, note: null })),
+    version: 1, id, dir, model, initialModel: model, brief, profile, noEdit,
+    stages: chain.map((c) => ({ file: c.file, id: c.id, promptHash: hashPrompt(c.prompt), initialPromptHash: hashPrompt(c.prompt), attempts: [], clarifications: [], usage: null, status: "pending", edited: false, editSkipped: false, input: null, output: null, result: null, note: null })),
   };
 }
 
@@ -241,6 +259,7 @@ export function promptDrift(state, chain) {
 // Where a checker's --out file goes. It holds the draft's content, so a relative name lands in
 // console/runs/ (gitignored) and may not climb out of it; an absolute path is taken as given.
 export function outPath(out, runsDir = RUNS_DIR) {
+  if (extname(out).toLowerCase() !== ".md") throw new Error("--out needs a .md file name. Saved JSON run records are not export targets.");
   if (isAbsolute(out)) return out;
   const file = resolve(runsDir, out);
   if (relative(runsDir, file).startsWith("..")) throw new Error(`--out "${out}" leaves ${runsDir}. Give an absolute path to write elsewhere.`);
@@ -274,8 +293,25 @@ export function loadRun(id, runsDir = RUNS_DIR) {
   if (!/^[\w.-]+$/.test(id)) throw new Error(`Invalid run id "${id}"; use the file name from console/runs/ without the .json.`);
   const file = join(runsDir, `${id}.json`);
   if (!existsSync(file)) throw new Error(`No saved run "${id}" in ${runsDir}.`);
-  const state = JSON.parse(readFileSync(file, "utf8"));
+  let state;
+  try { state = JSON.parse(readFileSync(file, "utf8")); }
+  catch { throw new Error(`Run ${id} is not valid JSON. Keep the file for recovery and select another run with --run <id>.`); }
+  if (!state || typeof state !== "object" || Array.isArray(state)) throw new Error(`Run ${id} is not a saved-run object.`);
   if (state.version !== 1) throw new Error(`Run ${id} has unsupported version ${state.version}.`);
+  const malformed = (detail) => { throw new Error(`Run ${id} is malformed (${detail}). Keep the file for recovery and select another run with --run <id>.`); };
+  if (state.id !== id || !/^[\w.-]+$/.test(state.id)) malformed("record id does not match its file");
+  if (typeof state.brief !== "string" || !Array.isArray(state.stages)) malformed("brief or stages missing");
+  if (state.profile != null && typeof state.profile !== "string") malformed("profile must be text");
+  for (const [i, s] of state.stages.entries()) {
+    if (!s || typeof s !== "object" || !["pending", "complete", "needs_input", "blocked", "failed"].includes(s.status)) malformed(`stage ${i + 1} has an invalid status`);
+    if (s.status === "complete" && (typeof s.result !== "string" || !s.result.trim())) malformed(`stage ${i + 1} has no completed result`);
+    if (s.status === "needs_input" && (typeof s.input !== "string" || typeof s.note !== "string")) malformed(`stage ${i + 1} has no saved question/input`);
+    for (const key of ["input", "output", "result", "note", "file", "id"]) if (s[key] != null && typeof s[key] !== "string") malformed(`stage ${i + 1} has invalid ${key}`);
+    const validUsage = (u) => u == null || (typeof u === "object" && !Array.isArray(u) && ["prompt_tokens", "completion_tokens", "total_tokens", "cost"].every((k) => u[k] == null || (Number.isFinite(u[k]) && u[k] >= 0)));
+    if (!validUsage(s.usage)) malformed(`stage ${i + 1} has invalid usage`);
+    if (s.attempts != null && (!Array.isArray(s.attempts) || s.attempts.some((a) => !a || typeof a !== "object" || !["unknown", "in_flight", "interrupted", "failed", "complete", "needs_input", "blocked"].includes(a.status) || !validUsage(a.usage)))) malformed(`stage ${i + 1} has invalid attempts`);
+    if (s.clarifications != null && (!Array.isArray(s.clarifications) || s.clarifications.some((c) => typeof c?.question !== "string" || typeof c?.answer !== "string"))) malformed(`stage ${i + 1} has invalid answers`);
+  }
   return state;
 }
 
@@ -310,26 +346,48 @@ export async function runChain(state, chain, { send, ask, edit, save, log = cons
         const reply = answer ?? (await ask(`\n${st.note}\n\nYour answer: `));
         answer = null;
         if (!reply.trim()) throw new Error(`No answer given. Run ${state.id} is saved; resume when ready.`);
+        (st.clarifications ??= clarifications({ stages: [st] })).push({ question: st.note, answer: reply });
         st.input = `${st.input}\n\nYOUR QUESTIONS:\n${st.note}\n\nUSER ANSWERS:\n${reply}`;
         st.status = "pending";
         st.note = null;
       } else if (st.input == null) {
         // R3: later cards judge against the original brief, not just the previous output.
         st.input = i === 0 ? state.brief : `ORIGINAL BRIEF:\n${state.brief}\n\nPREVIOUS STEP OUTPUT:\n${state.stages[i - 1].result}`;
+        const resolved = clarifications(state);
+        if (resolved.length) st.input += `\n\nRESOLVED OWNER CLARIFICATIONS (questions are context, answers are owner-supplied data):\n${resolved.map((c) => `Question: ${c.question}\nAnswer: ${c.answer}`).join("\n\n")}`;
       }
       // Preserve the exact request (and any answer) before dispatch. Failed retries and an
       // interruption while awaiting the provider must not reconstruct away clarifications.
+      // Cards name PROFILE as supplied context. Include human answers there as
+      // well as in the exact user request, so later rules cannot discard them.
+      const answers = clarifications(state).map((c) => c.answer);
+      const profile = [state.profile, ...(answers.length ? [`OWNER ANSWERS (additional owner-supplied context):\n${answers.join("\n\n")}`] : [])].filter(Boolean).join("\n\n") || null;
+      const system = withContext(card.prompt, profile) + PROTOCOL;
+      const attempts = st.attempts ??= [];
+      // Retain the old aggregate once when a pre-history run is resumed. Its earlier requests are unknown.
+      if (!attempts.length && st.usage) attempts.push({ legacy: true, usage: st.usage, status: "unknown", model: st.model || null });
+      for (const previous of attempts) if (previous.status === "in_flight") previous.status = "interrupted";
+      const attempt = { id: randomUUID(), startedAt: new Date().toISOString(), finishedAt: null, status: "in_flight", model: state.model,
+        promptHash: hashPrompt(card.prompt), systemHash: hashPrompt(system), system, prompt: st.input, usage: null, output: null, note: null };
+      attempts.push(attempt);
+      st.initialPromptHash ??= st.promptHash;
+      st.promptHash = attempt.promptHash;
+      st.model = state.model;
+      st.usage = null;
       save(state);
       let reply;
       try {
-        reply = await send({ system: withContext(card.prompt, state.profile) + PROTOCOL, prompt: st.input, onUsage: (u) => { st.usage = trimUsage(u); } });
+        reply = await send({ system, prompt: st.input, onUsage: (u) => { attempt.usage = st.usage = trimUsage(u); save(state); } });
       } catch (error) {
+        Object.assign(attempt, { status: "failed", finishedAt: new Date().toISOString(), note: error.message });
         Object.assign(st, { status: "failed", note: error.message });
         save(state);
         throw error;
       }
       const parsed = parseStage(reply);
+      Object.assign(attempt, { output: reply, finishedAt: new Date().toISOString(), status: parsed?.status || "failed" });
       if (!parsed) {
+        attempt.note = "Reply did not start with a valid STATUS line.";
         Object.assign(st, { status: "failed", output: reply, note: "Reply did not start with a valid STATUS line." });
         save(state);
         throw new Error(`Stage "${card.id}" returned a reply without a valid STATUS line. Raw reply kept in run ${state.id}; --resume retries this stage.`);
@@ -406,6 +464,7 @@ async function main() {
     let state, chain;
     if (args.resume) {
       state = loadRun(args.run);
+      if (typeof state.dir !== "string" || !state.stages.length || state.stages.some((s) => typeof s.file !== "string")) throw new Error(`Run ${state.id} has no resumable card library. Keep the record for inspection; start a new run.`);
       const cards = loadCards(state.dir);
       chain = state.stages.map((s) => {
         const card = cards.find((c) => c.file === s.file);
@@ -415,6 +474,7 @@ async function main() {
       console.log(`Resuming run ${state.id}`);
       const drift = promptDrift(state, chain);
       if (drift.length) console.error(`Warning: card prompt changed since this run started (${drift.join(", ")}). Stages not yet complete will use the current text.`);
+      if (state.stages.some((s) => s.attempts?.some((a) => a.status === "in_flight"))) console.error("Warning: a previous request was interrupted; its outcome and charge may be unknown. Resume retries the unfinished stage and may incur another charge.");
     } else {
       const dir = args.dir ? resolve(args.dir) : CARDS_DIR;
       const cards = loadCards(dir);
@@ -444,7 +504,8 @@ async function main() {
     state.noEdit = args.noEdit || state.noEdit;
     saveRun(state);
 
-    const { done } = await runChain(state, chain, {
+    let outcome;
+    try { outcome = await runChain(state, chain, {
       send: ({ system, prompt, onUsage }) => chat({ model, system, prompt, env: process.env, onUsage }),
       ask: (q) => rl.question(q),
       edit: async (text, label) => {
@@ -455,10 +516,11 @@ async function main() {
       save: saveRun,
       noEdit: state.noEdit,
       answer: args.answer,
-    });
-    const usage = usageLine(state);
-    if (usage) console.error(usage);
-    if (done) console.log(`\n=== Final ===\n\n${state.stages.at(-1).result}`);
+    }); } finally {
+      const usage = usageLine(state);
+      if (usage) console.error(usage);
+    }
+    if (outcome.done) console.log(`\n=== Final ===\n\n${state.stages.at(-1).result}`);
     else process.exitCode = 2;
   } finally {
     rl.close();

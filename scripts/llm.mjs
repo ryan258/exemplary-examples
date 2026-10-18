@@ -4,7 +4,7 @@
 // Usage:
 //   node --env-file=.env scripts/llm.mjs "your prompt"
 //   echo "your prompt" | node --env-file=.env scripts/llm.mjs
-//   node --env-file=.env scripts/llm.mjs --model anthropic/claude-3.5-sonnet --system "Be terse." "hi"
+//   node --env-file=.env scripts/llm.mjs --model tencent/hy3 --system "Be terse." "hi"
 //   node scripts/llm.mjs --selftest   # offline check; no key or network needed
 //
 // Env: OPENROUTER_API_KEY (required), OPENROUTER_MODEL (default model),
