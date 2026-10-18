@@ -2,6 +2,17 @@
 
 Local changes and historical work. Entries do not imply a commit, deployment, publication, or model-performance measurement. [`ROADMAP.md`](ROADMAP.md) is the archived commercial expansion plan, not the active Local Edition backlog.
 
+## 2026-10-18
+
+### Final review corrections — local, uncommitted
+
+- Reviewed the prior harmony repairs from the clean `b17b928` baseline. Remaining corrections from this pass stay uncommitted; the earlier repair entries describe their original working state.
+- Checker exports now reject symlink destinations and relative paths through directories outside `console/runs/`. A shared atomic writer creates private Markdown exports without truncating saved records through hard links, preserves prior exports on write failure, and cleans up temporary files. Both checkers explain empty-stage records without a TypeError. Explicit `finish` cleanup covers marked exports in real nested folders and skips symlinks, retaining the run record until export removal succeeds.
+- Numeric provenance compares equivalent decimal spellings without floating-point conversion. Written-number support accepts complete zero-to-ninety-nine quantities and does not approve fragments of unsupported larger or fractional expressions. Literal arithmetic operators survive presentation normalization, and UNVERIFIED annotations balance their outer brackets independently of quoted source brackets.
+- Clarified explicit saved owner-answer provenance in each extension card, with dated instruction-revision entries and corresponding contract assertions. Frame Example now states the single-value/unit and escaped-pipe table contract. These instruction revisions have no fresh model measurement.
+- Corrected the plaintext-record retention policy to require explicit owner cleanup and prohibit tracking private draft text. The homepage names both accepted owner-only workflows, and table-of-contents links have explicit target sizing consistent with the optional browser audit.
+- Verification is limited to targeted checker, export, runner-history, owner-command, documentation, and generated-site tests. Frozen training evidence and recorded model samples remain unchanged. No full suite, live model call, browser/assistive-technology acceptance, or three-own-asset evaluation is claimed.
+
 ## 2026-10-17
 
 ### Harmony repair pass — local, uncommitted

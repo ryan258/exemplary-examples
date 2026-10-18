@@ -43,4 +43,4 @@ Use the saved attempt record to identify the prompt actually sent, rather than h
 
 Resolve every UNVERIFIED phrase, verify sources when a claim depends on them, and recompute numeric outputs outside the model. For examples, preserve the fixed illustrative label, original SUPPLIED provenance, visible ASSUMED inputs, DERIVED formulas, limits and break-even. A model's seven-item Pass list remains a self-check.
 
-After retaining only the reviewed material you want, use `ee finish RUN_ID` for the explicit local run cleanup. It removes that run and its marked exports within `console/runs/`; source files and outside exports need separate handling. Do not retain raw owner drafts in Git as evaluation evidence.
+After retaining only the reviewed material you want, use `ee finish RUN_ID` for the explicit local run cleanup. It removes that run and its marked regular exports within `console/runs/` across real nested directories; source files and outside exports need separate handling. Do not retain raw owner drafts in Git as evaluation evidence.

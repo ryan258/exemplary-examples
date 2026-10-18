@@ -62,7 +62,7 @@ Run files contain plaintext prompts, drafts, answers and outputs. After you have
 ee finish RUN_ID
 ```
 
-This explicit action deletes that local run record and its marked exports inside `console/runs/`. It does not delete your source draft/profile or exports elsewhere; handle those separately. Do not put private drafts or run records in Git.
+This explicit action deletes that local run record and its marked regular `.md` exports inside `console/runs/`, including real subdirectories. Symlinks are never followed or deleted, and the run record is kept until export removal succeeds so a failed cleanup remains resumable. It does not delete your source draft/profile or exports elsewhere; handle those separately. Do not put private drafts or run records in Git.
 
 To browse the local site, start its loopback-only server, then open the address yourself:
 

@@ -26,6 +26,7 @@ Start or return with [`docs/START.md`](docs/START.md): read the method, inspect 
 
 - The card runner in [`console/`](console/) and the cards in [`prompts/`](prompts/) are a working proof of concept, not a finished tool. It sends one prompt per step and edits between steps. Every completed request is saved to `console/runs/` (gitignored), and `--resume` continues the last run at the stage that needs it.
 - Each step carries the original brief forward, so a later card can check work against what was actually asked. The runner requires each reply to open with a `STATUS:` line (`COMPLETE`, `NEEDS_INPUT`, or `BLOCKED`). A card that asks a question stops the run and waits for your answer instead of passing the question on; a reply with no valid status line is treated as a failed stage, never as finished work.
+- Checker exports write atomically with private permissions (`0o600`), reject symlinks and directory-symlink escapes, and leave existing exports intact on write failures. Empty or interrupted run records produce clear recovery guidance. Explicit cleanup via `node scripts/ee.mjs finish RUN_ID` traverses real nested directories in `console/runs/` to remove marked exports and only deletes the run record once exports are cleared, skipping symlinks and preserving unrelated files.
 - The runner has no tools, retrieval, or code execution. A card named "Code Review" produces a review written from the text you give it — it cannot open a repository or run tests. Read card names as tasks the model is asked to perform, not capabilities the runner has.
 - The Hugo site renders every Markdown file in `training/`, assessor keys and facilitator material included. That is fine as an owner's reference archive; it is not a candidate-isolated evaluation bundle.
 
@@ -138,6 +139,7 @@ The prior real-browser verification record remains at [`operations/WEBSITE-VERIF
 ## Safe use
 
 - Use synthetic or deliberately public material. Claim Audit and Illustrative Examples additionally allow the owner's own non-confidential (D0/D1) drafts through the exact provider/model/purpose in the AI-DATA-POLICY register. Anyone else's drafts and D2/D3 material remain excluded.
+- Run records (`console/runs/`) hold drafts in plaintext inside the local repository directory and are gitignored. Delete them explicitly when done: `node scripts/ee.mjs finish RUN_ID` removes that run and its marked local exports. Never stage or commit these records, or copy private draft text into tracked repository files. Gitignore prevents ordinary tracking; it does not delete retained data.
 - Do not treat fictional organizations, results, roles, or certifications as real.
 - Keep generated citations and factual claims untrusted until independently verified.
 - Do not add personal, applicant, prospect, or client data.

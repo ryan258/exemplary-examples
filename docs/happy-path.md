@@ -43,7 +43,7 @@ The helper loads an existing `.env`, uses the registered model and skips between
 
 Read the result before using it. Resolve every UNVERIFIED annotation, open needed sources, independently recompute calculations, and review all Risk flags and claim rows rather than just the capped High priorities. Examples retain their label, framing and numeric provenance; a model's seven Pass checks are not independent verification. Record a chosen usefulness trial with [the evaluation worksheet](EVALUATION.md).
 
-When finished, `node scripts/ee.mjs finish RUN_ID` explicitly removes that run and its marked exports within `console/runs/`. It does not remove your source inputs or outside exports. Keep private text out of Git.
+Exports write atomically with private permissions (`0o600`) and reject symlinks; relative destinations cannot escape `console/runs/`. When finished, `node scripts/ee.mjs finish RUN_ID` explicitly removes that run and its marked regular exports within `console/runs/`, traversing real nested directories while skipping symlinks and preserving unrelated files. It keeps the run record until exports are cleared so a failed cleanup remains resumable. It does not remove your source inputs or outside exports. Keep private text out of Git.
 
 ## Preview the local site
 
