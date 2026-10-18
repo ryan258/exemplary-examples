@@ -181,6 +181,20 @@ test("the checker CLI reads a saved run, writes the pack with findings, and fail
   }
 });
 
+test("the rewrite card asks for the task and summary formats the checker parses", async () => {
+  const { loadCards } = await import(path.join(root, "console", "console.mjs"));
+  const { checkPack } = await checker();
+  const rewrite = loadCards(library)[3].prompt;
+  assert.match(rewrite, /one Markdown bullet per claim/);
+  assert.match(rewrite, /Start each bullet with `- Claim N`/);
+  assert.match(rewrite, /by writing `Claim N` with its register ID/);
+  // The failed 2026-10-18 run wrote tasks as paragraphs; the checker must keep rejecting that shape.
+  const good = currentPack("example-pack-02.md");
+  const paragraphs = good.replace(/^- ((?:High|Medium|Low) #\d+)/gm, "\n$1");
+  assert.notEqual(paragraphs, good);
+  assert.ok(checkPack(paragraphs, sample("synthetic-draft-02.md"), sample("profile-02.example.md")).some((f) => f.rule === "tasks" && /has no referenced verification task/.test(f.message)));
+});
+
 test("the evidence card requires a baseline for every comparison", async () => {
   const { loadCards } = await import(path.join(root, "console", "console.mjs"));
   const evidence = loadCards(library)[2].prompt;
@@ -306,7 +320,7 @@ test("revised cards pin exact quoted spans, uncapped flags, and reproducible rev
   assert.match(rewrite, /review draft/);
   assert.match(rewrite, /formula, stated inputs, and units/);
   assert.match(rewrite, /never silently delete it/);
-  assert.match(rewrite, /Start each with `Claim N`/);
+  assert.match(rewrite, /Start each bullet with `- Claim N`/);
   assert.match(rewrite, /Risk flags: none/);
   for (const prompt of [extract, classify, evidence, rewrite]) assert.match(prompt, /owner answers/);
   assert.match(extract, /must still quote the original draft itself/);
