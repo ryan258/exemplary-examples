@@ -39,6 +39,8 @@ test("the satire and Local Edition scope are both explicit", () => {
   assert.match(html, /modeled scenario/i);
   assert.match(html, /AI staff agents?/i);
   assert.match(html, /simulation/i);
+  assert.match(html, /Two narrow owner-only workflows, Claim Audit and Illustrative Examples/i);
+  assert.match(html, /owner’s own non-confidential D0\/D1 drafts/i);
 });
 
 test("the Executive Retainer is presented only as a simulated offer", () => {

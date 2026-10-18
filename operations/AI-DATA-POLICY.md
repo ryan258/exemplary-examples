@@ -50,7 +50,7 @@ No tool is approved by brand name alone. Approval applies to a specific account,
 
 | Tool/account | Purpose | Maximum data class | Training/data-use setting verified | Retention/access | Owner | Approved/review date |
 | --- | --- | --- | --- | --- | --- | --- |
-| OpenRouter, owner's account, model `tencent/hy3` (paid) only | Claim Audit and illustrative examples, owner's own use | D1 | Account setting blocking routing to providers that may train on prompts, set by the owner on 2026-10-17 (owner-reported; not independently checked). Per-provider training and retention terms for `tencent/hy3`: **not verified** | OpenRouter's own logging and retention: **not stated** on the page read, so unknown. Upstream provider retention: **unknown**. Local run records in `console/runs/` deleted after each audit | Owner (Ryan Johnson) | Approved 2026-10-17 for D0/D1 own use with the unknowns left open. Review when the model, provider, or account settings change |
+| OpenRouter, owner's account, model `tencent/hy3` (paid) only | Claim Audit and illustrative examples, owner's own use | D1 | Account setting blocking routing to providers that may train on prompts, set by the owner on 2026-10-17 (owner-reported; not independently checked). Per-provider training and retention terms for `tencent/hy3`: **not verified** | OpenRouter's own logging and retention: **not stated** on the page read, so unknown. Upstream provider retention: **unknown**. The owner must manually delete plaintext local records in `console/runs/` when the audit is done; no automatic retention or deletion is implemented | Owner (Ryan Johnson) | Approved 2026-10-17 for D0/D1 own use with the unknowns left open. Review when the model, provider, or account settings change |
 
 The row above is the only approval. It covers D0 and D1 only, for the owner's own use, with that one model. Any other tool, model (free-tier models are not covered), or data class falls back to this rule: use AI only with D0 public information or purpose-built synthetic training material through systems already authorized by the owner for that use. Its unknowns are accepted by the owner for text they would be comfortable seeing public; they are not resolved.
 
@@ -60,7 +60,7 @@ Accepted in [`SCOPE-DECISION-CLAIM-AUDIT.md`](../SCOPE-DECISION-CLAIM-AUDIT.md) 
 
 - **Data allowed:** the owner's own drafts only, class D0 or D1. D2 and D3 stay excluded; when unsure, use the more restrictive class.
 - **Before any real draft is sent to a provider:** the provider must have a row in the register above. As of 2026-10-17 the only row is the owner's own-use OpenRouter row, so the owner's own D0/D1 drafts may be sent; drafts from anyone else may not. Any other provider or model stays out of AI tools until it has its own row.
-- **Run records** (`console/runs/`) hold drafts in plaintext and are gitignored. Delete them when the audit is done; never copy them into the repository.
+- **Run records** (`console/runs/`) hold drafts in plaintext inside the local repository directory and are gitignored. Delete them explicitly when the audit is done; `node scripts/ee.mjs finish RUN_ID` removes that run and its marked local exports. Never stage or commit these records, or copy private draft text into tracked files. Gitignore prevents ordinary tracking; it does not delete retained data.
 - Nothing in this section approves a tool by itself, sets a retention period, or replaces the review required before any use beyond this extension. The register row is the approval.
 
 ## Permitted AI roles

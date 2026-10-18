@@ -116,3 +116,17 @@ test("the training archive groups every document and distinguishes repeated reco
   for (const heading of ["Curriculum and practice", "Working templates", "Reusable qualification fixture", "Run plans and blank records", "Frozen evidence"]) assert.ok(index.includes(heading));
   assert.match(all.find((page) => page.route === "/training/02_instruction/course-modules/index.html").html, /<details class="doc-toc" open>/);
 });
+
+test("generated tables of contents retain a minimum target size for standalone navigation links", opts, () => {
+  const pagesWithToc = build().filter(({ html }) => html.includes('class="doc-toc"'));
+  assert.ok(pagesWithToc.length > 0, "long documents need a table of contents");
+  for (const { route, html } of pagesWithToc) {
+    assert.match(html, /<nav id="TableOfContents">[\s\S]*?<a href="#/, `${route}: table of contents must expose navigation links`);
+  }
+  // Source guard only: actual rendered rectangles remain part of the optional browser audit.
+  const css = fs.readFileSync(path.join(root, "assets", "styles.css"), "utf8");
+  const targets = css.match(/\.doc-toc a\s*\{([^}]+)\}/)?.[1] || "";
+  assert.match(targets, /display:\s*inline-block\b/);
+  assert.match(targets, /min-width:\s*24px\b/);
+  assert.match(targets, /min-height:\s*24px\b/);
+});

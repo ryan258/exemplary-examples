@@ -822,6 +822,7 @@ h3 {
 .doc-toc { margin-bottom: 2rem; padding: 0.75rem 1rem; border: 1px solid var(--line); background: var(--paper); }
 .doc-toc summary { min-height: 2rem; cursor: pointer; color: var(--navy); font-weight: 700; }
 .doc-toc nav > ul { padding-left: 1.25rem; }
+.doc-toc a { display: inline-block; min-width: 24px; min-height: 24px; padding-block: 0.125rem; }
 .doc-toc li { margin-block: 0.35rem; }
 .archive-index li { margin-block: 0.65rem; }
 .doc-footer { padding: 1.5rem; border-top: 1px solid var(--line); font-size: 0.85rem; color: var(--muted); }
